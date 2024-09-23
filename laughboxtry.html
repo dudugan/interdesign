@@ -7,34 +7,75 @@
         <link rel="stylesheet" type="text/css" href="laughs_style.css">
     </head>
     <body>
-        <div id="popup">
-            read more about the laughing project here...
+        <div id="popup" onclick="toggleText()">
+            read more about the laughing project here...</a>
         </div>
         <div id="laughbox">
             <div class="navbutton" 
-            style="background-color: rgb(248, 223, 190);">
+            style="background-color: rgb(248, 223, 190);"
+            onclick="window.location.href='project1/level3/arjun_l3.html';">
                 arjun rastogi
             </div>
             <div class="navbutton"
-            style="background-color: rgb(190, 248, 247);">
+            style="background-color: rgb(190, 248, 247);"
+            onclick="window.location.href='project1/level3/austin_l3.html';">
                 austin curtis
             </div>
             <div class="navbutton"
-            style="background-color: rgb(247, 190, 248);">
+            style="background-color: rgb(247, 190, 248);"
+            onclick="window.location.href='project1/level3/nathan_l3.html';">
                 nathan shan
             </div>
             <div class="navbutton" 
-            style="background-color: rgb(206, 248, 190);">
+            style="background-color: rgb(206, 248, 190);"
+            onclick="window.location.href='project1/level3/katelyn_l3.html';">
                 katelyn wang
             </div>
             <div class="navbutton"
-            style="background-color: rgb(245, 248, 190);">
+            style="background-color: rgb(245, 248, 190);"
+            onclick="window.location.href='project1/level3/david_l3.html';">
                 david garsten
             </div>
             <div class="navbutton" 
-            style="background-color: rgb(210, 190, 248);">
+            style="background-color: rgb(210, 190, 248);"
+            onclick="window.location.href='project1/level3/ella_l3.html';">
                 ella moran
             </div>
         </div>
     </body>
+    <script>
+        toggle = 0;
+        function toggleText() {
+          var div = document.getElementById('popup');
+
+          if (toggle == 0) {
+            div.innerHTML = `<p> Human memories are primarily visual. We may smell dog piss and remember that awful
+            decaf we had at Common Grounds, we may hear a specific song and remember singing along
+            with friends, but in general... when we call up a memory intentionally - as much 
+            that is even possible - what arises is an image. 
+            <br>
+            <br>
+            We hoard images of each other. We are obsessed with the photo, the selfie, the memory.
+            Even videos - we are obsessed with the illusion of life. 
+            But rarely do we hoard each other's sound, or remember it. Can you remember the voice
+            of your childhood friend? Can you remember their laugh?
+            <br>
+            <br>
+            Laughs are iconic. Often when I hear my friends laugh, I think, “oh my god that laugh
+            is SO this-person,” because laughs are, in my opinion, one of the most unique things
+            about people. It's really hard to change the way you laugh - it's really hard to even
+            <em>notice</em> the way you laugh - and so people's laughs are a kind of unrefined beauty.
+            <br>
+            <br>
+            It is a shame that we don't remember them. 
+            <br>
+            <br>
+            That's why I made this site - to remember :&rpar;`
+            toggle = 1;
+        } else {
+            div.innerHTML = `read more about the laughing project <a href="laughs_index.html">here...</a>`
+            toggle = 0;
+          }
+        }
+        </script>
 </html>
