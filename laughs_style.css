@@ -1,4 +1,4 @@
-.bigbutton, .mainlaugh {
+.bigbutton, #mainlaugh {
     text-align: center;
     padding: 5px; 
     font-family: monospace;
@@ -12,11 +12,18 @@
     font-size: 4vh;
 }
 
-.mainlaugh {
+#mainlaugh {
     background-color: aqua;
 }
 
-.bigbutton:hover, .navbutton:hover, .mainlaugh:hover {
+#mainbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.bigbutton:hover, .navbutton:hover, #mainlaugh:hover {
     background-color: rgb(255, 0, 119) !important;
     cursor: pointer;
 }
@@ -38,13 +45,11 @@
 }
 
 #navbox {
+    position: fixed;
+    top: 80%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: flex-end;
-    align-content: flex-start;
-    margin-top: 10vh;
-}
+    justify-content: flex-start;}
 
 #popup {
     position: fixed;
