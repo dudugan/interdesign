@@ -1,0 +1,36 @@
+.navbutton {
+    text-align: center;
+    padding: 5px; 
+    font-family: monospace;
+    font-size: 15vh;
+}
+
+.navbutton:hover {
+    background-color: rgb(255, 0, 119) !important;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#laughbox {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: flex-start;
+    height: 100vh;
+}
+
+#popup {
+    position: fixed;
+    background-color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
