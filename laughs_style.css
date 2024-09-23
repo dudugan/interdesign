@@ -1,11 +1,22 @@
-.navbutton {
+.bigbutton, .mainlaugh {
     text-align: center;
     padding: 5px; 
     font-family: monospace;
     font-size: 15vh;
 }
 
-.navbutton:hover {
+.navbutton {
+    text-align: center;
+    padding: 2px;
+    font-family: monospace;
+    font-size: 4vh;
+}
+
+.mainlaugh {
+    background-color: aqua;
+}
+
+.bigbutton:hover, .navbutton:hover, .mainlaugh:hover {
     background-color: rgb(255, 0, 119) !important;
     cursor: pointer;
 }
@@ -24,6 +35,15 @@
     align-items: center;
     align-content: flex-start;
     height: 100vh;
+}
+
+#navbox {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    align-content: flex-start;
+    margin-top: 10vh;
 }
 
 #popup {
