@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>austin level 5</title>
+        <title>nathan level 5</title>
         <link rel="stylesheet" type="text/css" href="../../laughs_style.css">
     </head>
     <body>
         <div id="popup" onclick="toggleText()">
-            collected at 23:20, on sunday the 15th, september 2024
+            collected at 11:36, on friday the 13th, september 2024
         </div>
 
         <div id="mainbox">
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <audio id="laughaudio"><source src="../laughs/austin2.mp3" type="audio/mp3"></audio>
+        <audio id="laughaudio"><source src="../laughs/nathan1.mp3" type="audio/mp3"></audio>
 
         <div id="navbox">
             <div class="navbutton" 
@@ -58,18 +58,18 @@
           var div = document.getElementById('popup');
 
           if (toggle == 0) {
-            div.innerHTML = `at (41.3122223, -72.9295853), 49m above sea level`; 
+            div.innerHTML = `at (41.3109931, -72.9285610), 19m above sea level`; 
             toggle = 1;
         } else if (toggle == 1) {
-            div.innerHTML = `with the help of
-            <a href="https://www.youtube.com/watch?v=FPFz5KOQKe4">
-            <em>Best of the Week | Try Not To Laugh</em> by America's Funniest Home Videos</a>`;
+            div.innerHTML = `with the help of <a href="arjun_l5.html">arjun rastogi</a> reading
+            <a href="https://www.reddit.com/r/AskReddit/comments/fn5gr/reddit_what_is_your_silent_unseen_act_of_personal/">
+            reddit, what is your silent, unseen act of personal defiance?</a>`;
             toggle = 2; 
         } else if (toggle == 2) {
-            div.innerHTML = `time until laugh was approximately 1 minute and 3 seconds`;
+            div.innerHTML = `time until laugh was approximately 2 minutes and 2 seconds`;
             toggle = 3; 
         } else {
-            div.innerHTML = `collected at 23:20, on sunday the 15th, september 2024`;
+            div.innerHTML = `collected at 11:36, on friday the 13th, september 2024`;
             toggle = 0;
         }
         }
