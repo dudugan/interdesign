@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iPod Clickable</title>
+  <style>
+
+    @font-face {
+        font-family: 'Chicago';
+        src: url('/project1/level6/webfonts/chicago.woff2') format('woff2'),
+            url('/project1/level6/webfonts/chicago.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #ffffff;
+        font-family: 'Chicago', sans-serif;
+    }
+
+    .ipod {
+        width: 50%;
+        max-width: 250px;
+        height: 450px;
+        background-color: rgb(255, 255, 255);
+        border: 2px solid #9e9c9c;
+        border-radius: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .scrollbox {
+        margin-bottom: 20px;
+        overflow: hidden;
+        border: 2px solid #333;
+        border-radius: 7px;
+        position: relative;
+        background-color: rgb(64, 24, 76); 
+    }
+
+    .scrolltext {
+        width: max-content;
+        display: flex;
+        animation: sidescroll 10s linear infinite;
+        color: #fff; 
+    }
+
+    @keyframes sidescroll {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .screen {
+      height: 150px;
+      background-color: #eaeaea;
+      margin: 20px auto 0px;
+      border-radius: 15px;
+      border: 2px solid #999;
+      display: flex;
+      flex-direction: column; 
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .wheel {
+      position: relative;
+      aspect-ratio: 1 / 1; 
+      border-radius: 50%;
+      background-color: #e5e5e5;
+      margin: 0 auto;
+      border: 2px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wheel button {
+      position: absolute;
+      background-color: transparent;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Chicago', sans-serif;
+    }
+
+    .top-button {
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .bottom-button {
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .right-button {
+      right: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .left-button {
+      left: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .circle {
+        width: 60%;
+        max-width: 80px;
+        min-width: 20px;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        cursor: pointer;
+    }
+
+    .triangle_right {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 50px 0 50px 86.6px;
+        border-color: transparent transparent transparent orange;
+    }
+
+    .browselist {
+        margin-top: 20px;
+        overflow-y: auto;
+        max-height: 200px;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+        max-height: 150px;
+    }
+
+    .browselist div {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+    }
+
+    .browselist div:hover {
+        background-color: #f0f0f0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="ipod">
+    <div class="scrollbox">
+        <div class="scrolltext">
+            The metadata about the circumstances of a laugh.
+        </div>
+    </div>
+    <div class="wheel">
+      <button class="top-button" onclick="updateScreen('Menu')">menu</button>
+      <button class="right-button" onclick="updateScreen('Next')">random</button>
+      <button class="left-button" onclick="updateScreen('Previous')">about</button>
+      <button class="bottom-button" onclick="updateScreen('Play')">submit</button>
+      <div class="circle">
+        <div class="triangle_right"></div>
+      </div>  
+      
+    </div>
+    <div class="screen">
+        <div class="browselist">
+            <div>Clip 1</div>
+            <div>Clip 2</div>
+            <div>Clip 3</div>
+            <div>Clip 4</div>
+            <div>Clip 5</div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    function updateScreen(text) {
+      document.getElementById("screen-text").innerText = text;
+    }
+  </script>
+
+</body>
+</html>

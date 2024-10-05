@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.metadata {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+h1 {
+    color: #d437d3;
+    margin-bottom: 20px;
+}
+
+.play-button {
+    margin: 20px 0;
+}
+
+.play-button img {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    background-color: #f0f0f0; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.buttons button:hover {
+    background-color: #e0e0e0;
+}
+
+.browse-list {
+    margin-top: 20px;
+    overflow-y: auto;
+    max-height: 200px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    max-height: 150px;
+}
+
+.browse-list div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.browse-list div:hover {
+    background-color: #f0f0f0;
+}

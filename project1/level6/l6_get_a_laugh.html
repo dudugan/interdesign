@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get a laugh</title>
+    <link rel="stylesheet" type="text/css" href="l6_styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="playcircle">
+            <div class="row">
+                <div class="button">MENU</div>
+            </div>
+            <div class="row">
+                <div class="button">BACK</div>
+                <div class="button">SKIP</div>
+            </div>
+            <div class="row">
+                <div class="button">SUBMIT</div>
+            </div>
+        </div>
+        <div class="metadata">metadata</div>
+        <div class="play-button">
+            <img src="../images/play.png" alt="Play">
+        </div>
+        <div class="buttons">
+            <button>Random</button>
+            <button>Submit</button>
+        </div>
+        <div class="browse-list">
+            <div>Clip 1</div>
+            <div>Clip 2</div>
+            <div>Clip 3</div>
+            <div>Clip 4</div>
+            <div>Clip 5</div>
+        </div>
+    </div>
+
+</body>
+<script>
+    document.addEventListener('keydown', function(event) {
+  if (event.code === 'Space') {
+    const visibleDiv = document.querySelector('.visible-div');
+    const animatedDiv = document.querySelector('.animated-div');
+
+    // Fade out the visible div
+    visibleDiv.classList.add('hidden');
+    
+    // Move up the off-screen animated div
+    animatedDiv.classList.add('move-up');
+  }
+});
+</script>
+</html>
