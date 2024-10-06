@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+</head>
+<style>
+    body {
+        font-family: 'Chicago', sans-serif;
+        width: 100vw;
+        height: 200vh;
+    }
+
+    #main {
+        padding: 20px;
+        min-height: 200px;  
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 100;
+        transition: opacity 0.5s ease;
+    }
+
+    #browse {
+        padding: 20px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        margin-top: 600px; 
+    }
+
+    #browse div {
+        background-color: lightgray;  
+        padding: 10px 80px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+
+    #metadata {
+        padding: 10px 10px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+
+    .circle {
+        background-color: lightgray;
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+        min-width: 80px;
+        margin: 20px;
+        position: relative; 
+        cursor: pointer; 
+    }
+
+    .triangle {
+        width: 0;
+        height: 0;
+        position: absolute;
+        left: 26px;
+        top: 18px;  
+        border-style: solid;
+        border-width: 22px 0 22px 38px;
+        border-color: transparent transparent transparent gray;
+    }
+
+    button {
+        margin: 5px; 
+    }
+
+    @font-face {
+        font-family: 'Chicago';
+        src: url('/project1/level6/webfonts/chicago.woff2') format('woff2'),
+            url('/project1/level6/webfonts/chicago.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+</style>
+<body>
+    <div id = "main">
+        <div id = "metadata">
+            arjun rastogi was found laughing at 10pm
+            in the Jonathan Edwards Common Room
+        </div>
+        <div class = "circle">
+            <div class = "triangle"></div>
+        </div>
+        <button>random</button>
+        <button>submit</button>
+
+        scroll down to browse!
+    </div>
+    <div id = "browse">
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+        <div>arjun</div>
+    </div>
+</body>
+<script>
+    document.addEventListener("scroll", () => {
+        const toFadeIn = document.getElementById("browse");
+        const toFadeOut = document.getElementById("main"); 
+        const scrollPosition = window.scrollY || window.pageYOffset;
+        const threshold = 100; 
+
+        let opacityIn = (scrollPosition - threshold) / (100 - threshold);
+        let opacityOut = (threshold - scrollPosition) / (100 - threshold);
+        
+        if (opacityIn < 0) {
+            opacityIn = 0;
+        } else if (opacityIn > 1) {
+            opacityIn = 1;
+        }
+
+        if (opacityOut < 0) {
+            opacityOut = 0;
+        } else if (opacityOut > 1) {
+            opacityOut = 1;
+        }
+
+        toFadeIn.style.opacity = opacityIn;
+        toFadeOut.style.opacity = opacityOut; 
+    }); 
+</script>
+</html>
