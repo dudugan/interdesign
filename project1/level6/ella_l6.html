@@ -50,7 +50,7 @@
       <div id = "playbutton">PLAY</div>
       <div id = "quarter1" onclick="window.location.href='about_l6.html';">ABOUT</div>
       <div id = "quarter2" onclick="window.location.href='../index.html';">MENU</div>
-      <div id = "quarter3">RANDOM</div>
+      <div id = "quarter3" onclick=randomlaugh()>RANDOM</div>
       <div id = "quarter4">SUBMIT</div>
     </div>
   </div>
@@ -63,5 +63,17 @@
       var audio = document.getElementById('laughaudio'); 
       audio.play(); 
   });
+
+  var laughs = [
+    "austin_l6.html",
+    "nathan_l6.html",
+    "katelyn_l6.html",
+    "arjun_l6.html",
+    "david_l6.html",
+  ]
+
+  function randomlaugh() {
+    window.location.href = laughs[Math.floor(Math.random() * laughs.length)];
+  }
 </script>
 </html>
