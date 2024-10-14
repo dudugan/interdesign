@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Chicago';
-    src: url('/project1/webfonts/chicago.woff2') format('woff2'),
-        url('/project1/webfonts/chicago.woff') format('woff');
+    src: url('../webfonts/chicago.woff2') format('woff2'),
+        url('../webfonts/chicago.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
