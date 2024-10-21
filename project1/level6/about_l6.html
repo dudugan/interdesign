@@ -10,24 +10,28 @@
   <audio id="laughaudio"><source src="../laughs/arjun4.mp3" type="audio/mp3"></audio>
   <div class="ipod">
     <div class="scrollbox">
-        <div class="scrolltext">
-            hello everyone
-        </div>
+      <div class="scrolltext">
+          hello everyone
+      </div>
+      <div class="scrolltext">
+        hello everyone
+      </div>
     </div>
     <br>
     <div class="about">
-      This website is dedicated to my friends whose
-      laughs I initially stole. Thank you for consenting
-      to be recorded. 
+      This website is dedicated to the first ten laughers. 
+      Thank you for consenting to be recorded. <3
       <br><br>
       If you wish to submit a laugh, please do so 
-      <a href="submitlink">here</a>.
+      <a href="https://forms.gle/pN5yQCC47cTuLSKR7">here</a>.
       <br><br>
       I made this website to capture an elusive type
       of unrefined beauty, but beware: noticing beauty in the world should not
       detract from that beauty. Take care not to let it. 
       <br><br> 
       I wish your cheeks sore.
+      <br><br>
+      <a href="arjun_l6.html">Go back to the Homepage</a>.
     </div>
   </div>
   <div class="mini">
@@ -35,9 +39,16 @@
   </div>
 </body>
 <script>
-  document.getElementById('playbutton').addEventListener('click', function(){
-            var audio = document.getElementById('laughaudio'); 
-            audio.play(); 
-        });
+  var laughs = [
+    "austin_l6.html",
+    "nathan_l6.html",
+    "katelyn_l6.html",
+    "ella_l6.html",
+    "david_l6.html",
+  ]
+
+  function randomlaugh() {
+    window.location.href = laughs[Math.floor(Math.random() * laughs.length)];
+  }
 </script>
 </html>
