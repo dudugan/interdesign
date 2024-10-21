@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="l6_styles.css">
+  <title>laughpod</title>
+</head>
+<body>
+  <audio id="laughaudio"><source src="../laughs/sarah.mp3" type="audio/mp3"></audio>
+  <div class="ipod">
+    <div class="scrollbox">
+        <div class="scrolltext">
+            sarah f. lat 72.41249 lon -42.1599
+        </div>
+        <div class="scrolltext">
+          sarah f. lat 72.41249 lon -42.1599
+        </div>
+    </div>
+    <div class="screen">
+      <div onclick="window.location.href='arjun.html';">
+        Clip 1 - arjun r</div>
+      <div onclick="window.location.href='austin_l6.html';">
+        Clip 2 - austin c</div>
+      <div onclick="window.location.href='nathan_l6.html';">
+        Clip 3 - nathan s</div>
+      <div onclick="window.location.href='katelyn_l6.html';">
+        Clip 4 - katelyn w</div>
+      <div onclick="window.location.href='ella_l6.html';">
+        Clip 5 - ella m</div>
+      <div class = "current">
+        Clip 6 - sarah f</div>
+      <div onclick="window.location.href='chris_l6.html';">
+        Clip 7 - chris s</div>
+      <div onclick="window.location.href='nora_l6.html';">
+        Clip 8 - nora r</div>
+      <div onclick="window.location.href='owen_l6.html';">
+        Clip 9 - owen h</div>
+      <div onclick="window.location.href='david_l6.html';">
+        Clip 10 - david g</div>
+      <div onclick="window.location.href='wallace_l6.html';">
+        Clip 11 - wallace s</div>
+      <div onclick="window.location.href='jks_l6.html';">
+        Clip 12 - jk s</div>
+      <div onclick="window.location.href='lord_l6.html';">
+        Clip 13 - lord g</div>
+      <div onclick="window.location.href='bill_l6.html';">
+        Clip 14 - bill c</div>
+      <div onclick="window.location.href='lloyd_l6.html';">
+        Clip 15 - lloyd g</div>
+    </div>
+    <div class = "squarewheel">
+      <div id = "playbutton">PLAY</div>
+      <div id = "quarter1" onclick="window.location.href='about_l6.html';">ABOUT</div>
+      <div id = "quarter2" onclick="window.location.href='../../index.html';">MENU</div>
+      <div id = "quarter3" onclick=randomlaugh()>RANDOM</div>
+      <div id = "quarter4" onclick="newWindow(`https://forms.gle/pN5yQCC47cTuLSKR7`)">SUBMIT</div>
+    </div>
+  </div>
+  <div class="mini">
+    this webpage is not viewable in a window with a width of less than 300px. 
+  </div>
+</body>
+<script>
+  document.getElementById('playbutton').addEventListener('click', function(){
+      var audio = document.getElementById('laughaudio'); 
+      audio.play(); 
+  });
+
+  var laughs = [
+    "austin_l6.html",
+    "nathan_l6.html",
+    "katelyn_l6.html",
+    "ella_l6.html",
+    "sarah_l6.html",
+    "nora_l6.html", 
+    "owen_l6.html",
+    "chris_l6.html",
+  ]
+
+  function randomlaugh() {
+    window.location.href = laughs[Math.floor(Math.random() * laughs.length)];
+  }
+
+  function newWindow(url){
+    window.open(url, '_blank'); 
+  }
+
+</script>
+</html>
