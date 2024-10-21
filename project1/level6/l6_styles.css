@@ -203,4 +203,8 @@ body {
   .mini {
     visibility: visible;
   }
+  body {
+    background-image: none;
+    background-color: black;
+  }
 }
