@@ -145,6 +145,7 @@ body {
 
 .squarewheel div:hover {
   background-color: pink;
+  box-shadow: 0px 0 10px #919191 inset;
 }
 
 #quarter1 {
@@ -174,6 +175,25 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.button {
+  border-radius: 10px;
+  border: 2px double #ccc;
+  padding: 25px 10px;
+  font-size: 20px;
+  text-align: center;
+  box-shadow: 0px 0 10px #919191;
+  cursor: pointer;
+  background-color: #e5e5e5;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-shadow: -1px -1px gray;
+  color: rgb(180, 180, 180); 
+}
+
+.button:hover {
+  background-color: pink;
+  box-shadow: 0px 0 10px #919191 inset;
 }
 
 @media (max-width: 320px) {
