@@ -1,7 +1,7 @@
 document.body.onkeydown = function(keypress_event){
   var key = keypress_event.key.toLowerCase();
-  const groupJ = "qwertyuiop";
-  const groupK = "zxcvbnm";
+  const groupJ = "qwertyuhgfdsazxcvbnj";
+  const groupK = "mliopk";
   let headerText = null;
     if (groupJ.includes(key)) {
         headerText = "j";
