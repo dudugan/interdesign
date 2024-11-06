@@ -40,6 +40,9 @@
 
         // make volume (-12) for your speakers (toDestination)
         var volume = new Tone.Volume(-12).toDestination();
+
+        // create distortion effect
+        const distortion = new Tone.Distortion(0.4).toDestination(); 
             
         // make polysynth (synth for multiple notes at a time)
         // and connect to speakers
@@ -47,22 +50,18 @@
 
         // sampler
         var p1 = new Tone.Players({
-            "kick": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/kick.mp3',
-            "snare": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/snare.mp3', 
-            "hihat": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/hihat.mp3'
-        }, function(){
-            //  console.log('loaded'); 
-        }).connect(volume); 
+            "kick": '/assets/kick.wav',
+            "snare": '/assets/snare.wav', 
+            "hihat": '/assets/hihat.wav'
+        }); 
+
+        p1.connect(volume); 
+        p1.connect(distortion); 
 
         function go(){
             // play A4 for a 16th note
-            polySynth.triggerAttackRelease('A4', '16n');
+            // polySynth.triggerAttackRelease('A4', '16n');
             p1.get('kick').start(); 
         }
     </script>
 </html>
-
-
-
-
-
