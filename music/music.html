@@ -68,7 +68,12 @@
 
                 // play A4 for a 16th note
                 // polySynth.triggerAttackRelease('A4', '16n');
-                p1.get('kick').start();
+                const kickPlayer = p1.get('kick');
+                if (kickPlayer.loaded) {
+                    kickPlayer.start();
+                } else {
+                    console.log('Kick sample is not loaded yet');
+                }
                 
             } else {
                 console.log('Samples not yet loaded');
