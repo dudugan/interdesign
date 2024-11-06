@@ -47,6 +47,7 @@
             // iteration!
             for (let i = 0; i < fileContent.length; i++){
                 const char = fileContent[i]; 
+                console.log("Playing note ", i);
                 play(i); 
                 setTimeout(function(){}, 1000); 
             }
