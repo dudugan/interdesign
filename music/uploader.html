@@ -29,7 +29,7 @@
         synth.triggerAttackRelease(nucleotide, '16n')
     }
 
-    function processFile(){
+    async function processFile(){
         const fileInput = document.getElementById('fileInput');
         const outputText = document.getElementById('outputText');
 
@@ -41,19 +41,17 @@
         const file = fileInput.files[0]
         const reader = new FileReader();
 
-        reader.onload = function(event){
+        reader.onload = async function(event){
             const fileContent = event.target.result;
             let output = '';
 
             // iteration!
             for (let i = 0; i < fileContent.length; i++){
                 const char = fileContent[i]; 
-                console.log("Playing note ", i);
-                play(i); 
-                setTimeout(function(){}, 1000); 
+                console.log("Playing note ", char);
+                play(char); 
+                await new Promise(resolve => setTimeout(resolve, 1000)); 
             }
-
-            fileContent += " hello";
 
             outputText.textContent = fileContent;
         }
