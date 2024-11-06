@@ -19,6 +19,15 @@
     <div id="outputText"></div>
 </body>
 <script>
+    var synth = new Tone.PolySynth().toDestination(); 
+
+    function play(nucleotide){
+        if (nucleotide == 'T'){
+            nucleotide == 'E'; 
+        }
+        synth.triggerAttackRelease(nucleotide, '16n')
+    }
+
     function processFile(){
         const fileInput = document.getElementById('fileInput');
         const outputText = document.getElementById('outputText');
@@ -39,6 +48,7 @@
             for (let i = 0; i < fileContent.length; i++){
                 const char = fileContent[i]; 
                 play(i); 
+                setTimeout(function(){}, 1000); 
             }
 
             fileContent += " hello";
@@ -47,10 +57,6 @@
         }
 
         reader.readAsText(file); 
-    }
-
-    function play(nucleotide){
-        
     }
 </script>
 </html>
