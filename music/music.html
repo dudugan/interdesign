@@ -38,7 +38,7 @@
         editor.setOptions({fontSize:'20pt'}); 
 
         // make volume (-12) for your speakers (toMaster)
-        var volume = new Tone.Volume(-12).toMaster();
+        var volume = new Tone.Volume(2).toMaster();
             
         // polysynth means can play multiple notes at a time (4)
         var polySynth = new Tone.PolySynth(4, Tone.FMSynth); 
