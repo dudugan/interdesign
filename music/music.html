@@ -23,7 +23,7 @@
         }
     </style>
     <body>
-        <div id="go" onclick='go()'>
+        <div id="go" onclick="go()">
             play
             smth
         </div>
@@ -38,14 +38,12 @@
         editor.getSession().setMode('ace/mode/javascript');
         editor.setOptions({fontSize:'20pt'}); 
 
-        // make volume (-12) for your speakers (toMaster)
-        var volume = new Tone.Volume(-12).toMaster();
+        // make volume (-12) for your speakers (toDestination)
+        var volume = new Tone.Volume(-12).toDestination();
             
-        // polysynth means can play multiple notes at a time (4)
-        var polySynth = new Tone.PolySynth(4, Tone.FMSynth); 
-        
-        // connect polySynth to speakers
-        polySynth.connect(volume); 
+        // make polysynth (synth for multiple notes at a time)
+        // and connect to speakers
+        var polySynth = new Tone.PolySynth(Tone.FMSynth).connect(volume);
 
         function go(){
             // play A4 for a 16th note
