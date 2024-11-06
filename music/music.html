@@ -50,11 +50,14 @@
             "kick": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/kick.mp3',
             "snare": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/snare.mp3', 
             "hihat": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/hihat.mp3'
+        }, function(){
+            //  console.log('loaded'); 
         }); 
 
         function go(){
             // play A4 for a 16th note
             polySynth.triggerAttackRelease('A4', '16n');
+            p1.get('kick').start(); 
         }
     </script>
 </html>
