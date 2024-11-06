@@ -45,6 +45,13 @@
         // and connect to speakers
         var polySynth = new Tone.PolySynth(Tone.FMSynth).connect(volume);
 
+        // sampler
+        var p1 = new Tone.Players({
+            "kick": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/kick.mp3',
+            "snare": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/snare.mp3', 
+            "hihat": 'https://github.com/Tonejs/audio/blob/master/drum-samples/breakbeat13/hihat.mp3'
+        }); 
+
         function go(){
             // play A4 for a 16th note
             polySynth.triggerAttackRelease('A4', '16n');
