@@ -53,12 +53,16 @@
             "kick": '/assets/kick.wav',
             "snare": '/assets/snare.wav', 
             "hihat": '/assets/hihat.wav'
+        }, function() {
+            console.log('Samples loaded');
         }); 
 
         p1.connect(volume); 
         p1.connect(distortion); 
 
-        function go(){
+        async function go(){
+            await Tone.start();
+            console.log('go() triggered');
             // play A4 for a 16th note
             // polySynth.triggerAttackRelease('A4', '16n');
             p1.get('kick').start(); 
