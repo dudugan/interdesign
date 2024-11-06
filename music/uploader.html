@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uploader</title>
+</head>
+<style>
+    body {height: 100vh; width: 100vw; text-align: center;}
+    #outputText {
+        margin-top: 20px;
+        font-size: 25px;
+        line-height: 1.6;
+        color: blueviolet; 
+    }
+</style>
+<body>
+    <h1>Upload a text file pls</h1>
+    <input type="file" id="fileInput">
+    <button onclick="processFile()">Upload</button>
+    <div id="outputText"></div>
+</body>
+<script>
+    function processFile(){
+        const fileInput = document.getElementById('fileInput');
+        const outputText = document.getElementById('outputText');
+
+        if (fileInput.files.length === 0){
+            alert('Please select a file');
+            return; 
+        }
+        
+        const file = fileInput.files[0]
+        const reader = new FileReader();
+
+        reader.onload = function(event){
+            const fileContent = event.target.result;
+            let output = '';
+
+            // iteration!
+            for (let i = 0; i < fileContent.length; i++){
+                const char = fileContent[i]; 
+                play(i); 
+            }
+
+            fileContent += " hello";
+
+            outputText.textContent = fileContent;
+        }
+
+        reader.readAsText(file); 
+    }
+
+    function play(nucleotide){
+        
+    }
+</script>
+</html>
