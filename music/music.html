@@ -42,7 +42,7 @@
         var volume = new Tone.Volume(-12).toDestination();
 
         // create distortion effect
-        const distortion = new Tone.Distortion(0.4).toDestination(); 
+        // const distortion = new Tone.Distortion(0.4).toDestination(); 
             
         // make polysynth (synth for multiple notes at a time)
         // and connect to speakers
@@ -50,22 +50,29 @@
 
         // sampler
         var p1 = new Tone.Players({
-            "kick": '/assets/kick.wav',
-            "snare": '/assets/snare.wav', 
-            "hihat": '/assets/hihat.wav'
+            "kick": 'assets/kick.mp3',
+            "snare": 'assets/snare.mp3', 
+            "hihat": 'assets/hihat.mp3'
         }, function() {
             console.log('Samples loaded');
         }); 
 
         p1.connect(volume); 
-        p1.connect(distortion); 
+        // p1.connect(distortion); 
 
         async function go(){
             await Tone.start();
-            console.log('go() triggered');
-            // play A4 for a 16th note
-            // polySynth.triggerAttackRelease('A4', '16n');
-            p1.get('kick').start(); 
+            if (p1.loaded) { // Check if samples are loaded
+
+                console.log('go() triggered');
+
+                // play A4 for a 16th note
+                // polySynth.triggerAttackRelease('A4', '16n');
+                p1.get('kick').start();
+                
+            } else {
+                console.log('Samples not yet loaded');
+            }
         }
     </script>
 </html>
