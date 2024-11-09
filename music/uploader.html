@@ -17,52 +17,65 @@
     <h1>Upload a dna file pls</h1>
     <input type="file" id="fileInput">
     <button onclick="processFile()">Upload</button>
-    <div id="outputText"></div>
-    <button onclick="playsound()">Play Sound</button>
 </body>
 <script>
-    let ready = false; 
-
-    // create polysynth
     let poly; 
+    let char_index = 0;
+    let fileContent = "";  
 
     function initializeAudio(){
         poly = new Tone.PolySynth(Tone.AMSynth, 
             {
+                // set ADSR
                 envelope: {
-                    attack: 4, 
-                    release: 4, 
+                    attack: '2n', 
+                    release: '2n'
                 }
             }
         ); 
         poly.toDestination(); 
+
+        Tone.Transport.bpm.value = 120;
+        Tone.Transport.timeSignature = 4; // Default is 4/4
+
+         // loop per measure
+        const loop = new Tone.Loop(time => {
+            const char = fileContent[char_index];
+            if (char) { // Check if character exists
+                console.log("Playing note ", char);
+                play(char);
+                char_index++;
+            } else {
+                // Stop loop if no more characters
+                Tone.Transport.stop();
+                Tone.Transport.cancel();
+                console.log("End of file content.");
+            } 
+        }, "1m").start(0); 
     }
-
-    function playsound(){
-        if (!ready){
-            initializeAudio();
-            ready = true;
-        }
-        poly.triggerAttackRelease(["C4", "Eb4", "G4"], '1m'); 
-    }
-
-
-
-
-
-    var synth = new Tone.PolySynth().toDestination(); 
 
     function play(nucleotide){
-        if (nucleotide == 'T'){
-            nucleotide = 'E'; 
+        switch (nucleotide){
+            case 'A':
+                chord_array = ["A2", "C2", "E2", "G2"]; 
+                break;
+            case 'C':
+                chord_array = ["C2", "E2", "G2", "B3"]; 
+                break;
+            case 'G':
+                chord_array = ["G2", "B3", "D3", "F3"]; 
+                break;
+            case 'T': // interpret 'T' as 'E'
+                chord_array = ["E2", "G2", "B3", "D3"]; 
+                break; 
         }
-        nucleotide += '4'
-        synth.triggerAttackRelease(nucleotide, '16n')
+        if (chord_array) {
+            poly.triggerAttackRelease(chord_array, '1m');
+        }    
     }
 
     async function processFile(){
         const fileInput = document.getElementById('fileInput');
-        const outputText = document.getElementById('outputText');
 
         if (fileInput.files.length === 0){
             alert('Please select a file');
@@ -73,19 +86,9 @@
         const reader = new FileReader();
 
         reader.onload = async function(event){
-            const fileContent = event.target.result;
-            let output = '';
-
-            // iteration!
-            for (let i = 0; i < fileContent.length; i++){
-                const char = fileContent[i]; 
-                console.log("Playing note ", char);
-                play(char); 
-                // if wanted to pause between them:
-                await new Promise(resolve => setTimeout(resolve, 250)); 
-            }
-
-            outputText.textContent = fileContent;
+            fileContent = event.target.result;
+            initializeAudio(); 
+            Tone.Transport.start();
         }
 
         reader.readAsText(file); 
