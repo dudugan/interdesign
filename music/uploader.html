@@ -51,7 +51,8 @@
                 const char = fileContent[i]; 
                 console.log("Playing note ", char);
                 play(char); 
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
+                // if wanted to pause between them:
+                await new Promise(resolve => setTimeout(resolve, 250)); 
             }
 
             outputText.textContent = fileContent;
