@@ -14,12 +14,42 @@
     }
 </style>
 <body>
-    <h1>Upload a text file pls</h1>
+    <h1>Upload a dna file pls</h1>
     <input type="file" id="fileInput">
     <button onclick="processFile()">Upload</button>
     <div id="outputText"></div>
+    <button onclick="playsound()">Play Sound</button>
 </body>
 <script>
+    let ready = false; 
+
+    // create polysynth
+    let poly; 
+
+    function initializeAudio(){
+        poly = new Tone.PolySynth(Tone.AMSynth, 
+            {
+                envelope: {
+                    attack: 4, 
+                    release: 4, 
+                }
+            }
+        ); 
+        poly.toDestination(); 
+    }
+
+    function playsound(){
+        if (!ready){
+            initializeAudio();
+            ready = true;
+        }
+        poly.triggerAttackRelease(["C4", "Eb4", "G4"], '1m'); 
+    }
+
+
+
+
+
     var synth = new Tone.PolySynth().toDestination(); 
 
     function play(nucleotide){
