@@ -39,18 +39,18 @@
         console.log("set polysynth");
 
         Tone.Transport.bpm.value = 120;
-        Tone.Transport.timeSignature = 4; // Default is 4/4
+        Tone.Transport.timeSignature = 4; // default 4/4
         console.log("set bpm and time signature");
 
          // loop per measure
         const loop = new Tone.Loop(time => {
             const char = fileContent[char_index];
-            if (char) { // Check if character exists
+            if (char) { 
                 console.log("Playing note ", char);
                 play(char);
                 char_index++;
             } else {
-                // Stop loop if no more characters
+                // when run out of nucleotides
                 Tone.Transport.stop();
                 Tone.Transport.cancel();
                 console.log("End of file content.");
@@ -58,27 +58,30 @@
         }, "1m").start(0); 
         console.log("made char loop");
 
-        // Load individual players for each sound
-        const kickPlayer = new Tone.Player("assets/kick.mp3").toDestination();
+        const kickPlayer = new Tone.Player("assets/kick.wav").toDestination();
         const snarePlayer = new Tone.Player("assets/snare.mp3").toDestination();
         const hihatPlayer = new Tone.Player("assets/hihat.mp3").toDestination();
 
-        // Define the pattern
         const drumPattern = [
-        ["kick", null, "snare", null],
-        ["kick", "hihat", "snare", "hihat"]
+        [null, "kick", null, null, null, "kick", null, "kick"],
+        ["kick", null, null, null, null, "kick", null, "kick"],
+        ["kick", "snare", null, "kick", null, null, null, "kick"],
+        ["kick", "snare", null, "kick", "snare", null, "kick", "snare"],
         ];
 
-        // Create the sequence
         const drumSequence = new Tone.Sequence((time, note) => {
-        if (note === "kick") {
-            kickPlayer.start(time);
-        } else if (note === "snare") {
-            snarePlayer.start(time);
-        } else if (note === "hihat") {
-            hihatPlayer.start(time);
-        }
-        }, drumPattern.flat(), "4n"); // 4n = quarter note interval
+            switch(note){
+                case "kick":
+                    kickPlayer.start(time);
+                    break;
+                case "snare":
+                    snarePlayer.start(time);
+                    break;
+                case "hihat":
+                    hihatPlayer.start(time);
+                    break; 
+            }
+        }, drumPattern.flat(), "16n"); 
 
         Tone.start(); 
         drumSequence.start(0);
@@ -88,16 +91,16 @@
     function play(nucleotide){
         switch (nucleotide){
             case 'A':
-                chord_array = ["A2", "C2", "E2", "G2"]; 
+                chord_array = ["A1", "C1", "E1", "G1"]; 
                 break;
             case 'C':
-                chord_array = ["C2", "E2", "G2", "B3"]; 
+                chord_array = ["C1", "E1", "G1", "B2"]; 
                 break;
             case 'G':
-                chord_array = ["G2", "B3", "D3", "F3"]; 
+                chord_array = ["G1", "B2", "D2", "F2"]; 
                 break;
             case 'T': // interpret 'T' as 'E'
-                chord_array = ["E2", "G2", "B3", "D3"]; 
+                chord_array = ["E1", "G1", "B2", "D2"]; 
                 break; 
         }
         if (chord_array) {
