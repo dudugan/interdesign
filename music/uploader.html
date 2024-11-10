@@ -19,11 +19,13 @@
     <button onclick="processFile()">Upload</button>
 </body>
 <script>
-    let poly; 
+    let poly, snare, kick; 
     let char_index = 0;
-    let fileContent = "";  
+    let fileContent = ""; 
+    let baseURL = "https://s3-us-west-1.amazonaws.com/leesamples/samples/"; 
 
     function initializeAudio(){
+        console.log("Initializing Audio");
         poly = new Tone.PolySynth(Tone.AMSynth, 
             {
                 // set ADSR
@@ -34,9 +36,11 @@
             }
         ); 
         poly.toDestination(); 
+        console.log("set polysynth");
 
         Tone.Transport.bpm.value = 120;
         Tone.Transport.timeSignature = 4; // Default is 4/4
+        console.log("set bpm and time signature");
 
          // loop per measure
         const loop = new Tone.Loop(time => {
@@ -52,6 +56,26 @@
                 console.log("End of file content.");
             } 
         }, "1m").start(0); 
+        console.log("made char loop");
+
+
+        snare = new Tone.Player("https://dudugan.github.io/interdesign/music/assets/snare.mp3").toDestination();
+        kick = new Tone.Player("https://dudugan.github.io/interdesign/music/assets/kick.mp3").toDestination();
+
+        Promise.all([snare.load(), kick.load()]).then(() => {
+            // Start loops for snare and kick once they’re loaded
+            const snareLoop = new Tone.Loop(time => {
+                snare.start(time);
+            }, "2n").start("4n"); // Play every two beats, delayed by a quarter note
+
+            const kickLoop = new Tone.Loop(time => {
+                kick.start(time);
+            }, "2n").start("3n"); // Play every two beats, delayed by a quarter note
+
+            // Start the transport after snare and kick are loaded
+            Tone.Transport.start();
+        });
+        // Tone.Transport.start();
     }
 
     function play(nucleotide){
@@ -74,7 +98,7 @@
         }    
     }
 
-    async function processFile(){
+    async function processFile(){        
         const fileInput = document.getElementById('fileInput');
 
         if (fileInput.files.length === 0){
@@ -88,7 +112,6 @@
         reader.onload = async function(event){
             fileContent = event.target.result;
             initializeAudio(); 
-            Tone.Transport.start();
         }
 
         reader.readAsText(file); 
