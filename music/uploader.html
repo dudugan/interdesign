@@ -22,7 +22,6 @@
     let poly, snare, kick; 
     let char_index = 0;
     let fileContent = ""; 
-    let baseURL = "https://s3-us-west-1.amazonaws.com/leesamples/samples/"; 
 
     function initializeAudio(){
         console.log("Initializing Audio");
@@ -58,24 +57,29 @@
         }, "1m").start(0); 
         console.log("made char loop");
 
+        const sampler = new Tone.Sampler({
+            urls: {
+            "kick": "kick.mp3",
+            "snare": "snare.mp3",
+            "hihat": "hihat.mp3",
+            },
+            baseUrl: "https://dudugan.github.io/interdesign/music/assets/",
+        }).toDestination();
 
-        snare = new Tone.Player("https://dudugan.github.io/interdesign/music/assets/snare.mp3").toDestination();
-        kick = new Tone.Player("https://dudugan.github.io/interdesign/music/assets/kick.mp3").toDestination();
+        const drumPattern = [
+            ["kick", null, "snare", null],
+            ["kick", "hihat", "snare", "hihat"]
+        ];
 
-        Promise.all([snare.load(), kick.load()]).then(() => {
-            // Start loops for snare and kick once they’re loaded
-            const snareLoop = new Tone.Loop(time => {
-                snare.start(time);
-            }, "2n").start("4n"); // Play every two beats, delayed by a quarter note
+        const drumSequence = new Tone.Sequence((time, note) => {
+            if (note) {
+            sampler.triggerAttackRelease(note, "8n", time); // 8th note duration
+            }
+        }, drumPattern.flat(), "4n"); // 4n = quarter note interval
 
-            const kickLoop = new Tone.Loop(time => {
-                kick.start(time);
-            }, "2n").start("3n"); // Play every two beats, delayed by a quarter note
-
-            // Start the transport after snare and kick are loaded
-            Tone.Transport.start();
-        });
-        // Tone.Transport.start();
+        Tone.start(); 
+        drumSequence.start(0);
+        Tone.Transport.start();
     }
 
     function play(nucleotide){
