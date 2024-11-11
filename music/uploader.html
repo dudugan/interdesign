@@ -15,23 +15,38 @@
 </style>
 <body>
     <h1>Upload a dna file pls</h1>
-    check
     <input type="file" id="fileInput">
+    <br>
     <button onclick="processFile()">Upload</button>
+    <br><br>
     <label for="synths">choose a type of synth</label>
+    <br>
     <select name="synths" id="synths">
         <option value="fm">FM Synth</option>
         <option value="am">AM Synth</option>
         <option value="mono">Mono Synth</option>
     </select>
+    <br>
+    <br>
+    <label for="slider">what octave do you want the synth at</label>
+    <br>
+    <input type="range" id="slider" name="slider" min="1" max="4" step="1" value="3">
+    <span id="slidervalue">3</span>
 </body>
 <script>
     let poly, snare, kick; 
     let char_index = 0;
     let fileContent = ""; 
 
+    const slider = document.getElementById("slider");
+    const slidervalue = document.getElementById("slidervalue");
+    slider.addEventListener("input", () => {
+        slidervalue.textContent = slider.value; 
+    })
+
     function initializeAudio(){
         var synthtype = document.getElementById("synths").value;
+        var sliderval = slider.value;
         console.log("Initializing Audio");
 
         if (synthtype == "fm"){
@@ -77,7 +92,7 @@
             const char = fileContent[char_index];
             if (char) { 
                 console.log("Playing note ", char);
-                play(char);
+                play(char, sliderval);
                 char_index++;
             } else {
                 // when run out of nucleotides
@@ -118,19 +133,20 @@
         Tone.Transport.start();
     }
 
-    function play(nucleotide){
+    function play(nucleotide, octave){
+        // octave ranges 1-4 inclusive
         switch (nucleotide){
             case 'A':
-                chord_array = ["A2", "C2", "E2", "G2"]; 
+                chord_array = ["A" + String(octave), "C" + String(octave), "E" + String(octave), "G" + String(octave)]; 
                 break;
             case 'C':
-                chord_array = ["C2", "E2", "G2", "B3"]; 
+                chord_array = ["C" + String(octave), "E" + String(octave), "G" + String(octave), "B" + String(parseInt(octave) + 1)]; 
                 break;
             case 'G':
-                chord_array = ["G2", "B3", "D3", "F3"]; 
+                chord_array = ["G" + String(octave), "B" + String(parseInt(octave) + 1), "D" + String(parseInt(octave) + 1), "F" + String(parseInt(octave) + 1)]; 
                 break;
             case 'T': // interpret 'T' as 'E'
-                chord_array = ["E2", "G2", "B3", "D3"]; 
+                chord_array = ["E" + String(octave), "G" + String(octave), "B" + String(parseInt(octave) + 1), "D" + String(parseInt(octave) + 1)]; 
                 break; 
         }
         if (chord_array) {
