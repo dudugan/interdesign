@@ -18,6 +18,12 @@
     check
     <input type="file" id="fileInput">
     <button onclick="processFile()">Upload</button>
+    <label for="synths">choose a type of synth</label>
+    <select name="synths" id="synths">
+        <option value="fm">FM Synth</option>
+        <option value="am">AM Synth</option>
+        <option value="mono">Mono Synth</option>
+    </select>
 </body>
 <script>
     let poly, snare, kick; 
@@ -25,8 +31,11 @@
     let fileContent = ""; 
 
     function initializeAudio(){
+        var synthtype = document.getElementById("synths").value;
         console.log("Initializing Audio");
-        poly = new Tone.PolySynth(Tone.AMSynth, 
+
+        if (synthtype == "fm"){
+            poly = new Tone.PolySynth(Tone.FMSynth, 
             {
                 // set ADSR
                 envelope: {
@@ -34,7 +43,28 @@
                     release: '2n'
                 }
             }
-        ); 
+            ); 
+        } else if (synthtype == "am"){
+            poly = new Tone.PolySynth(Tone.AMSynth, 
+            {
+                // set ADSR
+                envelope: {
+                    attack: '2n', 
+                    release: '2n'
+                }
+            }
+            ); 
+        } else {
+            poly = new Tone.PolySynth(Tone.MonoSynth, 
+            {
+                // set ADSR
+                envelope: {
+                    attack: '2n', 
+                    release: '2n'
+                }
+            }
+            ); 
+        }
         poly.toDestination(); 
         console.log("set polysynth");
 
