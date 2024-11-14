@@ -34,7 +34,7 @@
     <span id="slidervalue">3</span>
 </body>
 <script>
-    let poly, snare, kick; 
+    // let poly, snare, kick; 
     let char_index = 0;
     let fileContent = ""; 
 
@@ -50,24 +50,25 @@
         console.log("Initializing Audio");
 
         // create arpeggiator synth
-        const synth = new Tone.Synth().toDestination(); 
-        const arpeggiator = new Tone.Pattern(
-            (time, note) => {
-                synth.triggerAttackRelease(note, "8n", time);
-            },
-            [], // start with empty array for chord
-            "upDown" // could also be: random, randomWalk, up, alternateUp, ...
-        ); 
+        // const synth = new Tone.Synth().toDestination(); 
+        // const arpeggiator = new Tone.Pattern(
+        //     (time, note) => {
+        //         synth.triggerAttackRelease(note, "8n", time);
+        //     },
+        //     [], // start with empty array for chord
+        //     "upDown" // could also be: random, randomWalk, up, alternateUp, ...
+        // ); 
         
         // set up walz sampler
         const waltzer = new Tone.Sampler({
             // map audio file to note
-            F5: "assets/waltz.wav",
+            F3: "assets/waltz.wav",
         }, () => {
             // sampler is ready once sample has loaded
             console.log("waltzer loaded!")
         }).toDestination(); 
         function waltz(note){
+            console.log("Attempting to waltz note:", note);
             waltzer.triggerAttackRelease(note, "1m"); 
         }
 
@@ -115,7 +116,7 @@
             const char = fileContent[char_index];
             if (char) { 
                 console.log("Playing note ", char);
-                play(char, sliderval, waltz);
+                play(char, sliderval, waltz());
                 char_index++;
             } else {
                 // when run out of nucleotides
@@ -181,6 +182,8 @@
             // arpeggiator.values = chord_array;
         }    
         root = nucleotide + String(octave); 
+        console.log("Sampler loaded status:", waltzer.loaded);
+        console.log("Sampler volume:", waltzer.volume.value);
         waltzfunction(root);
     }
 
