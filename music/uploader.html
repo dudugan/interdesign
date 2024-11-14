@@ -169,7 +169,7 @@
                 break; 
             case 'T': // interpret 'T' as 'E'
                 note_array = ["E", "G", "B", "D"];
-                nucleotide = 'E'; 
+                nucleotide = "E"; 
                 break; 
             case 'G':
                 note_array = ["G", "B", "D", "F"];
@@ -182,6 +182,7 @@
             // arpeggiator.values = chord_array;
         }    
         root = nucleotide + String(octave); 
+        console.log("root =", root); 
         console.log("Sampler loaded status:", waltzer.loaded);
         console.log("Sampler volume:", waltzer.volume.value);
         waltzfunction(root);
