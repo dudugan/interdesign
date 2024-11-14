@@ -149,12 +149,16 @@
         switch (nucleotide){
             case 'A':
                 note_array = ["A", "C", "E", "G"]; 
+                break;
             case 'C':
                 note_array = ["C", "E", "G", "B"];
+                break; 
             case 'T': // interpret 'T' as 'E'
                 note_array = ["E", "G", "B", "D"];
+                break; 
             case 'G':
                 note_array = ["G", "B", "D", "F"];
+                break; 
         }
         chord_array = note_array.map(note => note + String(octave)); 
         console.log("Playing chord", chord_array)
