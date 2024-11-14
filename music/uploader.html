@@ -157,6 +157,7 @@
                 note_array = ["G", "B", "D", "F"];
         }
         chord_array = note_array.map(note => note + String(octave)); 
+        console.log("Playing chord", chord_array)
         if (chord_array) {
             poly.triggerAttackRelease(chord_array, '1m');
             arpeggiator.values = chord_array;
