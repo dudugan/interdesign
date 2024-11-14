@@ -180,7 +180,8 @@
             poly.triggerAttackRelease(chord_array, '1m');
             // arpeggiator.values = chord_array;
         }    
-        waltzfunction(nucleotide);
+        root = nucleotide + String(octave); 
+        waltzfunction(root);
     }
 
     async function processFile(){        
