@@ -49,6 +49,16 @@
         var sliderval = slider.value;
         console.log("Initializing Audio");
 
+        // create arpeggiator synth
+        const synth = new Tone.Synth().toDestination(); 
+        const arpeggiator = new Tone.Pattern(
+            (time, note) => {
+                synth.triggerAttackRelease(note, "8n", time);
+            },
+            [], // start with empty array for chord
+            "upDown" // could also be: random, randomWalk, up, alternateUp, ...
+        ); 
+
         if (synthtype == "fm"){
             poly = new Tone.PolySynth(Tone.FMSynth, 
             {
@@ -130,6 +140,7 @@
 
         Tone.start(); 
         // drumSequence.start(0);
+        arpeggiator.start(0); 
         Tone.Transport.start();
     }
 
@@ -137,20 +148,18 @@
         // octave ranges 1-4 inclusive
         switch (nucleotide){
             case 'A':
-                chord_array = ["A" + String(octave), "C" + String(octave), "E" + String(octave), "G" + String(octave)]; 
-                break;
+                note_array = ["A", "C", "E", "G"]; 
             case 'C':
-                chord_array = ["C" + String(octave), "E" + String(octave), "G" + String(octave), "B" + String(parseInt(octave) + 1)]; 
-                break;
-            case 'G':
-                chord_array = ["G" + String(octave), "B" + String(parseInt(octave) + 1), "D" + String(parseInt(octave) + 1), "F" + String(parseInt(octave) + 1)]; 
-                break;
+                note_array = ["C", "E", "G", "B"];
             case 'T': // interpret 'T' as 'E'
-                chord_array = ["E" + String(octave), "G" + String(octave), "B" + String(parseInt(octave) + 1), "D" + String(parseInt(octave) + 1)]; 
-                break; 
+                note_array = ["E", "G", "B", "D"];
+            case 'G':
+                note_array = ["G", "B", "D", "F"];
         }
+        chord_array = note_array.map(note => note + String(octave)); 
         if (chord_array) {
             poly.triggerAttackRelease(chord_array, '1m');
+            arpeggiator.values = chord_array;
         }    
     }
 
