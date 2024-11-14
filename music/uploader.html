@@ -58,6 +58,18 @@
             [], // start with empty array for chord
             "upDown" // could also be: random, randomWalk, up, alternateUp, ...
         ); 
+        
+        // set up walz sampler
+        const waltzer = new Tone.Sampler({
+            // map audio file to note
+            F5: "assets/waltz.wav",
+        }, () => {
+            // sampler is ready once sample has loaded
+            console.log("waltzer loaded!")
+        }).toDestination(); 
+        function waltz(note){
+            waltzer.triggerAttackRelease(note, "1m"); 
+        }
 
         if (synthtype == "fm"){
             poly = new Tone.PolySynth(Tone.FMSynth, 
@@ -91,6 +103,7 @@
             ); 
         }
         poly.toDestination(); 
+        poly.volume.value = -5;
         console.log("set polysynth");
 
         Tone.Transport.bpm.value = 120;
@@ -140,7 +153,7 @@
 
         Tone.start(); 
         // drumSequence.start(0);
-        arpeggiator.start(0); 
+        // arpeggiator.start(0); 
         Tone.Transport.start();
     }
 
@@ -155,6 +168,7 @@
                 break; 
             case 'T': // interpret 'T' as 'E'
                 note_array = ["E", "G", "B", "D"];
+                nucleotide = 'E'; 
                 break; 
             case 'G':
                 note_array = ["G", "B", "D", "F"];
@@ -164,8 +178,9 @@
         console.log("Playing chord", chord_array)
         if (chord_array) {
             poly.triggerAttackRelease(chord_array, '1m');
-            arpeggiator.values = chord_array;
+            // arpeggiator.values = chord_array;
         }    
+        waltz(nucleotide);
     }
 
     async function processFile(){        
