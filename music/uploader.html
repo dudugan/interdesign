@@ -115,7 +115,7 @@
             const char = fileContent[char_index];
             if (char) { 
                 console.log("Playing note ", char);
-                play(char, sliderval, arpeggiator);
+                play(char, sliderval, waltz);
                 char_index++;
             } else {
                 // when run out of nucleotides
@@ -157,7 +157,7 @@
         Tone.Transport.start();
     }
 
-    function play(nucleotide, octave, arpeggiator){
+    function play(nucleotide, octave, waltzfunction){
         // octave ranges 1-4 inclusive
         switch (nucleotide){
             case 'A':
@@ -180,7 +180,7 @@
             poly.triggerAttackRelease(chord_array, '1m');
             // arpeggiator.values = chord_array;
         }    
-        waltz(nucleotide);
+        waltzfunction(nucleotide);
     }
 
     async function processFile(){        
