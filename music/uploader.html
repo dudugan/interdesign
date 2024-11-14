@@ -67,7 +67,7 @@
             // sampler is ready once sample has loaded
             console.log("waltzer loaded!")
         }).toDestination(); 
-        function waltz(note){
+        function waltz(note, waltzer){
             console.log("Attempting to waltz note:", note);
             waltzer.triggerAttackRelease(note, "1m"); 
         }
@@ -116,7 +116,7 @@
             const char = fileContent[char_index];
             if (char) { 
                 console.log("Playing note ", char);
-                play(char, sliderval, waltz());
+                play(char, sliderval, waltz(), waltzer);
                 char_index++;
             } else {
                 // when run out of nucleotides
@@ -158,7 +158,7 @@
         Tone.Transport.start();
     }
 
-    function play(nucleotide, octave, waltzfunction){
+    function play(nucleotide, octave, waltz, waltzer){
         // octave ranges 1-4 inclusive
         switch (nucleotide){
             case 'A':
@@ -182,10 +182,11 @@
             // arpeggiator.values = chord_array;
         }    
         root = nucleotide + String(octave); 
+        console.log("something"); 
         console.log("root =", root); 
         console.log("Sampler loaded status:", waltzer.loaded);
         console.log("Sampler volume:", waltzer.volume.value);
-        waltzfunction(root);
+        waltz(root, waltzer);
     }
 
     async function processFile(){        
