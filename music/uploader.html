@@ -37,12 +37,39 @@
     // let poly, snare, kick; 
     let char_index = 0;
     let fileContent = ""; 
+    let waltzer, poly;
+    const timeSignature = 4;
+    const bpm = 120;
+    const measureDuration = (60 / bpm) * timeSignature;
+    const halfDuration = measureDuration / 2;
 
     const slider = document.getElementById("slider");
     const slidervalue = document.getElementById("slidervalue");
     slider.addEventListener("input", () => {
         slidervalue.textContent = slider.value; 
     })
+
+    function waltz(note){
+            console.log("Attempting to waltz note:", note);
+            waltzer.triggerAttackRelease(note, "1m"); 
+        }
+
+    function startWaltz(){
+        const sampleDuration = 2.3;
+        const playbackRate = sampleDuration / halfDuration;
+        waltzer.playbackRate = playbackRate;
+
+        let currentQuarter = 0; 
+        const waltzloop = new Tone.Loop((time) => {
+            const startTime = (currentQuarter/4) * sampleDuration; 
+            const endTime = (currentQuarter+1)/4 * sampleDuration; 
+            console.log(`Playing quarter ${currentQuarter + 1}, start: ${startTime}, end: ${endTime}`);
+
+            waltzer.triggerAttack("F3", time, 1);
+        })
+
+
+    }
 
     function initializeAudio(){
         var synthtype = document.getElementById("synths").value;
@@ -60,63 +87,44 @@
         // ); 
         
         // set up walz sampler
-        const waltzer = new Tone.Sampler({
-            // map audio file to note
+        waltzer = new Tone.Sampler({
             F3: "assets/waltz.wav",
         }, () => {
-            // sampler is ready once sample has loaded
             console.log("waltzer loaded!")
-        }).toDestination(); 
-        function waltz(note, waltzer){
-            console.log("Attempting to waltz note:", note);
-            waltzer.triggerAttackRelease(note, "1m"); 
-        }
+        }).toDestination();
 
         if (synthtype == "fm"){
-            poly = new Tone.PolySynth(Tone.FMSynth, 
-            {
+            poly = new Tone.PolySynth(Tone.FMSynth,{
                 // set ADSR
                 envelope: {
                     attack: '2n', 
                     release: '2n'
-                }
-            }
-            ); 
+                }}); 
         } else if (synthtype == "am"){
-            poly = new Tone.PolySynth(Tone.AMSynth, 
-            {
+            poly = new Tone.PolySynth(Tone.AMSynth, {
                 // set ADSR
                 envelope: {
                     attack: '2n', 
                     release: '2n'
-                }
-            }
-            ); 
+                }}); 
         } else {
-            poly = new Tone.PolySynth(Tone.MonoSynth, 
-            {
+            poly = new Tone.PolySynth(Tone.MonoSynth, {
                 // set ADSR
                 envelope: {
                     attack: '2n', 
                     release: '2n'
-                }
-            }
-            ); 
+                }}); 
         }
         poly.toDestination(); 
         poly.volume.value = -5;
         console.log("set polysynth");
-
-        Tone.Transport.bpm.value = 120;
-        Tone.Transport.timeSignature = 4; // default 4/4
-        console.log("set bpm and time signature");
 
          // loop per measure
         const loop = new Tone.Loop(time => {
             const char = fileContent[char_index];
             if (char) { 
                 console.log("Playing note ", char);
-                play(char, sliderval, waltz(), waltzer);
+                play(char, sliderval);
                 char_index++;
             } else {
                 // when run out of nucleotides
@@ -158,7 +166,7 @@
         Tone.Transport.start();
     }
 
-    function play(nucleotide, octave, waltz, waltzer){
+    function play(nucleotide, octave){
         // octave ranges 1-4 inclusive
         switch (nucleotide){
             case 'A':
@@ -186,7 +194,7 @@
         console.log("root =", root); 
         console.log("Sampler loaded status:", waltzer.loaded);
         console.log("Sampler volume:", waltzer.volume.value);
-        waltz(root, waltzer);
+        waltz(root);
     }
 
     async function processFile(){        

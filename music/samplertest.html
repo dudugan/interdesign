@@ -12,15 +12,15 @@
         console.log("waltzer loaded!")
     }).toDestination();
 
-    function waltz(note, waltzer){
+    function waltz(note){
         console.log("Attempting to waltz note:", note);
-        waltzer.triggerAttackRelease(note, "1n"); 
+        waltzer.triggerAttackRelease(note, "1m"); 
     }
 
     function playaudio(){
         Tone.start(); 
         Tone.Transport.start(); 
-        waltzer.triggerAttackRelease("F3", "1m")
+        waltz("E3"); 
     }
 
 
