@@ -13,6 +13,29 @@
                 margin-top: 10px; 
                 padding: 5px 10px; 
             }
+            .toggle-container {
+                margin-bottom: 10px; 
+            }
+            .toggle {
+                display: inline-block; 
+                position: relative;
+                width: 40px; height: 20px; 
+                border-radius: 20px;
+                background-color: #ccc;
+                cursor: pointer;
+            }
+            .toggle-inner {
+                position: absolute;
+                top: 2px; left: 2px; 
+                width: 16px; height: 16px;
+                background-color: white;
+                border-radius: 50%;
+                transition: 0.3s;
+            }
+            .toggle-on, .toggle-inner {
+                left: 22px; 
+                background-color: #4CAF50;
+            }
             .custom-dropdown {
                 position: relative;
                 display: inline-block;
@@ -77,6 +100,12 @@
     </head>
     <body>
         <h2>Bookmarklet for Synesthesiacs</h2>
+        <div class="toggle-container">
+            <div id="toggle" class="toggle">
+                <div class="toggle-inner"></div>
+            </div>
+            <label for="toggle">Enable Color Picker</label>
+        </div>
         <form id="color-form">
             <div id="selectors-container">
                 <!-- popup.js will put selectors here -->

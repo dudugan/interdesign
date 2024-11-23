@@ -5,6 +5,29 @@ document.addEventListener("DOMContentLoaded", () => {
         // TODO: create language selector to vary characters list?
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; 
     const container = document.getElementById("selectors-container"); 
+    const toggle = document.getElementById("toggle"); 
+
+    chrome.storage.sync.get(["colorPickerEnabled"], (data) => {
+        const isEnabled = data.colorPickerEnabled !== false; // default to true if undefined
+        if (isEnabled){
+            toggle.classList.add("toggle-on");
+        } else {
+            toggle.classList.remove("toggle-on");
+        }
+        setDropdownState(isEnabled); 
+    }); 
+
+    toggle.addEventListener("click", () => {
+        const isEnabled = toggle.classList.toggle("toggle-on"); 
+        chrome.storage.sync.set({colorPickerEnabled: isEnabled});
+
+        // reset colors in current tab (but don't reset color storage history!)
+        if (!isEnabled){
+            chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+                chrome.tabs.sendMessage(tabs[0].id, {reset: true}); 
+            });
+        }
+    });
 
     // create selectors from character set
     // chrome.storage.sync is a storage area provided by the chrome API consisting of simple key-value pairs
@@ -150,43 +173,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // when click Apply Colors
     document.getElementById("apply-colors").addEventListener("click", (e) => {
-        // prevent any other actions that would usually occur when clicking this element
-        e.preventDefault(); 
 
-        // create dictionary of colors
-        // where the key is the character
-        // and the value is the hexcode
-        const colors = {}; 
-        chars.split("").forEach((char) => {
-            colors[`${char}`] = document.getElementById(`${char}`).value;
-        }); 
+        const isEnabled = toggle.classList.toggle("toggle-on"); 
 
-        console.log("Colors selected");
+        // only do all of this if the extension is actually on
+        if (isEnabled){
+            // prevent any other actions that would usually occur when clicking this element
+            e.preventDefault(); 
 
-        // save colors to storage
-        chrome.storage.sync.set(colors, () => {
-            console.log("Colors saved!"); 
-        }); 
-    
-        // apply the colors
-        chrome.tabs.query({active: true, currentWindow: true }, (tabs) => {
-            if (tabs.length > 0){
-                console.log("Sending message to content.js..."); 
-    
-                // make sure script is injected even if page was loaded before extension
-                chrome.scripting.executeScript(
-                    {
-                        target: {tabId: tabs[0].id},
-                        files: ["content.js"],
-                    }, 
-                    () => {
-                        chrome.tabs.sendMessage(tabs[0].id, {colors});
-                    }
-                )  
-            } else {
-                console.error("No active tabs found :("); 
-            }
-        }); 
+            // create dictionary of colors
+            // where the key is the character
+            // and the value is the hexcode
+            const colors = {}; 
+            chars.split("").forEach((char) => {
+                colors[`${char}`] = document.getElementById(`${char}`).value;
+            }); 
+
+            console.log("Colors selected");
+
+            // save colors to storage
+            chrome.storage.sync.set(colors, () => {
+                console.log("Colors saved!"); 
+            }); 
+        
+            // apply the colors
+            chrome.tabs.query({active: true, currentWindow: true }, (tabs) => {
+                if (tabs.length > 0){
+                    console.log("Sending message to content.js..."); 
+        
+                    // make sure script is injected even if page was loaded before extension
+                    chrome.scripting.executeScript(
+                        {
+                            target: {tabId: tabs[0].id},
+                            files: ["content.js"],
+                        }, 
+                        () => {
+                            chrome.tabs.sendMessage(tabs[0].id, {colors});
+                        }
+                    )  
+                } else {
+                    console.error("No active tabs found :("); 
+                }
+            }); 
+        }
     }); 
 
     document.getElementById("reset-colors").addEventListener("click", () => {
