@@ -80,17 +80,6 @@ function applyColors(colors){
                 fragment.appendChild(document.createTextNode(" ")); 
             }
         }); 
-        // node.nodeValue.split("").forEach((char) => {
-        //     // don't wrap non-alphanumeric characters or spaces
-        //     if (char.trim()){
-        //         const span = document.createElement("span");
-        //         span.textContent = char; 
-        //         span.className = `char-${char.toUpperCase().replace(/[^a-zA-Z0-9]/g, "\\$&")}`; 
-        //         fragment.appendChild(span); 
-        //     } else {
-        //         fragment.appendChild(document.createTextNode(char)); 
-        //     }
-        // });
         node.parentNode.replaceChild(fragment, node); 
     }); 
 }
