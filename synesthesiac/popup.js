@@ -1,4 +1,6 @@
-let onoff = 0; 
+chrome.storage.sync.set({onoff: 0}, function(){
+    console.log('onoff storage key set to 0'); 
+}); 
 
 // check that DOM loaded before start to make changes
 document.addEventListener("DOMContentLoaded", () => {
@@ -154,13 +156,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("apply-colors").addEventListener("click", (e) => {
 
         const applybutton = document.getElementById("apply-colors"); 
-        if (onoff == 0){
-            onoff = 1; 
-            applybutton.textContent = 'Apply';
-        } else {
-            onoff = 0; 
-            applybutton.textContent = 'Un-Apply'; 
-        }
+        chrome.storage.sync.get(['onoff'], function(result){
+            if (result.onoff === 0){
+                chrome.storage.sync.set({onoff: 1}, function(){
+                    console.log('onoff storage key set to 1'); 
+                }); 
+                applybutton.textContent = 'Un-Apply';
+            } else {
+                chrome.storage.sync.set({onoff: 0}, function(){
+                    console.log('onoff storage key set to 0'); 
+                }); 
+                applybutton.textContent = 'Apply'; 
+            }
+        }); 
 
         // only do all of this if the extension is actually on
         if (onoff == 1){
