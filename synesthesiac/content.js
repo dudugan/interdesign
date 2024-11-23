@@ -25,7 +25,7 @@ function applyColors(colors){
     document.head.appendChild(style); 
 
     // make each character have a span with its corresponding class
-    const traverser = document.createTraverser(document.body, NodeFilter.SHOW_TEXT, null, false); 
+    const traverser = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false); 
     let node;
     while ((node = traverser.nextNode())){
         if (node.parentNode && node.nodeValue.trim()){
