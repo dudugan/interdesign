@@ -5,9 +5,6 @@ function applyColors(colors){
     // css for each character
     let css = ""; 
     for (const [key, value] of Object.entries(colors)){
-        // // get character and text/bg type of box
-        // const [type, char] = key.split("-"); 
-
         // escape non-alphanumeric
         const safeChar = key.replace(/[^a-zA-Z0-9]/g, "\\$&");
 
@@ -17,13 +14,6 @@ function applyColors(colors){
                     background-color: ${value} !important; 
                 }
         `; 
-        // } else if (type === "bg"){
-        //     css += `
-        //         span.char-${safeChar} {
-        //             background-color: ${value} !important; 
-        //         }
-        //     `; 
-        // }
 
         // parse to see if would go better with white or black text
         hex = key.replace('#', '');
@@ -76,17 +66,31 @@ function applyColors(colors){
         if (node.parentNode.tagName === "SPAN") return; 
 
         const fragment = document.createDocumentFragment(); 
-        node.nodeValue.split("").forEach((char) => {
-            // don't wrap non-alphanumeric characters or spaces
-            if (char.trim()){
-                const span = document.createElement("span");
-                span.textContent = char; 
-                span.className = `char-${char.toUpperCase().replace(/[^a-zA-Z0-9]/g, "\\$&")}`; 
-                fragment.appendChild(span); 
-            } else {
-                fragment.appendChild(document.createTextNode(char)); 
+        const words = node.nodeValue.split(/\s+/); 
+
+        words.forEach((word) => {
+            const firstChar = word.charAt(0).toUpperCase();
+            const span = document.createElement("span");
+            span.textContent = word; 
+            span.className = `char-${firstChar.toUpperCase().replace(/[^a-zA-Z0-9]/g, "\\$&")}`; 
+            fragment.appendChild(span); 
+
+            // add a space after each word except the last
+            if (word !== words[words.length - 1]){
+                fragment.appendChild(document.createTextNode(" ")); 
             }
-        });
+        }); 
+        // node.nodeValue.split("").forEach((char) => {
+        //     // don't wrap non-alphanumeric characters or spaces
+        //     if (char.trim()){
+        //         const span = document.createElement("span");
+        //         span.textContent = char; 
+        //         span.className = `char-${char.toUpperCase().replace(/[^a-zA-Z0-9]/g, "\\$&")}`; 
+        //         fragment.appendChild(span); 
+        //     } else {
+        //         fragment.appendChild(document.createTextNode(char)); 
+        //     }
+        // });
         node.parentNode.replaceChild(fragment, node); 
     }); 
 }

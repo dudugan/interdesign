@@ -17,8 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <label>${char}</label>
                 <input type="color" id="${char}" value="${data[`${char}`] || "#000000"}">
             `; 
-            // also before in ^: 
-            // <input type="color" id="bg-${char}" value="${data[`bg-${char}`] || "#ffffff"}">
             container.appendChild(div); 
         }); 
 
@@ -38,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const colors = {}; 
         chars.split("").forEach((char) => {
             colors[`${char}`] = document.getElementById(`${char}`).value;
-            // colors[`bg-${char}`] = document.getElementById(`bg-${char}`).value;
         }); 
         
         console.log("Colors selected");
