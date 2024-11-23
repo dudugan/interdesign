@@ -10,22 +10,13 @@ function applyColors(colors){
         // escape non-alphanumeric
         const safeChar = key.replace(/[^a-zA-Z0-9]/g, "\\$&");
 
-        // if (colorToggle){
-            // edit background color based on selection
+        // edit background color based on selection
         css += `
         span.char-${safeChar} {
             color: ${value} !important; 
             background-color: 'white' !important;
         }
         `;
-        // } else {
-        //     css += `
-        //     span.char-${safeChar} {
-        //         background-color: ${value} !important; 
-        //         color: 'white' !important;
-        //     }
-        //     `; 
-        // }
     }
 
     console.log("Created css for each character"); 

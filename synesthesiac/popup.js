@@ -99,6 +99,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const selectedColor = dropdown.querySelector('.selected-color');
             const options = dropdown.querySelectorAll('.dropdown-option');
 
+            if (data[char]){
+                selectedColor.style.color = data[char];
+                selectedColor.textContent = colorOptions.find(option => option.hex === data[char])?.name || 'Select Color'; 
+            }
+
             // toggle dropdown visibility on click of 'select color' text
             selectedColor.addEventListener("click", () => {
                 dropdown.classList.toggle("open"); 
