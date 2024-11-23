@@ -61,6 +61,7 @@ function applyColors(colors){
         });
         node.parentNode.replaceChild(fragment, node); 
     }); 
+}
 
 // apply currently stored colors automatically
 chrome.storage.sync.get(null, (data) => {
@@ -82,4 +83,4 @@ chrome.runtime.onMessage.addListener((message) => {
     if (message.colors){
         applyColors(message.colors); 
     }
-}); 
+});
