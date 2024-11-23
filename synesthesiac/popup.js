@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // close dropdown
                     dropdown.classList.remove("open"); 
+                    input.style.display = "none"; 
                 }); 
             }); 
         }); 
