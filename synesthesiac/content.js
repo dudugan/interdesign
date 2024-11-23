@@ -4,45 +4,28 @@ function applyColors(colors){
 
     // css for each character
     let css = ""; 
+    const colorToggle = colors.colorToggle; 
+
     for (const [key, value] of Object.entries(colors)){
         // escape non-alphanumeric
         const safeChar = key.replace(/[^a-zA-Z0-9]/g, "\\$&");
 
-        // edit background color based on selection
-        css += `
-                span.char-${safeChar} {
-                    background-color: ${value} !important; 
-                }
-        `; 
-
-        // parse to see if would go better with white or black text
-        hex = key.replace('#', '');
-        // convert to rgb
-        const r = parseInt(hex.substring(0, 2), 16) / 255;
-        const g = parseInt(hex.substring(2, 4), 16) / 255;
-        const b = parseInt(hex.substring(4, 6), 16) / 255;
-        // get 'luminance'
-        const rgbToLuminance = (c) => {
-            // yeah i chatgpted this formula
-            return (c <= 0.03928) ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-        }; 
-        // and this one
-        const luminance = 0.2126 * rgbToLuminance(r) + 0.7152 * rgbToLuminance(g) + 0.0722 * rgbToLuminance(b);
-        // TODO: change threshold?
-        let textcolor; 
-        if (luminance > 0.5){
-            textcolor = '#000000'; 
-        } else {
-            textcolor = '#ffffff'; 
-        }
-
-        // TODO: currently not working, always going to white
-        // edit text color to either black or white based on luminance of selection
-        css += `
+        if (colorToggle){
+            // edit background color based on selection
+            css += `
             span.char-${safeChar} {
-                color: ${textcolor} !important; 
+                background-color: ${value} !important; 
+                color: 'white' !important; 
             }
-        `; 
+            `;
+        } else {
+            css += `
+            span.char-${safeChar} {
+                color: ${value} !important; 
+                background-color: 'white' !important; 
+            }
+            `; 
+        }
     }
 
     console.log("Created css for each character"); 

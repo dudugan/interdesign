@@ -37,7 +37,10 @@ document.addEventListener("DOMContentLoaded", () => {
         chars.split("").forEach((char) => {
             colors[`${char}`] = document.getElementById(`${char}`).value;
         }); 
-        
+
+        const colorToggle = document.getElementById("toggle").checked; 
+        colors.colorToggle = colorToggle; // TODO: (how) does this work??
+
         console.log("Colors selected");
 
         // save colors to storage
