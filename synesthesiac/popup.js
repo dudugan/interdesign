@@ -1,3 +1,5 @@
+let onoff = 0; 
+
 // check that DOM loaded before start to make changes
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -5,31 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // TODO: create language selector to vary characters list?
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; 
     const container = document.getElementById("selectors-container"); 
-    const toggle = document.getElementById("toggle"); 
-
-    chrome.storage.sync.get(["colorPickerEnabled"], (data) => {
-        const isEnabled = data.colorPickerEnabled !== false; // default to true if undefined
-        if (isEnabled){
-            toggle.classList.add("toggle-on");
-        } else {
-            toggle.classList.remove("toggle-on");
-        }
-    }); 
-
-    toggle.addEventListener("click", () => {
-        const isEnabled = toggle.classList.toggle("toggle-on"); 
-        chrome.storage.sync.set({colorPickerEnabled: isEnabled});
-
-        // reset colors in current tab (but don't reset color storage history!)
-        if (!isEnabled){
-            chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-                chrome.tabs.sendMessage(tabs[0].id, {reset: true}); 
-            });
-        } else {
-            applyColors(data); 
-        }
-    });
-
+    
     // create selectors from character set
     // chrome.storage.sync is a storage area provided by the chrome API consisting of simple key-value pairs
     // execute following stuff once the data has been retrieved from storage and put into the variable 'data'
@@ -175,10 +153,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // when click Apply Colors
     document.getElementById("apply-colors").addEventListener("click", (e) => {
 
-        const isEnabled = toggle.classList.toggle("toggle-on"); 
+        const applybutton = document.getElementById("apply-colors"); 
+        if (onoff == 0){
+            onoff = 1; 
+            applybutton.textContent = 'Un-Apply';
+        } else {
+            onoff = 0; 
+            applybutton.textContent = 'Apply'; 
+        }
 
         // only do all of this if the extension is actually on
-        if (isEnabled){
+        if (onoff == 1){
             // prevent any other actions that would usually occur when clicking this element
             e.preventDefault(); 
 
