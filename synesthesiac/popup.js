@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
             div.innerHTML = `
                 <label for="${char}">${char}</label>
                 <div class="custom-dropdown" id="${char}">
-                    <input class="color-search" type="text" placeholder="Search color...">
+                    <input class="color-search" type="text" placeholder="Search color..." style="display: none;">
                     <div class="selected-color">Select Color</div>
                     <div class="dropdown-options">
                         ${colorOptions.map(option => `
@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // toggle dropdown visibility on click of 'select color' text
             selectedColor.addEventListener("click", () => {
                 dropdown.classList.toggle("open"); 
+                input.style.display = input.style.display === "none" ? "block" : "none";
                 input.focus(); // focus on the input field at first when click a dropdown
             });
 
