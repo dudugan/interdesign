@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             toggle.classList.remove("toggle-on");
         }
-        setDropdownState(isEnabled); 
     }); 
 
     toggle.addEventListener("click", () => {
