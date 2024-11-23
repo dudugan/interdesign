@@ -168,48 +168,48 @@ document.addEventListener("DOMContentLoaded", () => {
                 }); 
                 applybutton.textContent = 'Apply'; 
             }
+        
+            // only do all of this if the extension is actually on
+            if (result.onoff == 1){
+                // prevent any other actions that would usually occur when clicking this element
+                e.preventDefault(); 
+
+                // create dictionary of colors
+                // where the key is the character
+                // and the value is the hexcode
+                const colors = {}; 
+                chars.split("").forEach((char) => {
+                    colors[`${char}`] = document.getElementById(`${char}`).value;
+                }); 
+
+                console.log("Colors selected");
+
+                // save colors to storage
+                chrome.storage.sync.set(colors, () => {
+                    console.log("Colors saved!"); 
+                }); 
+            
+                // apply the colors
+                chrome.tabs.query({active: true, currentWindow: true }, (tabs) => {
+                    if (tabs.length > 0){
+                        console.log("Sending message to content.js..."); 
+            
+                        // make sure script is injected even if page was loaded before extension
+                        chrome.scripting.executeScript(
+                            {
+                                target: {tabId: tabs[0].id},
+                                files: ["content.js"],
+                            }, 
+                            () => {
+                                chrome.tabs.sendMessage(tabs[0].id, {colors});
+                            }
+                        )  
+                    } else {
+                        console.error("No active tabs found :("); 
+                    }
+                }); 
+            }
         }); 
-
-        // only do all of this if the extension is actually on
-        if (onoff == 1){
-            // prevent any other actions that would usually occur when clicking this element
-            e.preventDefault(); 
-
-            // create dictionary of colors
-            // where the key is the character
-            // and the value is the hexcode
-            const colors = {}; 
-            chars.split("").forEach((char) => {
-                colors[`${char}`] = document.getElementById(`${char}`).value;
-            }); 
-
-            console.log("Colors selected");
-
-            // save colors to storage
-            chrome.storage.sync.set(colors, () => {
-                console.log("Colors saved!"); 
-            }); 
-        
-            // apply the colors
-            chrome.tabs.query({active: true, currentWindow: true }, (tabs) => {
-                if (tabs.length > 0){
-                    console.log("Sending message to content.js..."); 
-        
-                    // make sure script is injected even if page was loaded before extension
-                    chrome.scripting.executeScript(
-                        {
-                            target: {tabId: tabs[0].id},
-                            files: ["content.js"],
-                        }, 
-                        () => {
-                            chrome.tabs.sendMessage(tabs[0].id, {colors});
-                        }
-                    )  
-                } else {
-                    console.error("No active tabs found :("); 
-                }
-            }); 
-        }
     }); 
 
     document.getElementById("reset-colors").addEventListener("click", () => {
