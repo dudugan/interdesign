@@ -13,74 +13,89 @@ document.addEventListener("DOMContentLoaded", () => {
         chars.split("").forEach((char) => {
             const div = document.createElement("div");
             div.classList.add("selector-group");
+
+            const colorOptions = [
+                { name: 'black', hex: '#000000'}, 
+                { name: 'gray', hex: '#696969'}, 
+                { name: 'slate gray', hex: '#2f4f4f'}, 
+                { name: 'dark slate blue', hex: '#483d8b'}, 
+                { name: 'medium slate blue', hex: '#7b68ee'}, 
+                { name: 'slate blue', hex: '#6a5acd'}, 
+                { name: 'steel blue', hex: '#4682b4'}, 
+                { name: 'medium blue', hex: '#0000cd'}, 
+                { name: 'bright blue', hex: '#0000ff'}, 
+                { name: 'royal blue', hex: '#4169e1'}, 
+                { name: 'dark blue', hex: '#00008b'}, 
+                { name: 'navy', hex: '#000080'}, 
+                { name: 'midnight blue', hex: '#1911970'}, 
+                { name: 'indigo', hex: '#4b0082'}, 
+                { name: 'blue violet', hex: '#8a2be2'}, 
+                { name: 'violet', hex: '#9400d3'}, 
+                { name: 'other violet', hex: '#ee82ee'}, 
+                { name: 'rebecca purple', hex: '#663399'}, 
+                { name: 'bright purple', hex: '#800080'},
+                { name: 'medium purple', hex: '#9370db'}, 
+                { name: 'dark orchid', hex: '#9932cc'},
+                { name: 'orchid', hex: '#da70d6'}, 
+                { name: 'pale violet red', hex: '#db7093'}, 
+                { name: 'violet red', hex: '#c71585'}, 
+                { name: 'magenta', hex: '#8b008b'},
+                { name: 'fuchsia', hex: '#ff00ff'},   
+                { name: 'crimson', hex: '#dc143c'},  
+                { name: 'fire brick', hex: '#b22222'}, 
+                { name: 'bright red', hex: '#ff0000'}, 
+                { name: 'dark red', hex: '#8b0000'}, 
+                { name: 'real maroon', hex: '#800000'}, 
+                { name: 'maroon', hex: '#a52a2a'}, 
+                { name: 'tomato', hex: '#ff6347'}, 
+                { name: 'orange red', hex: '#ff4500'}, 
+                { name: 'orange', hex: '#ff8c00'}, 
+                { name: 'sienna', hex: '#a0522d'}, 
+                { name: 'peru', hex: '#cd853f'}, 
+                { name: 'saddle brown', hex: '#8b4513'}, 
+                { name: 'goldenrod', hex: '#b8860b'}, 
+                { name: 'yellow green', hex: '#9acd32'}, 
+                { name: 'lime green', hex: '#32cd32'}, 
+                { name: 'olive drab', hex: '#6b8e23'},  
+                { name: 'bright green', hex: '#00ff00'}, 
+                { name: 'forest green', hex: '#228b22'}, 
+                { name: 'dark green', hex: '#006400'}, 
+                { name: 'olive', hex: '#808000'}, 
+                { name: 'dark olive', hex: '#556b2f'},
+                { name: 'sea green', hex: '#238b57'}, 
+                { name: 'medium sea green', hex: '#3cb371'}, 
+                { name: 'light sea green', hex: '#20b2aa'}, 
+                { name: 'teal', hex: '#008080'}, 
+                { name: 'turquoise', hex: '#40e0d0'}, 
+                { name: 'cyan', hex: '#008b8b'}, 
+            ]
+
             div.innerHTML = `
-                <label>${char}</label>
-                <select id="${char}">
-                    <option value="#000000">Black</option>
-                    <option value="#ff0000">Red</option>
-                    <option value="#00ff00">Green</option>
-                    <option value="#0000ff">Blue</option>
-                    <option value="#800080">Purple</option>
-                    <option value="#fa8072">Salmon</option>
-                    <option value="#a52a2a">Maroon</option>
-                    <option value="#8a2be2">BlueViolet</option>
-                    <option value="#dc143c">Crimson</option>
-                    <option value="#008b8b">Cyan</option>
-                    <option value="#00008b">DarkBlue</option>
-                    <option value="#006400">DarkGreen</option>
-                    <option value="#b8860b">Goldenrod</option>
-                    <option value="#8b008b">Magenta</option>
-                    <option value="#556b2f">DarkOlive</option>
-                    <option value="#ff8c00">Orange</option>
-                    <option value="#9932cc">DarkOrchid</option>
-                    <option value="#8b0000">DarkRed</option>
-                    <option value="#483d8b">DarkSlateBlue</option>
-                    <option value="#2f4f4f">SlateGray</option>
-                    <option value="#9400d3">Violet</option>
-                    <option value="#696969">Gray</option>
-                    <option value="#b22222">FireBrick</option>
-                    <option value="#228b22">ForestGreen</option>
-                    <option value="#ff00ff">Fuchsia</option>
-                    <option value="#4b0082">Indigo</option>
-                    <option value="#20b2aa">LightSeaGreen</option>
-                    <option value="#800000">RealMaroon</option>
-                    <option value="#32cd32">LimeGreen</option>
-                    <option value="#0000cd">MediumBlue</option>
-                    <option value="#9370db">MediumPurple</option>
-                    <option value="#3cb371">MediumSeaGreen</option>
-                    <option value="#7b68ee">MediumSlateBlue</option>
-                    <option value="#c71585">VioletRed</option>
-                    <option value="#1911970">MidnightBlue</option>
-                    <option value="#000080">Navy</option>
-                    <option value="#6b8e23">OliveDrab</option>
-                    <option value="#808000">Olive</option>
-                    <option value="#ff4500">OrangeRed</option>
-                    <option value="#da70d6">Orchid</option>
-                    <option value="#db7093">PaleVioletRed</option>
-                    <option value="#cd853f">Peru</option>
-                    <option value="#663399">RebeccaPurple</option>
-                    <option value="#4169e1">RoyalBlue</option>
-                    <option value="#8b4513">SaddleBrown</option>
-                    <option value="#238b57">SeaGreen</option>
-                    <option value="#a0522d">Sienna</option>
-                    <option value="#6a5acd">SlateBlue</option>
-                    <option value="#4682b4">SteelBlue</option>
-                    <option value="#008080">Teal</option>
-                    <option value="#ff6347">Tomato</option>
-                    <option value="#ffff00">Yellow</option>
-                    <option value="#9acd32">YellowGreen</option>
-                    <option value="#ee82ee">Violet</option>
-                    <option value="#40e0d0">Turquoise</option>
-                </select>
+                <label for="${char}">${char}</label>
+                <div class="custom-dropdown" id="${char}">
+                    <div class="selected-color">Select Color</div>
+                    <div class="dropdown-options">
+                        ${colorOptions.map(option => `
+                            <div class="dropdown-option" data-value="${option.hex}" style="text-color: ${option.hex};">
+                                ${option.name}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             `; 
 
-            // sync stored states
-            chrome.storage.sync.get([char], (data) => {
-                const color = data[char] || "#000000";
-                div.querySelector(`#&{char}`).value = color; 
-            })
+            container.appendChild(div);
 
-            container.appendChild(div); 
+            // sync stored states
+            // chrome.storage.sync.get([char], (data) => {
+            //     const color = data[char] || "#000000";
+            //     const selectedColorDiv = div.querySelector(".selected-color");
+
+            //     selectedColorDiv.style.backgroundColor = color; 
+            //     selectedColorDiv.style.textContent = color; 
+
+            //     // div.querySelector(`#${char}`).value = color; 
+            // }); 
         }); 
 
         // apply saved colors to current tab?
@@ -98,7 +113,34 @@ document.addEventListener("DOMContentLoaded", () => {
         // and the value is the hexcode
         const colors = {}; 
         chars.split("").forEach((char) => {
-            colors[`${char}`] = document.getElementById(`${char}`).value;
+            const dropdown = document.getElementById(`${char}`);
+            const selectedColor = dropdown.querySelector('.selected-color');
+            const options = dropdown.querySelectorAll('.dropdown-option');
+
+            // toggle dropdown visibility
+            selectedColor.addEventListener("click", () => {
+                dropdown.classList.toggle("open"); 
+            });
+
+            options.forEach(option => {
+                option.addEventListener("click", () => {
+                    const color = option.getAttribute("data-value");
+                    selectedColor.style.backgroundColor = color;
+                    selectedColor.textContent = option.textContent;
+
+                    // save selected color to storage
+                    chrome.storage.sync.get(null, (data) => {
+                        data[char] = color;
+                        chrome.storage.sync.set(data, () => {
+                            console.log(`Saved color for ${char} as ${color}`); 
+                        }); 
+                    }); 
+
+                    // close dropdown
+                    dropdown.classList.remove("open"); 
+                }); 
+            }); 
+            // colors[`${char}`] = document.getElementById(`${char}`).value;
         }); 
 
         // const colorToggle = document.getElementById("toggle").checked; 
