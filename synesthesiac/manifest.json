@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3, 
+    "name": "Bookmarklet for Synesthesiacs",
+    "description": "Text Colorifyer",
+    "version": "1.0", 
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icon.png"
+    }
+}
