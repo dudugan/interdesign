@@ -1,5 +1,7 @@
 // Listen for messages from popup color selector
 chrome.runtime.onMessage.addListener((message) => {
+    console.log("Message received by content.js:", message); 
+    
     const {textColor, bgColor } = message;
 
     document.documentElement.style.setProperty("--textcolor", textColor);
