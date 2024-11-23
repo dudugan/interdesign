@@ -12,12 +12,12 @@ function applyColors(colors){
 
         // if (colorToggle){
             // edit background color based on selection
-            css += `
-            span.char-${safeChar} {
-                color: ${value} !important; 
-                background-color: 'white' !important;
-            }
-            `;
+        css += `
+        span.char-${safeChar} {
+            color: ${value} !important; 
+            background-color: 'white' !important;
+        }
+        `;
         // } else {
         //     css += `
         //     span.char-${safeChar} {

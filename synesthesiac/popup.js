@@ -7,13 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("selectors-container"); 
 
     // create selectors from character set
+    // chrome.storage.sync is a storage area provided by the chrome API consisting of simple key-value pairs
+    // execute following stuff once the data has been retrieved from storage and put into the variable 'data'
     chrome.storage.sync.get(null, (data) => {
 
         // for each character, create a color selector div
         chars.split("").forEach((char) => {
+            // create a div with the class 'selector-group'
             const div = document.createElement("div");
             div.classList.add("selector-group");
 
+            // define options for the dropdown
             const colorOptions = [
                 { name: 'black', hex: '#000000'}, 
                 { name: 'gray', hex: '#696969'}, 
@@ -70,13 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 { name: 'cyan', hex: '#008b8b'}, 
             ]
 
+            // outline inner html of the dropdown
             div.innerHTML = `
                 <label for="${char}">${char}</label>
                 <div class="custom-dropdown" id="${char}">
                     <div class="selected-color">Select Color</div>
                     <div class="dropdown-options">
                         ${colorOptions.map(option => `
-                            <div class="dropdown-option" data-value="${option.hex}" style="text-color: ${option.hex};">
+                            <div class="dropdown-option" data-value="${option.hex}" style="color: ${option.hex};">
                                 ${option.name}
                             </div>
                         `).join('')}
@@ -84,7 +89,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `; 
 
+            // append this dropdown to the selectors-container
             container.appendChild(div);
+
+            // find dropdown and 'select color' text
+            const dropdown = document.getElementById(`${char}`);
+            const selectedColor = dropdown.querySelector('.selected-color');
+
+            // toggle dropdown visibility on click of 'select color' text
+            selectedColor.addEventListener("click", () => {
+                dropdown.classList.toggle("open"); 
+            });
+
+            // for each dropdown option, add a click event listener to update that dropdown's value and 'select color' text
+            const options = dropdown.querySelectorAll('.dropdown-option');
+            options.forEach(option => {
+                option.addEventListener("click", () => {
+                    // when click an option, change its text color to the hex code, and the text to the color name
+                    const color = option.getAttribute("data-value");
+                    selectedColor.style.color = color;
+                    selectedColor.textContent = option.textContent;
+
+                    // save selected color to storage
+                    // chrome.storage.sync.get(null, (data) => {
+                    data[char] = color;
+                    // update global data with local data
+                    chrome.storage.sync.set(data, () => {
+                        console.log(`Saved color for ${char} as ${color}`); 
+                    }); 
+                    // }); 
+
+                    // close dropdown
+                    dropdown.classList.remove("open"); 
+                }); 
+            }); 
 
             // sync stored states
             // chrome.storage.sync.get([char], (data) => {
@@ -98,12 +136,13 @@ document.addEventListener("DOMContentLoaded", () => {
             // }); 
         }); 
 
-        // apply saved colors to current tab?
+        // initially apply already-saved colors to this tab
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             chrome.tabs.sendMessage(tabs[0].id, {colors: data}); 
         }); 
     }); 
 
+    // when click Apply Colors
     document.getElementById("apply-colors").addEventListener("click", (e) => {
         // prevent any other actions that would usually occur when clicking this element
         e.preventDefault(); 
@@ -113,38 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // and the value is the hexcode
         const colors = {}; 
         chars.split("").forEach((char) => {
-            const dropdown = document.getElementById(`${char}`);
-            const selectedColor = dropdown.querySelector('.selected-color');
-            const options = dropdown.querySelectorAll('.dropdown-option');
-
-            // toggle dropdown visibility
-            selectedColor.addEventListener("click", () => {
-                dropdown.classList.toggle("open"); 
-            });
-
-            options.forEach(option => {
-                option.addEventListener("click", () => {
-                    const color = option.getAttribute("data-value");
-                    selectedColor.style.backgroundColor = color;
-                    selectedColor.textContent = option.textContent;
-
-                    // save selected color to storage
-                    chrome.storage.sync.get(null, (data) => {
-                        data[char] = color;
-                        chrome.storage.sync.set(data, () => {
-                            console.log(`Saved color for ${char} as ${color}`); 
-                        }); 
-                    }); 
-
-                    // close dropdown
-                    dropdown.classList.remove("open"); 
-                }); 
-            }); 
-            // colors[`${char}`] = document.getElementById(`${char}`).value;
+            colors[`${char}`] = document.getElementById(`${char}`).value;
         }); 
-
-        // const colorToggle = document.getElementById("toggle").checked; 
-        // colors.colorToggle = colorToggle; // TODO: (how) does this work??
 
         console.log("Colors selected");
 
