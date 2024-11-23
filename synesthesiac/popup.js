@@ -154,61 +154,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // when click Apply Colors
     document.getElementById("apply-colors").addEventListener("click", (e) => {
-
         const applybutton = document.getElementById("apply-colors"); 
+
         chrome.storage.sync.get(['onoff'], function(result){
-            if (result.onoff === 0){
-                chrome.storage.sync.set({onoff: 1}, function(){
-                    console.log('onoff storage key set to 1'); 
-                }); 
-                applybutton.textContent = 'Un-Apply';
-            } else {
-                chrome.storage.sync.set({onoff: 0}, function(){
-                    console.log('onoff storage key set to 0'); 
-                }); 
-                applybutton.textContent = 'Apply'; 
-            }
-        
-            // only do all of this if the extension is actually on
-            if (result.onoff == 1){
-                // prevent any other actions that would usually occur when clicking this element
-                e.preventDefault(); 
+            const currentState = result.onoff || 0 // default to 0 if undefined
+            const newState = currentState === 0 ? 1 : 0; // flip state
 
-                // create dictionary of colors
-                // where the key is the character
-                // and the value is the hexcode
-                const colors = {}; 
-                chars.split("").forEach((char) => {
-                    colors[`${char}`] = document.getElementById(`${char}`).value;
-                }); 
+            chrome.storage.sync.set({onoff: newState}, function(){
+                console.log(`onoff storage key set to ${newState}`);
 
-                console.log("Colors selected");
+                applybutton.textContent = newState === 1 ? 'Un-Apply' : 'Apply'; 
 
-                // save colors to storage
-                chrome.storage.sync.set(colors, () => {
-                    console.log("Colors saved!"); 
-                }); 
-            
-                // apply the colors
-                chrome.tabs.query({active: true, currentWindow: true }, (tabs) => {
-                    if (tabs.length > 0){
-                        console.log("Sending message to content.js..."); 
-            
-                        // make sure script is injected even if page was loaded before extension
-                        chrome.scripting.executeScript(
-                            {
-                                target: {tabId: tabs[0].id},
-                                files: ["content.js"],
-                            }, 
-                            () => {
-                                chrome.tabs.sendMessage(tabs[0].id, {colors});
+                if (newState === 1){
+                    // prevent any other actions that would usually occur when clicking this element
+                    e.preventDefault(); 
+
+                    // create dictionary of colors
+                    // where the key is the character
+                    // and the value is the hexcode
+                    const colors = {}; 
+                    chars.split("").forEach((char) => {
+                        colors[`${char}`] = document.getElementById(`${char}`).value;
+                    }); 
+
+                    console.log("Colors selected");
+
+                    // save colors to storage
+                    chrome.storage.sync.set(colors, () => {
+                        console.log("Colors saved!"); 
+
+                        // apply the colors
+                        chrome.tabs.query({active: true, currentWindow: true }, (tabs) => {
+                            if (tabs.length > 0){
+                                console.log("Sending message to content.js..."); 
+                    
+                                // make sure script is injected even if page was loaded before extension
+                                chrome.scripting.executeScript(
+                                    {
+                                        target: {tabId: tabs[0].id},
+                                        files: ["content.js"],
+                                    }, 
+                                    () => {
+                                        chrome.tabs.sendMessage(tabs[0].id, {colors});
+                                    }
+                                )  
+                            } else {
+                                console.error("No active tabs found :("); 
                             }
-                        )  
-                    } else {
-                        console.error("No active tabs found :("); 
-                    }
-                }); 
-            }
+                        }); 
+                    });
+                } else {
+                    //un-apply colors
+                    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+                        chrome.tabs.sendMessage(tabs[0].id, {reset: true}); 
+                    })
+                }
+            }); 
         }); 
     }); 
 
