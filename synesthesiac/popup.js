@@ -156,10 +156,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const applybutton = document.getElementById("apply-colors"); 
         if (onoff == 0){
             onoff = 1; 
-            applybutton.textContent = 'Un-Apply';
+            applybutton.textContent = 'Apply';
         } else {
             onoff = 0; 
-            applybutton.textContent = 'Apply'; 
+            applybutton.textContent = 'Un-Apply'; 
         }
 
         // only do all of this if the extension is actually on
