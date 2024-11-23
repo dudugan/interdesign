@@ -5,26 +5,53 @@ function applyColors(colors){
     // css for each character
     let css = ""; 
     for (const [key, value] of Object.entries(colors)){
-        // get character and text/bg type of box
-        const [type, char] = key.split("-"); 
+        // // get character and text/bg type of box
+        // const [type, char] = key.split("-"); 
 
         // escape non-alphanumeric
-        const safeChar = char.replace(/[^a-zA-Z0-9]/g, "\\$&");
+        const safeChar = key.replace(/[^a-zA-Z0-9]/g, "\\$&");
 
-        // create spans for each
-        if (type === "text"){
-            css += `
-                span.char-${safeChar} {
-                    color: ${value} !important; 
-                }
-            `; 
-        } else if (type === "bg"){
-            css += `
+        // edit background color based on selection
+        css += `
                 span.char-${safeChar} {
                     background-color: ${value} !important; 
                 }
-            `; 
+        `; 
+        // } else if (type === "bg"){
+        //     css += `
+        //         span.char-${safeChar} {
+        //             background-color: ${value} !important; 
+        //         }
+        //     `; 
+        // }
+
+        // parse to see if would go better with white or black text
+        hex = key.replace('#', '');
+        // convert to rgb
+        const r = parseInt(hex.substring(0, 2), 16) / 255;
+        const g = parseInt(hex.substring(2, 4), 16) / 255;
+        const b = parseInt(hex.substring(4, 6), 16) / 255;
+        // get 'luminance'
+        const rgbToLuminance = (c) => {
+            // yeah i chatgpted this formula
+            return (c <= 0.03928) ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        }; 
+        // and this one
+        const luminance = 0.2126 * rgbToLuminance(r) + 0.7152 * rgbToLuminance(g) + 0.0722 * rgbToLuminance(b);
+        // TODO: change threshold?
+        let textcolor; 
+        if (luminance > 0.5){
+            textcolor = '#000000'; 
+        } else {
+            textcolor = '#ffffff'; 
         }
+
+        // edit text color to either black or white based on luminance of selection
+        css += `
+            span.char-${safeChar} {
+                color: ${textcolor} !important; 
+            }
+        `; 
     }
 
     console.log("Created css for each character"); 
