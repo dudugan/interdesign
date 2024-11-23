@@ -13,6 +13,39 @@
                 margin-top: 10px; 
                 padding: 5px 10px; 
             }
+            .switch {
+                position: relative;
+                display: inline-block;
+            }
+            /* hide default checkbox */
+            .switch input {
+                opacity: 0; 
+                width: 0; 
+                height: 0; 
+            }
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0; left: 0; right: 0; bottom: 0; 
+                background-color: #ccc;
+                transition: .4s; 
+            }
+            .slider:before {
+                position: absolute;
+                content: ""; 
+                bottom: 4px; 
+                background-color: white;
+                transition: .4s; 
+            }
+            input:checked + .slider {
+                background-color: blueviolet;
+            }
+            input:focus + .slider {
+                box-shadow: 0 0 1px blueviolet;
+            }
+            input:checked + .slider:before {
+                transform: translateX(26px); 
+            }
             .selector-group {
                 margin-bottom: 10px;
                 display: flex; 
@@ -29,6 +62,10 @@
     </head>
     <body>
         <h2>Bookmarklet for Synesthesiacs</h2>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+        </label>
         <form id="color-form">
             <div id="selectors-container">
                 <!-- popup.js will put selectors here -->

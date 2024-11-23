@@ -46,6 +46,7 @@ function applyColors(colors){
             textcolor = '#ffffff'; 
         }
 
+        // TODO: currently not working, always going to white
         // edit text color to either black or white based on luminance of selection
         css += `
             span.char-${safeChar} {
