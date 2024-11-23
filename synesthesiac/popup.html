@@ -13,16 +13,28 @@
                 margin-top: 10px; 
                 padding: 5px 10px; 
             }
+            .selector-group {
+                margin-bottom: 10px;
+                display: flex; 
+                align-items: center;
+            }
+            .selector-group label {
+                width: 20px;
+                font-weight: bold;
+                text-align: center;
+                margin-right: 10px; 
+            }
         </style>
         <script src="popup.js"></script>
     </head>
     <body>
         <h2>Bookmarklet for Synesthesiacs</h2>
-        <label for="text-color">Text Color:</label>
-        <input type="color" id="text-color" value="#ffffff"><br><br>
-        <label for="bg-color">Background Color:</label>
-        <input type="color" id="bg-color" value="#000000"><br><br>  
-        <button id="apply-colors">Apply</button>
-        <button id="reset-colors">Reset</button>
+        <form id="color-form">
+            <div id="selectors-container">
+                <!-- popup.js will put selectors here -->
+            </div>
+            <button id="apply-colors">Apply</button>
+            <button id="reset-colors">Reset</button>
+        </form>
     </body>
 </html>
