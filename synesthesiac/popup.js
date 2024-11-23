@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             colors[`bg-${char}`] = document.getElementById(`bg-${char}`).value;
         }); 
         
-        console.log("Colors selected:", { textColor, bgColor });
+        console.log("Colors selected");
 
         // save colors to storage
         chrome.storage.sync.set(colors, () => {
