@@ -7,7 +7,7 @@
         "default_popup": "popup.html",
         "default_icon": "icon.png"
     },
-    "permissions": ["scripting"], 
+    "permissions": ["activeTab", "scripting", "storage"], 
     "content_scripts": [
         {
             "js": ["content.js"],
