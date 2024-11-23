@@ -10,7 +10,7 @@
     "permissions": ["scripting"], 
     "content_scripts": [
         {
-            "js": ["scripts/content.js"],
+            "js": ["content.js"],
             "matches": [
                 "<all_urls>"
             ]
