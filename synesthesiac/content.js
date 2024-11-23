@@ -5,36 +5,52 @@ function applyColors(colors){
     // css for each character
     let css = ""; 
     for (const [key, value] of Object.entries(colors)){
+        // get character and text/bg type of box
         const [type, char] = key.split("-"); 
+
+        // escape non-alphanumeric
+        const safeChar = char.replace(/[^a-zA-Z0-9]/g, "\\$&");
+
+        // create spans for each
         if (type === "text"){
             css += `
-                span.char-${char} {
+                span.char-${safeChar} {
                     color: ${value} !important; 
                 }
             `; 
         } else if (type === "bg"){
             css += `
-                span.char-${char} {
+                span.char-${safeChar} {
                     background-color: ${value} !important; 
                 }
             `; 
         }
     }
 
+    console.log("Created css for each character"); 
+
     style.innerHTML = css; 
     document.head.appendChild(style); 
 
     // make each character have a span with its corresponding class
-    const traverser = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false); 
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false); 
     let node;
-    while ((node = traverser.nextNode())){
+    while ((node = walker.nextNode())){
         if (node.parentNode && node.nodeValue.trim()){
+            // don't wrap text already in a span
+            if (node.parentNode.tagName === "SPAN") continue; 
+
             const fragment = document.createDocumentFragment(); 
             node.nodeValue.split("").forEach((char) => {
-                const span = document.createElement("span");
-                span.textContent = char; 
-                span.className = `char-${char.toUpperCase()}`; 
-                fragment.appendChild(span); 
+                // don't wrap non-alphanumeric characters or spaces
+                if (char.trim()){
+                    const span = document.createElement("span");
+                    span.textContent = char; 
+                    span.className = `char-${char.toUpperCase().replace(/[^a-zA-Z0-9]/g, "\\$&")}`; 
+                    fragment.appendChild(span); 
+                } else {
+                    fragment.appendChild(document.createTextNode(char)); 
+                }
             }); 
             node.parentNode.replaceChild(fragment, node); 
         }

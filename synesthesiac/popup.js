@@ -23,12 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }); 
     }); 
 
-    // load saved colors from storage
-    // chrome.storage.sync.get(["textColor", "bgColor"], (data) => {
-    //     if (data.textColor) document.getElementById("text-color").value = data.textColor;
-    //     if (data.bgColor) document.getElementById("bg-color").value = data.bgColor; 
-    // }); 
-
     document.getElementById("apply-colors").addEventListener("click", (e) => {
         e.preventDefault; 
         const colors = {}; 
