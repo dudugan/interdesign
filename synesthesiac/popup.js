@@ -73,8 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <option value="#40e0d0">Turquoise</option>
                 </select>
             `; 
-            // previously in there^:
-            // ```<input type="color" id="${char}" value="${data[`${char}`] || "#000000"}">```
 
             // sync stored states
             chrome.storage.sync.get([char], (data) => {
