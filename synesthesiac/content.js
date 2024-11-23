@@ -32,30 +32,35 @@ function applyColors(colors){
     style.innerHTML = css; 
     document.head.appendChild(style); 
 
-    // make each character have a span with its corresponding class
+    // collect all text nodes first
+    const textNodes = []; 
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false); 
     let node;
     while ((node = walker.nextNode())){
         if (node.parentNode && node.nodeValue.trim()){
-            // don't wrap text already in a span
-            if (node.parentNode.tagName === "SPAN") continue; 
-
-            const fragment = document.createDocumentFragment(); 
-            node.nodeValue.split("").forEach((char) => {
-                // don't wrap non-alphanumeric characters or spaces
-                if (char.trim()){
-                    const span = document.createElement("span");
-                    span.textContent = char; 
-                    span.className = `char-${char.toUpperCase().replace(/[^a-zA-Z0-9]/g, "\\$&")}`; 
-                    fragment.appendChild(span); 
-                } else {
-                    fragment.appendChild(document.createTextNode(char)); 
-                }
-            }); 
-            node.parentNode.replaceChild(fragment, node); 
+            textNodes.push(node); 
         }
     }
-}
+
+    // process each text node on its own
+    textNodes.forEach((node) => {
+        // skip nodes already processed
+        if (node.parentNode.tagName === "SPAN") return; 
+
+        const fragment = document.createDocumentFragment(); 
+        node.nodeValue.split("").forEach((char) => {
+            // don't wrap non-alphanumeric characters or spaces
+            if (char.trim()){
+                const span = document.createElement("span");
+                span.textContent = char; 
+                span.className = `char-${char.toUpperCase().replace(/[^a-zA-Z0-9]/g, "\\$&")}`; 
+                fragment.appendChild(span); 
+            } else {
+                fragment.appendChild(document.createTextNode(char)); 
+            }
+        });
+        node.parentNode.replaceChild(fragment, node); 
+    }); 
 
 // apply currently stored colors automatically
 chrome.storage.sync.get(null, (data) => {
