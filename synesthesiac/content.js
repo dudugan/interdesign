@@ -4,28 +4,28 @@ function applyColors(colors){
 
     // css for each character
     let css = ""; 
-    const colorToggle = colors.colorToggle; 
+    // const colorToggle = colors.colorToggle; 
 
     for (const [key, value] of Object.entries(colors)){
         // escape non-alphanumeric
         const safeChar = key.replace(/[^a-zA-Z0-9]/g, "\\$&");
 
-        if (colorToggle){
+        // if (colorToggle){
             // edit background color based on selection
             css += `
             span.char-${safeChar} {
-                background-color: ${value} !important; 
-                color: 'white' !important; 
+                color: ${value} !important; 
+                background-color: 'white' !important;
             }
             `;
-        } else {
-            css += `
-            span.char-${safeChar} {
-                color: ${value} !important; 
-                background-color: 'white' !important; 
-            }
-            `; 
-        }
+        // } else {
+        //     css += `
+        //     span.char-${safeChar} {
+        //         background-color: ${value} !important; 
+        //         color: 'white' !important;
+        //     }
+        //     `; 
+        // }
     }
 
     console.log("Created css for each character"); 
