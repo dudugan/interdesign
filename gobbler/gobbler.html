@@ -7,7 +7,6 @@
         :root {
             --gamewindow: 400px; /* default size */
             --numcols: 10; /* default num_cols */
-            /* --colsize: calc(var(--gamewindow) / var(--numcols)); */
         }
         body {
             display: flex;
@@ -16,6 +15,7 @@
             height: 100vh;
             margin: 0;
             background-color: white;
+            font-family:'Lucida Sans', sans-serif;
         }
         #game {
             position: relative;
@@ -25,34 +25,90 @@
             display: grid;
             grid-template-columns: repeat(var(--numcols), 1fr);
             grid-template-rows: repeat(var(--numcols), 1fr);
+            gap: 5px; 
             border: 2px solid #333;
+            border-radius: 10px;
             margin: 20px;
         }
         #monster {
             width: 100%;
-            grid-column: 1;
-            grid-row: 1;
+            grid-column: 2;
+            grid-row: 2;
             background-size: cover;
         }
         .trash {
             width: 100%;
-            grid-column: 5;
-            grid-row: 5;
+            background-image: url('trash.png');
             background-size: cover;
+        }
+        #scoreboard {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
         }
     </style>
     <body>
+        <div id="scoreboard">0</div>
         <div id="game">
             <img id="monster" src="monster.png">
-            <img class="trash" src="trash.png">
         </div>
     </body>
     <script>
         const monster = document.getElementById('monster');
+        const game = document.getElementById('game'); 
         const gridSize = 10;
-
+        let score = 0; 
         let monsterX = 1;
         let monsterY = 1;
+        let trashBags = []; 
+
+        // remove existing trash and add new trash
+        function trashify(){
+            // remove existing trash bags
+            trashBags.forEach(trash => trash.remove());
+            trashBags = [];
+
+            // add new trash bags, not over each other
+            // create a set, the first item being the monster's position
+            const occupiedPositions = new Set([`${monsterX}-${monsterY}`]);
+            // add the new trash positions to the set
+            for (let i = 0; i < 3; i++){
+                let x, y;
+                do {
+                    x = Math.floor(Math.random() * gridSize) + 1;
+                    y = Math.floor(Math.random() * gridSize) + 1;
+                } while (occupiedPositions.has(`${x}-${y}`));
+                occupiedPositions.add(`${x}-${y}`);
+
+                const trash = document.createElement('div');
+                trash.className = 'trash';
+                trash.style.gridColumn = x;
+                trash.style.gridRow = y;
+                game.appendChild(trash);
+                trashBags.push(trash); 
+            }
+        }
+
+        // check if monster is on a trash bag
+        function checkGobble(){
+            const monsterPosition = `${monsterX}-${monsterY}`;
+            for (const trash of trashBags){
+                const trashPosition = `${trash.style.gridColumn}-${trash.style.gridRow}`;
+                if (monsterPosition === trashPosition) {
+                    trashify();
+                    addScore(); 
+                    break;
+                }
+            }
+        }
+
+        // update scoreboard
+        function addScore(){
+            score++; 
+            const scoreboard = document.getElementById('scoreboard');
+            scoreboard.innerHTML = `${score}`; 
+        }
 
         // move with WASD or arrow keys
         document.addEventListener('keydown', (event) => {
@@ -79,6 +135,9 @@
             // update position
             monster.style.gridColumn = monsterX;
             monster.style.gridRow = monsterY; 
+
+            // check for trash
+            checkGobble(); 
         });
 
         // update game window size
@@ -91,5 +150,8 @@
 
         // update size on resize
         window.addEventListener('resize', updateSize);
+
+        // generate initial trash
+        trashify(); 
     </script>
 </html>
