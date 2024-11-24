@@ -84,6 +84,8 @@
         const gridSize = 10;
         let currentScore = 0; 
         let highScore = localStorage.getItem("highScore") ? parseInt(localStorage.getItem("highScore")) : 0; 
+        document.getElementById("highscore-display").textContent = highScore;
+        document.getElementById("highscore").value = highScore;
         let monsterX = 1;
         let monsterY = 1;
         let trashBags = []; 
