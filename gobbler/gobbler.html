@@ -115,6 +115,9 @@
             trashBags.forEach(trash => trash.remove());
             trashBags = [];
 
+            const cellWidth = game.offsetWidth / gridSize;
+            const cellHeight = game.offsetHeight / gridSize;
+
             // add new trash bags, not over each other
             // create a set, the first item being the monster's position
             const occupiedPositions = new Set([`${monsterX}-${monsterY}`]);
@@ -194,7 +197,7 @@
 
         // update game window size
         function updateSize(){
-            const minDim = floor(Math.min(window.innerWidth, window.innerHeight) - 120);
+            const minDim = Math.floor(Math.min(window.innerWidth, window.innerHeight) - 120);
             document.documentElement.style.setProperty('--gamewindow', `${minDim}px`);
             document.documentElement.style.setProperty('--cell-size', `${minDim / gridSize}px`); 
         }
