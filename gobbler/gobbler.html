@@ -7,6 +7,7 @@
         :root {
             --gamewindow: 400px; /* default size */
             --numcols: 10; /* default num_cols */
+            --cell-size: calc(var(--gamewindow) / var(--numcols)); 
         }
         body {
             display: flex;
@@ -28,17 +29,20 @@
             gap: 5px; 
             border: 2px solid #333;
             border-radius: 10px;
-            margin: 20px;
-            margin-top: 40px; 
+            margin-left: 20px;
+            margin-top: 60px; 
+            margin-bottom: 60px;
         }
         #monster {
-            width: 100%;
+            width: var(--cell-size);
+            height: var(--cell-size);
             grid-column: 2;
             grid-row: 2;
             background-size: cover;
         }
         .trash {
-            width: 100%;
+            width: var(--cell-size);
+            height: var(--cell-size);
             background-image: url('trash.png');
             background-size: cover;
         }
@@ -47,7 +51,6 @@
             z-index: 1;
             top: 10px;
             left: 20px;
-            font-size: 20px;
             font-size: 15px;
         }
     </style>
@@ -192,7 +195,8 @@
         // update game window size
         function updateSize(){
             const minDim = Math.min(window.innerWidth, window.innerHeight) - 40;
-            document.documentElement.style.setProperty('--gamewindow', `${minDim}px`); 
+            document.documentElement.style.setProperty('--gamewindow', `${minDim}px`);
+            document.documentElement.style.setProperty('--cell-size', `${minDim / gridSize}px`); 
         }
 
         updateSize();
