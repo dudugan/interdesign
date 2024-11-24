@@ -41,7 +41,7 @@ function handleData(response) {
   sheetDataElement.innerHTML = '';
 
   topScores.forEach(function(item) {
-    sheetDataElement.innerHTML = item.name + ' - ' + item.score + '<br>'
+    sheetDataElement.innerHTML += item.name + ' - ' + item.score + '<br>'
 
 
     
