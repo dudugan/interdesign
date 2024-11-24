@@ -38,7 +38,7 @@ function handleData(response) {
   var sheetDataElement = document.getElementById("sheetData"); 
 
   // clear any existing content
-  sheetDataElement.innerHTML = '<em>highscores:<em><br>';
+  sheetDataElement.innerHTML = '<br><b>highscores:<b><br>';
 
   topScores.forEach(function(item) {
     sheetDataElement.innerHTML += item.name + ' - ' + item.score + '<br>'
