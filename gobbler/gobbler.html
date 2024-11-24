@@ -15,7 +15,7 @@
             height: 100vh;
             margin: 0;
             background-color: white;
-            font-family:'Lucida Sans', sans-serif;
+            font-family:Georgia, 'Times New Roman', Times, serif
         }
         #game {
             position: relative;
@@ -29,6 +29,7 @@
             border: 2px solid #333;
             border-radius: 10px;
             margin: 20px;
+            margin-top: 40px; 
         }
         #monster {
             width: 100%;
@@ -43,20 +44,22 @@
         }
         #scoreboard {
             position: fixed;
-            top: 20px;
+            z-index: 1;
+            top: 10px;
             left: 20px;
             font-size: 20px;
+            font-size: 15px;
         }
     </style>
     <body>
         <div id="scoreboard">
-            <h2>Current Score: <span id="score-display">0</span></h2>
-            <h2>High Score: <span id="highscore-display">0</span></h2>
+            current score: <span id="score-display">0</span> ||
+            high score: <span id="highscore-display">0</span>
         </div>
         <div id="game">
             <img id="monster" src="monster.png">
         </div>
-        <div id="scoresaver" style="visibility: hidden">
+        <div id="scoresaver">
             <form class="gform pure-form pure-form-stacked" method="POST">
                 <div class="form-elements">
                     <fieldset>
@@ -79,18 +82,17 @@
         const monster = document.getElementById('monster');
         const game = document.getElementById('game'); 
         const gridSize = 10;
-        let score = 0; 
+        let currentScore = 0; 
         let highScore = localStorage.getItem("highScore") ? parseInt(localStorage.getItem("highScore")) : 0; 
         let monsterX = 1;
         let monsterY = 1;
         let trashBags = []; 
 
         // update high score
-        function updateScore(){
-            if (score > highScore){
-                highScore = score;
+        function updateScore(newScore){
+            if (newScore > highScore){
+                highScore = newScore;
                 localStorage.setItem("highScore", highScore); 
-                document.getElementById("score-display").textContent = score;
                 document.getElementById("highscore-display").textContent = highScore;
                 document.getElementById("highscore").value = highScore; 
             }
@@ -150,10 +152,9 @@
 
         // update scoreboard
         function addScore(){
-            score++; 
-            const scoreboard = document.getElementById('scoreboard');
-            scoreboard.innerHTML = `${score}`; 
-            updateScore(); 
+            currentScore++; 
+            document.getElementById("score-display").textContent = currentScore;
+            updateScore(currentScore); 
         }
 
         // move with WASD or arrow keys
