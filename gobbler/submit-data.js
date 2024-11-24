@@ -3,7 +3,7 @@ function submitScore(tagName, highScore){
     data.append("name", tagName);
     data.append("score", highScore);
 
-    const scriptURL = "https://script.google.com/macros/s/YOUR_WEB_APP_URL/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwavfMsoFWbD2EfKEo4JJINTwYvKZZSUCRLE7dL5YdmNOCe3-MdffdBl9LlrtiFEmCc/exec";
 
     // send POST request to apps script endpt
     fetch(scriptURL, {
