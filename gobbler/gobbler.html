@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gobbler: a Pathfinding Game</title>
+    </head>
+    <style>
+        :root {
+            --gamewindow: 400px; /* default size */
+            --numcols: 10; /* default num_cols */
+            /* --colsize: calc(var(--gamewindow) / var(--numcols)); */
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+        #game {
+            position: relative;
+            width: var(--gamewindow);
+            height: var(--gamewindow);
+            background-color: #ddd;
+            display: grid;
+            grid-template-columns: repeat(var(--numcols), 1fr);
+            grid-template-rows: repeat(var(--numcols), 1fr);
+            border: 2px solid #333;
+            margin: 20px;
+        }
+        #monster {
+            width: 100%;
+            grid-column: 1;
+            grid-row: 1;
+            background-size: cover;
+        }
+        .trash {
+            width: 100%;
+            grid-column: 5;
+            grid-row: 5;
+            background-size: cover;
+        }
+    </style>
+    <body>
+        <div id="game">
+            <img id="monster" src="monster.png">
+            <img class="trash" src="trash.png">
+        </div>
+    </body>
+    <script>
+        const monster = document.getElementById('monster');
+        const gridSize = 10;
+
+        let monsterX = 1;
+        let monsterY = 1;
+
+        // move with WASD or arrow keys
+        document.addEventListener('keydown', (event) => {
+            switch (event.key){
+                case 'ArrowUp':
+                case 'w': // up
+                    if (monsterY > 1) monsterY--; 
+                    break; 
+                case 'ArrowLeft':
+                case 'a': // left
+                    if (monsterX > 1) monsterX--; 
+                    break; 
+                case 'ArrowDown':
+                case 's': // down
+                    if (monsterY < gridSize) monsterY++;
+                    break; 
+                case 'ArrowRight':
+                case 'd': // right
+                    if (monsterX < gridSize) monsterX++;
+                    break; 
+                default:
+                    return; 
+            }
+            // update position
+            monster.style.gridColumn = monsterX;
+            monster.style.gridRow = monsterY; 
+        });
+
+        // update game window size
+        function updateSize(){
+            const minDim = Math.min(window.innerWidth, window.innerHeight) - 40;
+            document.documentElement.style.setProperty('--gamewindow', `${minDim}px`); 
+        }
+
+        updateSize();
+
+        // update size on resize
+        window.addEventListener('resize', updateSize);
+    </script>
+</html>
