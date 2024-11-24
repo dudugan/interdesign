@@ -49,9 +49,29 @@
         }
     </style>
     <body>
-        <div id="scoreboard">0</div>
+        <div id="scoreboard">
+            <h2>Current Score: <span id="score-display">0</span></h2>
+            <h2>High Score: <span id="highscore-display">0</span></h2>
+        </div>
         <div id="game">
             <img id="monster" src="monster.png">
+        </div>
+        <div id="scoresaver" style="visibility: hidden">
+            <form class="gform pure-form pure-form-stacked" method="POST">
+                <div class="form-elements">
+                    <fieldset>
+                        <label for="name">Name: </label>
+                        <input id="name" name="name" placeholder="What your Mom calls you">
+                    </fieldset>
+                    <fieldset>
+                        <label for="score">High Score: </label>
+                        <input id="highscore" name="highscore" type="number" placeholder="You have to play first!" readonly>
+                    </fieldset>
+                    <button type="button" class="button-success pure-button button-xlarge" onclick="submitGameScore()">
+                        Submit Score
+                    </button>
+                </div>
+            </form>
         </div>
         <script data-cfasync="false" src="submit-data.js"></script>
     </body>
@@ -60,9 +80,27 @@
         const game = document.getElementById('game'); 
         const gridSize = 10;
         let score = 0; 
+        let highScore = localStorage.getItem("highScore") ? parseInt(localStorage.getItem("highScore")) : 0; 
         let monsterX = 1;
         let monsterY = 1;
         let trashBags = []; 
+
+        // update high score
+        function updateScore(){
+            if (score > highScore){
+                highScore = score;
+                localStorage.setItem("highScore", highScore); 
+                document.getElementById("score-display").textContent = score;
+                document.getElementById("highscore-display").textContent = highScore;
+                document.getElementById("highscore").value = highScore; 
+            }
+        }
+
+        // submit score
+        function submitGameScore(){
+            const tagName = document.getElementById("name").value;
+            submitScore(tagName, highScore); 
+        }
 
         // remove existing trash and add new trash
         function trashify(){
@@ -115,6 +153,7 @@
             score++; 
             const scoreboard = document.getElementById('scoreboard');
             scoreboard.innerHTML = `${score}`; 
+            updateScore(); 
         }
 
         // move with WASD or arrow keys

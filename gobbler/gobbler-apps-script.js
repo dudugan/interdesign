@@ -3,7 +3,6 @@
 function sanitizeInput(rawInput) {
    var placeholder = HtmlService.createHtmlOutput(" ");
    placeholder.appendUntrusted(rawInput);
-  
    return placeholder.getContent();
  }
 
