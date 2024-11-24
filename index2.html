@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ART 369: Software for People</title>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <style>
         body {
@@ -30,10 +29,6 @@
                 overflow-x: scroll; 
                 overscroll-behavior: none;
                 flex-wrap: nowrap;
-            }
-            .row {
-                flex: 0 0 100vw; 
-                height: 100vh;
             }
         }
 
@@ -119,49 +114,18 @@
                 </details>
                 </div>
         </div>
-    </body>
-    <script>
-        // click div -> go page
-        function go(filePath){
-            window.open(filePath, '_blank'); 
-        }
-
-        // arrow flash
-        const arrow = document.getElementById('arrow');
-        function toggleArrow(){
-            arrow.style.visibility = arrow.style.visibility === 'visible' ? 'hidden' : 'visible';
-        }
-        setInterval(toggleArrow, 500); // twice per second
-
-        // scroll down on mobile -> scroll left
-        // if (window.innerWidth <= 700){
-        //     let isScrolling = false;
-        //     const container = document.querySelector('.container'); 
-        //     window.addEventListener('wheel', (e) => {
-        //         // prevent vertical scrolling
-        //         e.preventDefault(); 
-
-        //         if (!isScrolling) {
-        //             isScrolling = true;
-        //             const scrollDirection = e.deltaY > 0 ? 1 : -1;
-        //             container.scrollLeft += scrollDirection * 100; // speed
-
-        //             // allow ease
-        //             setTimeout(() => {
-        //                 isScrolling = false; 
-        //             }, 200); // set to match scroll speed for ease
-        //         }
-        //     }); 
-        // }
-
-        $(function() {
-            if (window.innerWidth <= 700){
-                $(".container").mousewheel(function(event, delta) {
-                    this.scrollLeft -= (delta * 50);
-                    event.preventDefault();
-                });
+        <script>
+            // click div -> go page
+            function go(filePath){
+                window.open(filePath, '_blank'); 
             }
-            
-        }); 
-    </script>
+    
+            // arrow flash
+            const arrow = document.getElementById('arrow');
+            function toggleArrow(){
+                arrow.style.visibility = arrow.style.visibility === 'visible' ? 'hidden' : 'visible';
+            }
+            setInterval(toggleArrow, 500); // twice per second
+        </script>
+    </body>
 </html>
