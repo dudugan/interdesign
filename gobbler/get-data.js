@@ -23,7 +23,16 @@ function getData(url) {
 // this function prints the data to the HTML page.
 function handleData(response) {
   response.sort((a, b) => b.score - a.score); // sort by score
-  const topScores = response.slice(0, 10); // top 10 scores
+
+  // to filter out duplicates
+  const uniqueScores = {};
+  response.forEach(function(item) {
+    if (!uniqueScores[item.name] || uniqueScores[item.name].score < item.score){
+      uniqueScores[item.name] = item;
+    }
+  })
+
+  const topScores = Object.values(uniqueScores).slice(0, 5); // top 5 scores
 
   // get element where scores will be displayed
   var sheetDataElement = document.getElementById("sheetData"); 
@@ -34,12 +43,6 @@ function handleData(response) {
   topScores.forEach(function(item, index) {
     // create a new <li> element
     var listItem = document.createElement("li");
-
-    // create and append rank number
-    var rankDiv = document.createElement("div");
-    rankDiv.className = "rank";
-    rankDiv.innerHTML = "#" + (index + 1); 
-    listItem.appendChild(rankDiv); 
 
     // create and append player name
     var nameDiv = document.createElement("div");
