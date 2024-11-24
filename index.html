@@ -15,6 +15,7 @@
             /* overflow-x: hidden; */
             transition: scroll-left 0.5s ease;
             overscroll-behavior: none;
+            font-size: 1.2rem;
         }
 
         /* mobile */
@@ -29,6 +30,12 @@
                 overflow-x: scroll; 
                 overscroll-behavior: none;
                 flex-wrap: nowrap;
+            }
+        }
+
+        @media only screen and (min-width: 701px){
+            .container {
+                height: 150vh; /* so you have to scroll */
             }
         }
 
