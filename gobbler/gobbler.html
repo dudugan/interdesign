@@ -7,7 +7,7 @@
         :root {
             --gamewindow: 400px; /* default size */
             --numcols: 10; /* default num_cols */
-            --cell-size: calc(var(--gamewindow) / var(--numcols)); 
+            --cell-size: calc(floor(var(--gamewindow) / var(--numcols))); 
         }
         body {
             display: flex;
