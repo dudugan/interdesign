@@ -53,28 +53,59 @@
             left: 20px;
             font-size: 15px;
         }
+        #countdown {
+            position: fixed;
+            z-index: 1;
+            top: 10px;
+            right: 20px;
+            font-size: 15px;
+        }
+        .popup {
+            position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+        }
+        #end {
+            display: none;
+        }
+        #start {
+            display: block;
+        }
     </style>
     <body>
         <div id="scoreboard">
             current score: <span id="score-display">0</span> ||
             high score: <span id="highscore-display">0</span>
         </div>
+        <div id="countdown">
+            time left: <span id="countdown-display">60</span>s
+        </div>
         <div id="game">
             <img id="monster" src="monster.png">
         </div>
-        <div id="scoresaver">
+        <div class="popup" id="start">
+            <h3>gobbler: a timed pathfinding game</h3>
+            <p>test your instincts</p>
+            <button onclick="startGame()">start game</button>
+        </div>
+        <div class="popup" id="end">
+            <h3>game over</h3>
             <form class="gform pure-form pure-form-stacked" method="POST">
                 <div class="form-elements">
                     <fieldset>
-                        <label for="name">Name: </label>
+                        <label for="name">name: </label>
                         <input id="name" name="name" placeholder="What your Mom calls you">
                     </fieldset>
                     <fieldset>
-                        <label for="score">High Score: </label>
+                        <label for="score">highscore: </label>
                         <input id="highscore" name="highscore" type="number" placeholder="You have to play first!" readonly>
                     </fieldset>
+                    <button onclick="startGame()">play again</button>
                     <button type="button" class="button-success pure-button button-xlarge" onclick="submitGameScore()">
-                        Submit Score
+                        submit score
                     </button>
                 </div>
             </form>
@@ -92,6 +123,33 @@
         let monsterX = 1;
         let monsterY = 1;
         let trashBags = []; 
+        let gameOver = false; 
+
+        // start game
+        function startGame(){
+            document.getElementById("start").style.display = 'none';
+            document.getElementById("end").style.display = 'none';
+            updateSize();
+            trashify();
+            startCountdown(); 
+        }
+
+        // countdown timer
+        let timeLeft = 60;
+        const countdownDisplay = document.getElementById('countdown-display');
+        let countdownInterval;
+        function startCountdown(){
+            countdownInterval = setInterval(() => {
+                if (gameOver) {clearInterval(countdownInterval); return;}
+                timeLeft--;
+                countdownDisplay.textContent = timeLeft;
+                if (timeLeft <= 0){
+                    clearInterval(countdownInterval);
+                    gameOver = true; 
+                    document.getElementById('end').style.display = 'block';
+                }
+            }, 1000); 
+        }
 
         // update high score
         function updateScore(newScore){
