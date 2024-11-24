@@ -41,19 +41,23 @@ function handleData(response) {
   sheetDataElement.innerHTML = '';
 
   topScores.forEach(function(item, index) {
+
+
+
+    
     // create a new <li> element
-    var listItem = document.createElement("li");
+    var listItem = document.createElement("p");
 
     // create and append player name
-    var nameDiv = document.createElement("div");
+    var nameDiv = document.createElement("span");
     nameDiv.className = "name";
     nameDiv.innerHTML = item.name;
     listItem.appendChild(nameDiv); 
 
     // create and append player score
-    var scoreDiv = document.createElement("div");
+    var scoreDiv = document.createElement("span");
     scoreDiv.className = "score";
-    scoreDiv.innerHTML = item.score;
+    scoreDiv.innerHTML = ' - ' + item.score;
     listItem.appendChild(scoreDiv); 
 
     // Append the <li> element to the "sheetData" element
