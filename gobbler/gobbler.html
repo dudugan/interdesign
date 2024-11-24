@@ -7,7 +7,7 @@
         :root {
             --gamewindow: 400px; /* default size */
             --numcols: 10; /* default num_cols */
-            --cell-size: calc(floor(var(--gamewindow) / var(--numcols))); 
+            --cell-size: calc(var(--gamewindow) / var(--numcols)); 
         }
         body {
             display: flex;
@@ -194,7 +194,7 @@
 
         // update game window size
         function updateSize(){
-            const minDim = Math.min(window.innerWidth, window.innerHeight) - 40;
+            const minDim = floor(Math.min(window.innerWidth, window.innerHeight) - 120);
             document.documentElement.style.setProperty('--gamewindow', `${minDim}px`);
             document.documentElement.style.setProperty('--cell-size', `${minDim / gridSize}px`); 
         }
