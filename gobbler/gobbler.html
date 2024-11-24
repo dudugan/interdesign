@@ -105,9 +105,11 @@
                         <input id="highscore" name="highscore" type="number" placeholder="You have to play first!" readonly>
                     </fieldset>
                     <button onclick="startGame()">play again</button>
-                    <button type="button" class="button-success pure-button button-xlarge" onclick="submitGameScore()">
+                    <button type="button" id="submit-score" class="button-success pure-button button-xlarge" 
+                    onclick="submitGameScore()">
                         submit score
                     </button>
+                    <div id="submitmessage"></div>
                 </div>
             </form>
         </div>
@@ -126,6 +128,9 @@
         let monsterY = 1;
         let trashBags = []; 
         let gameOver = false; 
+
+        // get initial data
+        getData(AppScriptUrl);
 
         // start game
         function startGame(){
@@ -152,6 +157,11 @@
                 if (timeLeft <= 0){
                     clearInterval(countdownInterval);
                     gameOver = true; 
+                    getData(AppScriptUrl);
+                    const submitButton = document.getElementById("submit-score");
+                    const submitMessage = document.getElementById("submitmessage");
+                    submitButton.disabled = false; 
+                    submitMessage.textContent = '';
                     document.getElementById('end').style.display = 'block';
                 }
             }, 1000); 
@@ -170,7 +180,15 @@
         // submit score
         function submitGameScore(){
             const tagName = document.getElementById("name").value;
-            submitScore(tagName, highScore); 
+            const submitMessage = document.getElementById("submitmessage");
+            const submitButton = document.getElementById("submit-score");
+            if (highScore <= 0 || tagName.trim() === ''){
+                submitMessage.textContent = 'please enter your name and a valid score before submitting.';
+                return; 
+            }
+            submitButton.disabled = true; 
+            submitScore(tagName, highScore);
+            getData(AppScriptUrl); 
         }
 
         // remove existing trash and add new trash
