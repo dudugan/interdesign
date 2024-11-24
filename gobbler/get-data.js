@@ -38,30 +38,10 @@ function handleData(response) {
   var sheetDataElement = document.getElementById("sheetData"); 
 
   // clear any existing content
-  sheetDataElement.innerHTML = '';
+  sheetDataElement.innerHTML = '<em>highscores:<em><br>';
 
   topScores.forEach(function(item) {
     sheetDataElement.innerHTML += item.name + ' - ' + item.score + '<br>'
-
-
-    
-    // // create a new <li> element
-    // var listItem = document.createElement("p");
-
-    // // create and append player name
-    // var nameDiv = document.createElement("span");
-    // nameDiv.className = "name";
-    // nameDiv.innerHTML = item.name;
-    // listItem.appendChild(nameDiv); 
-
-    // // create and append player score
-    // var scoreDiv = document.createElement("span");
-    // scoreDiv.className = "score";
-    // scoreDiv.innerHTML = ' - ' + item.score;
-    // listItem.appendChild(scoreDiv); 
-
-    // // Append the <li> element to the "sheetData" element
-    // sheetDataElement.appendChild(listItem);
   });
 }
 
