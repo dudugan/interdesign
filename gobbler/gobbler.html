@@ -225,6 +225,7 @@
 
         // move with WASD or arrow keys
         document.addEventListener('keydown', (event) => {
+            if (gameOver) return; // no movement when not playing 
             switch (event.key){
                 case 'ArrowUp':
                 case 'w': // up
