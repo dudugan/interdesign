@@ -40,7 +40,7 @@ function handleData(response) {
   // clear any existing content
   sheetDataElement.innerHTML = '';
 
-  topScores.forEach(function(item, index) {
+  topScores.forEach(function(item) {
     sheetDataElement.innerHTML = item.name + ' - ' + item.score + '<br>'
 
 
