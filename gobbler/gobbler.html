@@ -132,6 +132,10 @@
             updateSize();
             trashify();
             startCountdown(); 
+            // play soundtrack
+            var soundtrack = new Audio('soundtrack.mp3');
+            soundtrack.volume = 0.1; 
+            soundtrack.play(); 
         }
 
         // countdown timer
