@@ -96,7 +96,12 @@
             for (const trash of trashBags){
                 const trashPosition = `${trash.style.gridColumn}-${trash.style.gridRow}`;
                 if (monsterPosition === trashPosition) {
+                    // play audio
+                    var yum = new Audio('yum.mp3');
+                    yum.play(); 
+                    // new trash
                     trashify();
+                    // increment score
                     addScore(); 
                     break;
                 }
