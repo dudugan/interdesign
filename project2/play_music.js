@@ -114,7 +114,7 @@ function initializeAudio(){
     // TODO: call changeLevels to initialize levels
 
 
-
+    console.log(`full chord list: ${chordList}`); 
     initialized = true; 
 }
 
@@ -189,6 +189,8 @@ function playDna(measure){
             break; 
     }
 
+    console.log(`Trying to play ${thischord} 
+        with ${thissynth} at octave ${thisoctave}`);
     // play chord with synth
     thischord.synthate(thissynth, thisoctave); 
 }
