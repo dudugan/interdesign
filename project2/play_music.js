@@ -145,7 +145,7 @@ function startAudio(){
     // play dna, passing in measure as argument
     Tone.Transport.scheduleRepeat(() => {
         // get current measure number (starting at 0?)
-        const measure = measure = parseInt(Tone.Transport.position.split(':')[0], 10);
+        const measure = parseInt(Tone.Transport.position.split(':')[0], 10);
         console.log(`measure: ${measure}`); 
         playDna(measure);
     }, "1m"); // once every measure
@@ -153,7 +153,7 @@ function startAudio(){
     // play heartbeat
     Tone.Transport.scheduleRepeat(() => {
         // get current measure number (starting at 0?)
-        const measure = measure = parseInt(Tone.Transport.position.split(':')[0], 10);
+        const measure = parseInt(Tone.Transport.position.split(':')[0], 10);
         console.log(`measure: ${measure}`);
         playHeartbeat(measure); // bc need a separate fxn to shift pitch
     }, "2n"); // twice every measure
