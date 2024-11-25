@@ -28,14 +28,28 @@
                     <button id="select" class="boop"></button>
                     <label>upload organism</label>
                     <input type="file" id="upload">
-                    <label for="upload" id="uploadButton" class="boop"></label>
+                    <button id="uploadButton" class="boop"></button>
                     <label>play</label>
-                    <button id="play" class="boop"></button>
+                    <button id="play" class="boop" onclick="startAudio()"></button>
                 </div>
             </div>
             <button class="normal-button">about</button>
             <button class="normal-button">how to use</button>
             <button class="normal-button">other function</button>
         </div>
+        <script>
+            const fileInput = document.getElementById('upload');
+            const uploadButton = document.getElementById('uploadButton');
+
+            // when click upload button, it's as if you click the file input
+            uploadButton.addEventListener('click', () => {
+                fileInput.click();
+            }); 
+
+            // when file selected, process it
+            fileInput.addEventListener('change', () => {
+                processFile();
+            }); 
+        </script>
     </body>
 </html>

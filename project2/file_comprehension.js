@@ -20,6 +20,7 @@ function Chord(root, type){
 
 // ** READS DNA FILE INTO LIST OF CHORD OBJECTS **
 async function processFile(){
+    // TODO: do I really need this?
     const fileInput = document.getElementById('upload'); 
 
     // check for file existence
