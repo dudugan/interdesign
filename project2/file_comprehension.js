@@ -74,7 +74,7 @@ function createDnaList(text){
         let char2, char3;
         
         // initialize eventual chord progression (and push Am)
-        let chord1 = new Chord("A", "min");
+        let chord1 = new Chord("A", 0);
         chordList.push(chord1); 
         let chord2, chord3, chord4;
 
@@ -83,16 +83,16 @@ function createDnaList(text){
         // set second chord
         switch (char1){
             case 'A':
-                chord2 = new Chord("F", "maj");
+                chord2 = new Chord("F", 1);
                 break;
             case 'C':
-                chord2 = new Chord("G", "maj");
+                chord2 = new Chord("G", 1);
                 break;
             case 'G':
-                chord2 = new Chord("B", "maj");
+                chord2 = new Chord("B", 1);
                 break;
             case 'T':
-                chord2 = new Chord("F", "min");
+                chord2 = new Chord("F", 0);
                 break;
             default:
                 reportUnrecognized();
@@ -132,7 +132,7 @@ function createDnaList(text){
         } 
         // if no second or third character
         else {
-            chord3 = new Chord("A", "min");
+            chord3 = new Chord("A", 0);
             char2 = '-'; 
         }
 
@@ -173,7 +173,7 @@ function createDnaList(text){
         } 
         // if no third character
         else {
-            chord4 = new Chord("A", "min");
+            chord4 = new Chord("A", 0);
             char3 = '-'; 
         }
 
