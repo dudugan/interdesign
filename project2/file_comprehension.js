@@ -18,8 +18,7 @@ function Chord(root, type){
     }
 
     // methods (use functions in play_music)
-    this.synthate = synthate;
-    // this.arpeggiate = arpeggiate;
+    this.play = synthate;
 }
 
 /* 
