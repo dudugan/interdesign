@@ -189,7 +189,7 @@ function playDna(measure){
             break; 
     }
 
-    console.log(`Trying to play ${thischord} 
+    console.log(`Trying to play ${thischord.root}${thischord.type} 
         with ${thissynth} at octave ${thisoctave}`);
     // play chord with synth
     thischord.synthate(thissynth, thisoctave); 
