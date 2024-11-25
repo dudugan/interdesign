@@ -158,7 +158,7 @@
         </div>
         <div class="popup" id="end">
             <h3>game over</h3>
-            <form class="gform pure-form pure-form-stacked" method="POST">
+            <form id="scoreForm" class="gform pure-form pure-form-stacked" method="POST">
                 <div class="form-elements">
                     <fieldset>
                         <label for="name">name: </label>
@@ -275,6 +275,7 @@
             submitScore(tagName, highScore);
             getData(AppScriptUrl); 
             submitMessage.textContent = 'score submitted!';
+            document.getElementById('scoreForm').reset();
         }
 
         // remove existing trash and add new trash
