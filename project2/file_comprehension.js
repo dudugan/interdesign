@@ -1,16 +1,19 @@
+// initialize fileContent and chordList globally within this function
+let fileContent = "";
+
 // ** CONSTRUCTS CHORD OBJECTS **
 // to create a new chord: "const chord1 = new Chord("C", "maj");"
 function Chord(root, type){
     // properties
     this.root = root;
-    this.type = type; // maj/min
-    this.fifth = move(root, 7); // 7 bc we're moving in half-steps
-    if (this.type == 'maj'){
-        this.third = move(root, 4); 
-        this.seventh = move(root, 11); 
-    } else if (this.type == 'min'){
-        this.third = move(root, 3); 
-        this.seventh = move(root, 10); 
+    this.type = type; // maj = 1; min = 0
+    this.fifth = move(root, 7, 0); // 7 bc we're moving in half-steps
+    if (this.type == 1){
+        this.third = move(root, 4, 0); 
+        this.seventh = move(root, 11, 0); 
+    } else if (this.type == 0){
+        this.third = move(root, 3, 0); 
+        this.seventh = move(root, 10, 0); 
     }
 
     // methods (use functions in play_music)
@@ -18,7 +21,7 @@ function Chord(root, type){
     this.arpeggiate = arpeggiate;
 }
 
-// ** READS DNA FILE INTO LIST OF CHORD OBJECTS **
+// ** READS IN DNA FILE **
 async function processFile(){
     // TODO: do I really need this?
     const fileInput = document.getElementById('upload'); 
@@ -35,9 +38,143 @@ async function processFile(){
     // runs whenever the reader is done reading the file content
     reader.onload = async function(event){
         fileContent = event.target.result;
+        createDnaList(fileContent);
         initializeAudio(); 
     }
 
     // reads the file content
     reader.readAsText(file); 
+}
+
+// ** REPORTS UNRECOGNIZED CHARACTERS IN INPUT FILE
+function reportUnrecognized(){
+    console.error("unrecognized character in input file");
+    alert("unrecognized character in input file"); 
+    return; 
+}
+
+// ** TRANSFERS DNA FILE TEXT CONTENT INTO LIST OF CHORD OBJECTS **
+function createDnaList(text){
+    // initialize chordList as an empty array
+    let chordList = [];
+
+    // for every three chars in fileContent, create a 4-chord progression
+    for (let i = 0; i < text.length; i+3){
+        // initialize nucleotides
+        let char1 = text[i];
+        let char2;
+        let char3;
+        
+        // initialize eventual chord progression (and push Am)
+        let chord1 = new Chord("A", "min");
+        chordList.push(chord1); 
+        let chord2;
+        let chord3;
+        let chord4; 
+
+        // set second chord
+        switch (char1){
+            case 'A':
+                chord2 = new Chord("F", "maj");
+                break;
+            case 'C':
+                chord2 = new Chord("G", "maj");
+                break;
+            case 'G':
+                chord2 = new Chord("B", "maj");
+                break;
+            case 'T':
+                chord2 = new Chord("F", "min");
+                break;
+            default:
+                reportUnrecognized();
+                return; 
+        }
+
+        // only read third chord if char2 exists
+        if (text[i+1]){
+            char2 = text[i+1];
+
+            // set third chord
+            switch (char2){
+                case 'A':
+                    // up a 5th, major
+                    root3 = move(chord2.root, 4, 1); 
+                    chord3 = new Chord(root3, 1);
+                    break;
+                case 'C':
+                    // moves down one, flips type
+                    root3 = move(chord2.root, -1, 1); 
+                    chord3 = new Chord(root3, 1 - chord2.type);
+                    break;
+                case 'G':
+                    // moves up one, flips type
+                    root3 = move(chord2.root, 1, 1); 
+                    chord3 = new Chord(root3, 1 - chord2.type);
+                    break;
+                case 'T':
+                    // up a 5th, minor
+                    root3 = move(chord2.root, 4, 1); 
+                    chord3 = new Chord(root3, 0);
+                    break;
+                default:
+                    reportUnrecognized();
+                    return; 
+            }
+        } 
+        // if no second or third character
+        else {
+            chord3 = new Chord("A", "min");
+        }
+
+        // only read chord4 if char3 exists
+        if (text[i+2]){
+            char3 = text[i+2];
+            // set fourth chord
+            switch (char3){
+                case 'A':
+                    // if chord3 was major, duplicate it
+                    if (chord3.type === 1){
+                        chord4 = new Chord(chord3.root, 1);
+                    } 
+                    // otherwise move up a 3rd, major
+                    else {
+                        root4 = move(chord3.root, 2, 1);
+                        chord4 = new Chord(root4, 1); 
+                    }
+                    break;
+                case 'C':
+                    // moves down one, flips type
+                    root4 = move(chord3.root, -1, 1); 
+                    chord4 = new Chord(root4, 1 - chord3.type);
+                    break;
+                case 'G':
+                    // moves up one, flips type
+                    root4 = move(chord3.root, 1, 1); 
+                    chord4 = new Chord(root4, 1 - chord3.type);
+                    break;
+                case 'T':
+                    // flips type
+                    chord4 = new Chord(chord3.root, 1 - chord3.type);
+                    break;
+                default:
+                    reportUnrecognized();
+                    return; 
+            }
+        } 
+        // if no third character
+        else {
+            chord4 = new Chord("A", "min");
+        }
+
+        chordList.push(chord2);
+        chordList.push(chord3);
+        chordList.push(chord4);
+
+        console.log(`mapped ${char1}${char2}${char3} to 
+            progression A0-${chord2.root}${chord2.type}-
+            ${chord3.root}${chord3.type}-${chord4.root}${chord4.type}`); 
+    } 
+
+    return chordList;
 }
