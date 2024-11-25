@@ -42,7 +42,22 @@ INITIALIZES AUDIO FILES AND INSTRUMENTS
 but doesn't start yet
 */
 function initializeAudio(){
+    console.log("Initializing Audio...")
+    
 
+
+
+    // ...call changeLevels at the end to initialize levels
+}
+
+/* 
+CHANGES VOLUME OF VARIOUS SFX & THE PROPERTIES OF OUR SYNTHS
+called with user input on the sliders
+*/
+function changeLevels(){
+    // 1. get cave, forest, sea, desert slider values
+    // 2. use them
+    console.log("Changing Levels...")
 }
 
 /* 
