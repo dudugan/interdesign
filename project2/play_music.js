@@ -4,6 +4,17 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
 
+// initialize bpm
+let bpm = 60;
+
+// initialize all synths
+let poly; 
+
+// initialize heartbeat
+let heartbeat; 
+
+// initialize all other sounds
+
 /* 
 MOVES BETWEEN NOTES
 state: 0 -> chromatic
@@ -54,7 +65,7 @@ function synthate(synth, octave){
 ARPEGGIATES CHORD ON GIVEN INSTRUMENT IN A GIVEN OCTAVE
 */
 function arpeggiate(instr, octave){
-    
+
 }
 
 /* 
@@ -109,7 +120,16 @@ function changeLevels(){
 STARTS TIMER AND ALL PLAYSOMETHING FUNCTIONS
 */
 function startAudio(){
+    // set bpm
+    Tone.Transport.bpm.value = bpm;
+    
+    // create dna player
+    playDna(); 
 
+    // create other players
+
+    // start Transport clock
+    Tone.Transport.start(); 
 }
 
 /*
@@ -120,6 +140,14 @@ starts with low, far-off, contemplative, wash-y synths
 which become high, fuzzy, noisy-ish synths
 */
 function playDna(){
+
+    // repeating event
+    Tone.Transport.scheduleRepeat((time) => {
+        const dnaMeasure = (time) => {
+            console.log(`dnaMeasure triggered at time: ${time}`);
+            synthate(poly, 4);
+        }
+    }, "4n"); // repeats every 4n (aka 1m)
 
 }
 
@@ -148,7 +176,10 @@ potentially arpeggios
 at ~1:00, 2:00, 2:45
 */
 function playFlourish(){
-
+    // non-repeating event
+    Tone.Transport.schedule(() => {
+        // do something
+    }, 1000); // after a certain time
 }
 
 /* 
