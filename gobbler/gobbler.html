@@ -275,7 +275,6 @@
             submitScore(tagName, highScore);
             getData(AppScriptUrl); 
             submitMessage.textContent = 'score submitted!';
-            document.getElementById('scoreForm').reset();
         }
 
         // remove existing trash and add new trash
@@ -382,6 +381,7 @@
 
         // click div -> go page
         function go(filePath){
+            document.getElementById('scoreForm').reset();
             window.location.href = filePath; 
         }
     </script>
