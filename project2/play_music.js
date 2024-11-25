@@ -38,16 +38,61 @@ function move(start, n, state){
 }
 
 /* 
+PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE
+*/
+function synthate(synth, octave){
+    console.log(`Attempting to play chord ${this.root}${this.type}`);
+    let arr = [];
+    arr.push(this.root + String(octave));
+    arr.push(this.third + String(octave));
+    arr.push(this.fifth + String(octave));
+    arr.push(this.seventh + String(octave));
+    synth.triggerAttackRelease(arr, '1m');
+}
+
+/* 
+ARPEGGIATES CHORD ON GIVEN INSTRUMENT IN A GIVEN OCTAVE
+*/
+function arpeggiate(instr, octave){
+    
+}
+
+/* 
 INITIALIZES AUDIO FILES AND INSTRUMENTS
 but doesn't start yet
 */
 function initializeAudio(){
     console.log("Initializing Audio...")
     
+    // TODO: add all other synths
+    poly = new Tone.PolySynth(Tone.FMSynth,{
+        // set ADSR
+        envelope: {
+            attack: '2n',
+            release: '2n'
+        }
+    }); 
+    poly.toDestination();
+    console.log("initialized polysynth");
+    
+    // initialize heartbeat
+    heartbeat = new Tone.Sampler({
+        F3: "heartbeat.wav",
+    }, () => {
+        console.log("heartbeat loaded")
+    }).toDestination(); 
 
+    // TODO: add all other samples
+    crickets = new Tone.Sampler({
+        F3: "sfx/crickets.wav",
+    }, () => {
+        console.log("crickets loaded")
+    }).toDestination(); 
 
+    // TODO: set volumes
+    poly.volume.value = -5; 
 
-    // ...call changeLevels at the end to initialize levels
+    // TODO: call changeLevels to initialize levels
 }
 
 /* 
@@ -58,20 +103,6 @@ function changeLevels(){
     // 1. get cave, forest, sea, desert slider values
     // 2. use them
     console.log("Changing Levels...")
-}
-
-/* 
-PLAYS CHORD ON GIVEN SYNTH
-*/
-function synthate(synth){
-    // play this.chord, this.third, etc. 
-}
-
-/* 
-ARPEGGIATES CHORD ON GIVEN INSTRUMENT
-*/
-function arpeggiate(instr){
-
 }
 
 /* 
