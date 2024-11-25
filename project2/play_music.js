@@ -26,6 +26,10 @@ function initializeAudio(){
 
 }
 
+function startAudio(){
+    
+}
+
 function synthate(chord){
 
 }

@@ -4,6 +4,8 @@ body {
     align-items: center;
     height: 100vh;
 }
+
+/* CONTAINER AND SUB-ELEMENTS */
 #container {
     border: 2px solid black;
     border-radius: 5px;
@@ -46,7 +48,14 @@ body {
     width: 30px;
     height: 30px;
 }
-button:hover {
+button:hover, #uploadButton:hover {
     background-color: pink;
     cursor: pointer;
+}
+input[type = "file"] {
+    display: none; 
+}
+#uploadButton {
+    display: inline-block;
+    
 }
