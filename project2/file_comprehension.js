@@ -47,7 +47,7 @@ async function processFile(){
         fileContent = event.target.result;
         
         // populate chordList
-        createDnaList();
+        createDnaList(fileContent);
 
         // initialize audio
         initializeAudio(); 
