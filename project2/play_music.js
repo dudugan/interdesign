@@ -11,7 +11,7 @@ let poly;
 let heartbeat; 
 
 // initialize all other sounds
-
+let crickets, scrub; 
 
 let initialized = false; 
 
@@ -94,13 +94,13 @@ function initializeAudio(){
     }).toDestination(); 
 
     // TODO: add all other samples
-    const crickets = new Tone.Player({
+    crickets = new Tone.Player({
         url: "sfx/crickets.wav", 
         loop: true,
         autostart: false
     }).toDestination();
 
-    const scrub = new Tone.Player({
+    scrub = new Tone.Player({
         url: "sfx/scrub.wav", 
         loop: false,
         autostart: false
