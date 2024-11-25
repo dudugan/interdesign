@@ -38,7 +38,7 @@ async function processFile(){
     // runs whenever the reader is done reading the file content
     reader.onload = async function(event){
         fileContent = event.target.result;
-        createDnaList(fileContent);
+        createDnaList();
         initializeAudio(); 
     }
 
@@ -55,9 +55,6 @@ function reportUnrecognized(){
 
 // ** TRANSFERS DNA FILE TEXT CONTENT INTO LIST OF CHORD OBJECTS **
 function createDnaList(text){
-    // initialize chordList as an empty array
-    let chordList = [];
-
     // for every three chars in fileContent, create a 4-chord progression
     for (let i = 0; i < text.length; i+3){
         // initialize nucleotides
@@ -167,14 +164,14 @@ function createDnaList(text){
             chord4 = new Chord("A", "min");
         }
 
+        // push to chordList (initialized in play_music.js)
         chordList.push(chord2);
         chordList.push(chord3);
         chordList.push(chord4);
 
+        // log mapping
         console.log(`mapped ${char1}${char2}${char3} to 
             progression A0-${chord2.root}${chord2.type}-
             ${chord3.root}${chord3.type}-${chord4.root}${chord4.type}`); 
     } 
-
-    return chordList;
 }

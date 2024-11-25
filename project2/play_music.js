@@ -1,6 +1,9 @@
 // include Tone.js
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.3/Tone.js"></script>
 
+// initialize chordList
+let chordList = []; 
+
 // for moving from one note to another
 function move(start, n, state){
     // 0 means chromatic, 1 means Am
