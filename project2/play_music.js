@@ -107,9 +107,9 @@ function initializeAudio(){
     }).toDestination();
 
     // TODO: set volumes
-    poly.volume.value = 0; 
-    heartbeat.volume.value = 5;
-    crickets.volume.value = -15; 
+    poly.volume.value = -5; 
+    heartbeat.volume.value = -10;
+    crickets.volume.value = -20; 
 
     // TODO: call changeLevels to initialize levels
 
