@@ -1,8 +1,9 @@
 // initialize fileContent and chordList globally within this function
 let fileContent = "";
 
-// ** CONSTRUCTS CHORD OBJECTS **
-// to create a new chord: "const chord1 = new Chord("C", "maj");"
+/* 
+CONSTRUCTS CHORD OBJECTS
+*/
 function Chord(root, type){
     // properties
     this.root = root;
@@ -21,7 +22,9 @@ function Chord(root, type){
     this.arpeggiate = arpeggiate;
 }
 
-// ** READS IN DNA FILE **
+/* 
+READS IN DNA FILE
+*/
 async function processFile(){
     // TODO: do I really need this?
     const fileInput = document.getElementById('upload'); 
@@ -46,14 +49,18 @@ async function processFile(){
     reader.readAsText(file); 
 }
 
-// ** REPORTS UNRECOGNIZED CHARACTERS IN INPUT FILE
+/* 
+REPORTS UNRECOGNIZED CHARACTERS IN INPUT FILE
+*/
 function reportUnrecognized(){
     console.error("unrecognized character in input file");
     alert("unrecognized character in input file"); 
     return; 
 }
 
-// ** TRANSFERS DNA FILE TEXT CONTENT INTO LIST OF CHORD OBJECTS **
+/* 
+TRANSFERS DNA FILE TEXT CONTENT INTO LIST OF CHORD OBJECTS
+*/
 function createDnaList(text){
     // for every three chars in fileContent, create a 4-chord progression
     for (let i = 0; i < text.length; i+3){
