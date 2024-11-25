@@ -168,7 +168,7 @@
                         <label for="score">highscore: </label>
                         <input id="highscore" name="highscore" type="number" placeholder="You have to play first!" readonly>
                     </fieldset>
-                    <button onclick="startGame()">play again</button>
+                    <button onclick="go('gobbler.html')">play again</button>
                     <button type="button" id="submit-score" class="button-success pure-button button-xlarge" 
                     onclick="submitGameScore()">
                         submit score
@@ -378,5 +378,10 @@
 
         // generate initial trash
         trashify(); 
+
+        // click div -> go page
+        function go(filePath){
+            window.location.href = filePath; 
+        }
     </script>
 </html>
