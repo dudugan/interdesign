@@ -88,10 +88,15 @@
         button {
             border: 5px ridge #5c1576;
             border-radius: 5px;
+            background-color:#f4b0b0;
         }
         button:hover {
             background-color: turquoise;
             cursor: pointer;
+        }
+        #artist_statement {
+            display: none;
+            width: 90vw !important;
         }
         #end {
             display: none;
@@ -113,8 +118,24 @@
         </div>
         <div class="popup" id="start">
             <h3>gobbler: a timed pathfinding game</h3>
-            <p>test your instincts</p>
+            <p>test your instincts and your indecision</p>
+            <button onclick="artist_statement_show()">artist's statement</button>
             <button onclick="startGame()">start game</button>
+        </div>
+        <div class="popup" id="artist_statement">
+            <h3>input/output, animation, audio, CMS</h3>
+            <p>all alvin could ask</p>
+            <p>designwise, retro but also apple system ui aesthetic.</p>
+            <p>it's not the snake game - there's a whole other set of 
+                skills needed to be good at Gobbler. You need to
+                CHOOSE which piece of trash to go after, and it's not
+                always true that you should choose the closest one - choosing
+                trash in the center of the screen is also beneficial
+                to you strategically. Mostly though, I wanted to make a game
+                which preys on people's indecision, and keeps you whacking yourself,
+                saying, 'why did I do that!'
+            </p>
+            <button onclick="backToStart()">back to start</button>
         </div>
         <div class="popup" id="end">
             <h3>game over</h3>
@@ -154,6 +175,18 @@
         let trashBags = []; 
         let gameOver = false; 
 
+        // show artists statement
+        function artist_statement_show(){
+            document.getElementById("artist_statement").style.display = 'block';
+            document.getElementById("start").style.display = 'none';
+        }
+
+        // hide artists statement
+        function backToStart(){
+            document.getElementById("artist_statement").style.display = 'none';
+            document.getElementById("start").style.display = 'block';
+        }
+
         // monster flash
         function toggleMonster(){
             const currentSrc = monster.src.split('/').pop();
@@ -168,6 +201,7 @@
         function startGame(){
             document.getElementById("start").style.display = 'none';
             document.getElementById("end").style.display = 'none';
+            document.getElementById("artist_statement").style.display = 'none';
             updateSize();
             trashify();
             startCountdown(); 
