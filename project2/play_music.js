@@ -146,6 +146,7 @@ function startAudio(){
     Tone.Transport.scheduleRepeat(() => {
         // get current measure number (starting at 0?)
         const measure = Math.floor(Tone.Transport.seconds / Tone.Transport.ppq);
+        console.log(`measure: ${measure}`); 
         playDna(measure);
     }, "1m"); // once every measure
 
@@ -153,6 +154,7 @@ function startAudio(){
     Tone.Transport.scheduleRepeat(() => {
         // get current measure number (starting at 0?)
         const measure = Math.floor(Tone.Transport.seconds / Tone.Transport.ppq);
+        console.log(`measure: ${measure}`);
         playHeartbeat(measure); // bc need a separate fxn to shift pitch
     }, "2n"); // twice every measure
 
