@@ -64,9 +64,9 @@ function synthate(synth, octave){
 /* 
 ARPEGGIATES CHORD ON GIVEN INSTRUMENT IN A GIVEN OCTAVE
 */
-function arpeggiate(instr, octave){
+// function arpeggiate(instr, octave){
 
-}
+// }
 
 /* 
 INITIALIZES AUDIO FILES AND INSTRUMENTS
@@ -107,9 +107,9 @@ function initializeAudio(){
     }).toDestination();
 
     // TODO: set volumes
-    poly.volume.value = -5; 
+    poly.volume.value = 0; 
     heartbeat.volume.value = 5;
-    crickets.volume.value = -5; 
+    crickets.volume.value = -15; 
 
     // TODO: call changeLevels to initialize levels
 
