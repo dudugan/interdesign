@@ -4,6 +4,11 @@
         <title>Gobbler: a Pathfinding Game</title>
     </head>
     <style>
+        :root {
+            --gamewindow: 400px; /* default size */
+            --numcols: 10; /* default num_cols */
+            --cell-size: calc(var(--gamewindow) / var(--numcols)); 
+        }
         @font-face {
             font-family: 'ByteBounce';
             src: url('ByteBounce.woff') format('woff');
@@ -14,11 +19,6 @@
             #countdown {
                 top: -50px !important; 
             }
-        }
-        :root {
-            --gamewindow: 400px; /* default size */
-            --numcols: 10; /* default num_cols */
-            --cell-size: calc(var(--gamewindow) / var(--numcols)); 
         }
         body {
             display: flex;
@@ -88,7 +88,7 @@
         button {
             border: 5px ridge #5c1576;
             border-radius: 5px;
-            background-color:#f4b0b0;
+            background-color:#f1d0d0;
         }
         button:hover {
             background-color: turquoise;
@@ -96,7 +96,8 @@
         }
         #artist_statement {
             display: none;
-            width: 90vw !important;
+            max-height: var(--gamewindow);
+            overflow-y: scroll;
         }
         #end {
             display: none;
@@ -118,23 +119,27 @@
         </div>
         <div class="popup" id="start">
             <h3>gobbler: a timed pathfinding game</h3>
-            <p>test your instincts and your indecision</p>
+            <p>of instincts and indecision</p>
+            <p>WASD or arrow keys to move;<br>
+            try to pick up as much trash as you can in a minute</p>
             <button onclick="artist_statement_show()">artist's statement</button>
             <button onclick="startGame()">start game</button>
         </div>
         <div class="popup" id="artist_statement">
             <h3>input/output, animation, audio, CMS</h3>
-            <p>all alvin could ask</p>
-            <p>designwise, retro but also apple system ui aesthetic.</p>
-            <p>it's not the snake game - there's a whole other set of 
-                skills needed to be good at Gobbler. You need to
-                CHOOSE which piece of trash to go after, and it's not
-                always true that you should choose the closest one - choosing
-                trash in the center of the screen is also beneficial
-                to you strategically. Mostly though, I wanted to make a game
-                which preys on people's indecision, and keeps you whacking yourself,
-                saying, 'why did I do that!'
-            </p>
+            <p>music by me (using <a href="https://beepbox.co">beepbox</a>)</p>
+            <p>free art from pixabay and flaticon</p>
+            <p>this is NOT the snake game.<br>
+                Gobbler is all about fast decision-making,<br>
+                about reducing hesitation and weighing<br>
+                priorities instantly. Should you go after<br>
+                the closest piece of trash, or the piece in<br>
+                the center of the screen? I wanted to make<br>
+                people a little bit frustrated with themselves<br>
+                as both a strategy to keep them hooked and<br>
+                in order to get people to realize our own<br>
+                innate human flaws - I want the player to<br>
+                repeat to themselves: “ugh why did I do that!”</p>
             <button onclick="backToStart()">back to start</button>
         </div>
         <div class="popup" id="end">
