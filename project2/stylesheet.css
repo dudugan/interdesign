@@ -31,6 +31,7 @@ body {
     height: 150px;
     background-color: teal;
     border-radius: 5px;
+    border: 2px solid black;
 }
 .mark {
     width: 20px;
@@ -47,6 +48,7 @@ body {
     background-color: teal;
     width: 30px;
     height: 30px;
+    border: 2px solid black;
 }
 button:hover, #uploadButton:hover {
     background-color: pink;
@@ -57,5 +59,4 @@ input[type = "file"] {
 }
 #uploadButton {
     display: inline-block;
-    
 }
