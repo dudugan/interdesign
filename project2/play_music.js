@@ -15,6 +15,9 @@ let heartbeat;
 
 // initialize all other sounds
 
+
+let initialized = false; 
+
 /* 
 MOVES BETWEEN NOTES
 state: 0 -> chromatic
@@ -94,16 +97,28 @@ function initializeAudio(){
     }).toDestination(); 
 
     // TODO: add all other samples
-    crickets = new Tone.Sampler({
-        F3: "sfx/crickets.wav",
-    }, () => {
-        console.log("crickets loaded")
-    }).toDestination(); 
+    const crickets = new Tone.Player({
+        url: "sfx/crickets.wav", 
+        loop: true,
+        autostart: false
+    }).toDestination();
+
+    const scrub = new Tone.Player({
+        url: "sfx/scrub.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
 
     // TODO: set volumes
     poly.volume.value = -5; 
+    heartbeat.volume.value = 5;
+    crickets.volume.value = -5; 
 
     // TODO: call changeLevels to initialize levels
+
+
+
+    initialized = true; 
 }
 
 /* 
@@ -120,13 +135,34 @@ function changeLevels(){
 STARTS TIMER AND ALL PLAYSOMETHING FUNCTIONS
 */
 function startAudio(){
+    // check that audio is initialized
+    if (!initialized){
+        console.log("Play clicked without initialized audio");
+        alert("You must select a dna file first!"); 
+        return; 
+    }
+
     // set bpm
     Tone.Transport.bpm.value = bpm;
     
-    // create dna player
-    playDna(); 
+    // play dna, passing in measure as argument
+    Tone.Transport.scheduleRepeat(() => {
+        // get current measure number (starting at 0?)
+        const measure = Math.floor(Tone.Transport.seconds / Tone.Transport.ppq);
+        playDna(measure);
+    }, "1m"); // once every measure
 
-    // create other players
+    // play heartbeat
+    Tone.Transport.scheduleRepeat(() => {
+        // get current measure number (starting at 0?)
+        const measure = Math.floor(Tone.Transport.seconds / Tone.Transport.ppq);
+        playHeartbeat(measure); // bc need a separate fxn to shift pitch
+    }, "2n"); // twice every measure
+
+    // just shorthand for initializing all the sfx
+    playSfx(); 
+    playFlourish(); 
+    // playEnd(); 
 
     // start Transport clock
     Tone.Transport.start(); 
@@ -139,24 +175,37 @@ the specific synth changes every 4 measures for 60 measures
 starts with low, far-off, contemplative, wash-y synths
 which become high, fuzzy, noisy-ish synths
 */
-function playDna(){
+function playDna(measure){
+    // get chord at this measure
+    const thischord = chordList[measure];
 
-    // repeating event
-    Tone.Transport.scheduleRepeat((time) => {
-        const dnaMeasure = (time) => {
-            console.log(`dnaMeasure triggered at time: ${time}`);
-            synthate(poly, 4);
-        }
-    }, "4n"); // repeats every 4n (aka 1m)
+    // get synth for this four-measure-stretch
+    let thissynth, thisoctave; 
+    switch (measure){
+        case 0:
+            thisoctave = 4;
+            thissynth = poly; 
+            break;
+        default:
+            thisoctave = 4;
+            thissynth = poly; 
+            break; 
+    }
 
+    // play chord with synth
+    thischord.synthate(thissynth, thisoctave); 
 }
 
 /*
 PLAYS A HEARTBEAT TWICE PER MEASURE UNTIL PLAYEND
 with a shift in pitch to match the chord
 */
-function playHeartbeat(){
+function playHeartbeat(measure){
+    // get chord at this measure
+    const thischord = chordList[measure];
 
+    // play heartbeat at chord root pitch in the third octave
+    heartbeat.triggerAttack(thischord.root + '3'); 
 }
 
 /*
@@ -166,7 +215,8 @@ repeating endless samples
 volume increasing towards middle/end
 */
 function playSfx(){
-
+    // play cricket noise throughout the whole piece, looping
+    crickets.start();
 }
 
 /*
@@ -176,10 +226,13 @@ potentially arpeggios
 at ~1:00, 2:00, 2:45
 */
 function playFlourish(){
-    // non-repeating event
+    // play scrub noise a few times
     Tone.Transport.schedule(() => {
-        // do something
-    }, 1000); // after a certain time
+        scrub.start(); 
+    }, "5m"); // at the fifth measure
+    Tone.Transport.schedule(() => {
+        scrub.start(); 
+    }, "9m"); // at the ninth measure
 }
 
 /* 
@@ -188,7 +241,7 @@ heartbeat glitching out
 low synth
 insects low and crazy
 */
-function playEnd(){
+// function playEnd(){
 
-}
+// }
 

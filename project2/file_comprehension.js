@@ -38,15 +38,20 @@ async function processFile(){
     const file = fileInput.files[0];
     const reader = new FileReader();
 
-    // runs whenever the reader is done reading the file content
-    reader.onload = async function(event){
-        fileContent = event.target.result;
-        createDnaList();
-        initializeAudio(); 
-    }
-
     // reads the file content
     reader.readAsText(file); 
+
+    // runs whenever the reader is done reading the file content
+    reader.onload = async function(event){
+        // set fileContent
+        fileContent = event.target.result;
+        
+        // populate chordList
+        createDnaList();
+
+        // initialize audio
+        initializeAudio(); 
+    }
 }
 
 /* 
