@@ -68,19 +68,18 @@ TRANSFERS DNA FILE TEXT CONTENT INTO LIST OF CHORD OBJECTS
 */
 function createDnaList(text){
     // for every three chars in fileContent, create a 4-chord progression
-    for (let i = 0; i < text.length; i+3){
+    for (let i = 0; i < text.length; i+=3){
         // initialize nucleotides
         let char1 = text[i];
-        let char2;
-        let char3;
+        let char2, char3;
         
         // initialize eventual chord progression (and push Am)
         let chord1 = new Chord("A", "min");
         chordList.push(chord1); 
-        let chord2;
-        let chord3;
-        let chord4; 
+        let chord2, chord3, chord4;
 
+        let root3, root4; 
+        
         // set second chord
         switch (char1){
             case 'A':
@@ -134,6 +133,7 @@ function createDnaList(text){
         // if no second or third character
         else {
             chord3 = new Chord("A", "min");
+            char2 = '-'; 
         }
 
         // only read chord4 if char3 exists
@@ -174,6 +174,7 @@ function createDnaList(text){
         // if no third character
         else {
             chord4 = new Chord("A", "min");
+            char3 = '-'; 
         }
 
         // push to chordList (initialized in play_music.js)
