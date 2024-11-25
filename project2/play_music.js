@@ -2,7 +2,7 @@
 let chordList = []; 
 
 // initialize bpm
-let bpm = 60;
+let bpm = 90;
 
 // initialize all synths
 let poly; 
@@ -107,7 +107,7 @@ function initializeAudio(){
     }).toDestination();
 
     // TODO: set volumes
-    poly.volume.value = -5; 
+    poly.volume.value = -10; 
     heartbeat.volume.value = -10;
     crickets.volume.value = -20; 
 
