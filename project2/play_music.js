@@ -5,6 +5,87 @@ let poly, vapor, underwater, seaclam; // initialize all synths
 let crickets, scrub, heartbeat; // initialize all sfx
 let initialized = false; 
 
+/* PLAYS EACH CHORD IN CHORDLIST SEQUENTIALLY
+the specific synth changes every 4 measures for 60 measures
+    (so 15 synths, some of which can be the same)
+starts with low, far-off, contemplative, wash-y synths
+which become high, fuzzy, noisy-ish synths */
+function playDna(measure){
+    // get chord at this measure
+    const thischord = chordList[measure];
+
+    // get synth for this four-measure-stretch
+    let thissynth, thisoctave; 
+    switch (measure){
+        case 0:
+            thisoctave = 3;
+            thissynth = seaclam; 
+            break;
+        default:
+            thisoctave = 3;
+            thissynth = seaclam; 
+            break; 
+    }
+
+    console.log(`Trying to play ${thischord.root}${thischord.type} 
+        with ${thissynth} at octave ${thisoctave}`);
+    // play chord with synth
+    thischord.play(thissynth, thisoctave); 
+}
+
+/* PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE */
+function synthate(synth, octave){
+    console.log(`Attempting to play chord ${this.root}${this.type}`);
+    // let arr = [];
+    // arr.push(this.root + String(octave));
+    // arr.push(this.third + String(octave));
+    // arr.push(this.fifth + String(octave));
+    // arr.push(this.seventh + String(octave));
+    // synth.triggerAttackRelease(arr, '1m');
+    // synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
+
+    const targetNote = this.root + String(octave); 
+    synth.triggerAttack(targetNote); 
+}
+
+/* INITIALIZES ALL SYNTH TYPES */
+function initSynths(){
+    poly = new Tone.PolySynth(Tone.FMSynth,{
+        // set ADSR
+        envelope: {
+            attack: '2n',
+            release: '2n'
+        }
+    }); 
+    poly.toDestination();
+    console.log("initialized polysynth");
+
+    vapor = new Tone.Sampler({
+        urls: {
+            F3: "short/vapor.wav",
+            
+        }
+    }).toDestination();
+
+    underwater = new Tone.Sampler({
+        urls: {
+            A2: "subdued/underwater.wav"
+        }
+    }).toDestination();
+
+    seaclam = new Tone.Sampler({
+        urls: {
+            A3: "subdued/seaclam/A.wav", 
+            B3: "subdued/seaclam/B.wav", 
+            C3: "subdued/seaclam/C.wav", 
+            D3: "subdued/seaclam/D.wav", 
+            E3: "subdued/seaclam/E.wav", 
+            F3: "subdued/seaclam/F.wav", 
+            G3: "subdued/seaclam/G.wav", 
+        }
+    }).toDestination();
+}
+
 /* INITIALIZES AUDIO FILES AND INSTRUMENTS
 but doesn't start yet */
 function initializeAudio(){
@@ -57,46 +138,6 @@ function startAudio(){
 
     // start Transport clock
     Tone.Transport.start(); 
-}
-
-/* PLAYS EACH CHORD IN CHORDLIST SEQUENTIALLY
-the specific synth changes every 4 measures for 60 measures
-    (so 15 synths, some of which can be the same)
-starts with low, far-off, contemplative, wash-y synths
-which become high, fuzzy, noisy-ish synths */
-function playDna(measure){
-    // get chord at this measure
-    const thischord = chordList[measure];
-
-    // get synth for this four-measure-stretch
-    let thissynth, thisoctave; 
-    switch (measure){
-        case 0:
-            thisoctave = 3;
-            thissynth = seaclam; 
-            break;
-        default:
-            thisoctave = 3;
-            thissynth = seaclam; 
-            break; 
-    }
-
-    console.log(`Trying to play ${thischord.root}${thischord.type} 
-        with ${thissynth} at octave ${thisoctave}`);
-    // play chord with synth
-    thischord.play(thissynth, thisoctave); 
-}
-
-/* PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE */
-function synthate(synth, octave){
-    console.log(`Attempting to play chord ${this.root}${this.type}`);
-    // let arr = [];
-    // arr.push(this.root + String(octave));
-    // arr.push(this.third + String(octave));
-    // arr.push(this.fifth + String(octave));
-    // arr.push(this.seventh + String(octave));
-    // synth.triggerAttackRelease(arr, '1m');
-    synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
 }
 
 /* PLAYS CONSTANT/RECURRING SFX
@@ -153,37 +194,6 @@ function initSfx(){
         url: "sfx/scrub.wav", 
         loop: false,
         autostart: false
-    }).toDestination();
-}
-
-/* INITIALIZES ALL SYNTH TYPES */
-function initSynths(){
-    poly = new Tone.PolySynth(Tone.FMSynth,{
-        // set ADSR
-        envelope: {
-            attack: '2n',
-            release: '2n'
-        }
-    }); 
-    poly.toDestination();
-    console.log("initialized polysynth");
-
-    vapor = new Tone.Sampler({
-        urls: {
-            F3: "short/vapor.wav"
-        }
-    }).toDestination();
-
-    underwater = new Tone.Sampler({
-        urls: {
-            A2: "subdued/underwater.wav"
-        }
-    }).toDestination();
-
-    seaclam = new Tone.Sampler({
-        urls: {
-            Eb3: "subdued/seaclam.wav"
-        }
     }).toDestination();
 }
 
