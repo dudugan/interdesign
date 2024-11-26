@@ -1,8 +1,8 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
 let bpm = 40; // initialize bpm
-let poly, vapor, underwater, seaclam; // initialize all synths
-let crickets, scrub, heartbeat; // initialize all sfx
+let poly, underwater, seaclam; // initialize all synths
+let crickets, scrub, heartbeat, aqualung, exhale, bleep; // initialize all sfx
 let initialized = false; 
 
 /* PLAYS EACH CHORD IN CHORDLIST SEQUENTIALLY
@@ -15,15 +15,17 @@ function playDna(measure){
     const thischord = chordList[measure];
 
     // get synth for this four-measure-stretch
-    let thissynth, thisoctave; 
-    switch (measure){
-        case 0:
-            thisoctave = 3;
-            thissynth = seaclam; 
+    let thissynth, thisoctave;
+    thisoctave = 3;  
+    switch (true) {
+        case (measure < 6):
+            thissynth = poly; 
             break;
-        default:
-            thisoctave = 3;
-            thissynth = seaclam; 
+        case (5 < measure && measure < 10):
+            thissynth = seaclam;
+            break;
+        case (9 < measure && measure < 14):
+            thissynth = underwater;
             break; 
     }
 
@@ -36,40 +38,34 @@ function playDna(measure){
 /* PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE */
 function synthate(synth, octave){
     console.log(`Attempting to play chord ${this.root}${this.type}`);
-    // let arr = [];
-    // arr.push(this.root + String(octave));
-    // arr.push(this.third + String(octave));
-    // arr.push(this.fifth + String(octave));
-    // arr.push(this.seventh + String(octave));
-    // synth.triggerAttackRelease(arr, '1m');
-    // synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
+    let arr = [];
+    arr.push(this.root + String(octave));
+    arr.push(this.third + String(octave));
+    arr.push(this.fifth + String(octave));
+    arr.push(this.seventh + String(octave));
+    synth.triggerAttackRelease(arr, '1m');
+    synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
 
-    const targetNote = this.root + String(octave); 
-    synth.triggerAttack(targetNote); 
+    // const targetNote = this.root + String(octave); 
+    // synth.triggerAttack(targetNote); 
 }
 
 /* INITIALIZES ALL SYNTH TYPES */
 function initSynths(){
     poly = new Tone.PolySynth(Tone.FMSynth,{
-        // set ADSR
-        envelope: {
-            attack: '2n',
-            release: '2n'
-        }
     }); 
     poly.toDestination();
     console.log("initialized polysynth");
 
-    vapor = new Tone.Sampler({
-        urls: {
-            F3: "short/vapor.wav",
-            
-        }
-    }).toDestination();
-
     underwater = new Tone.Sampler({
         urls: {
-            A2: "subdued/underwater.wav"
+            A3: "subdued/underwater/A.wav", 
+            B3: "subdued/underwater/B.wav", 
+            C3: "subdued/underwater/C.wav", 
+            D3: "subdued/underwater/D.wav", 
+            E3: "subdued/underwater/E.wav", 
+            F3: "subdued/underwater/F.wav", 
+            G3: "subdued/underwater/G.wav", 
         }
     }).toDestination();
 
@@ -105,10 +101,12 @@ function changeLevels(){
     // 2. use them
     console.log("Changing Levels...")
     poly.volume.value = -10; 
-    vapor.volume.value = -10; 
     seaclam.volume.value = -10; 
-    heartbeat.volume.value = 0;
+
+    heartbeat.volume.value = 10;
     crickets.volume.value = -20; 
+    aqualung.volume.value = 10;
+    bleep.volume.value = 0; 
 }
 
 /* STARTS TIMER AND ALL PLAY FXNS */
@@ -122,19 +120,30 @@ function startAudio(){
 
     // set bpm
     Tone.Transport.bpm.value = bpm;
-    
-    // play dna, passing in measure as argument
-    Tone.Transport.scheduleRepeat(() => {
-        // get current measure number (starting at 0?)
-        const measure = parseInt(Tone.Transport.position.split(':')[0], 10);
-        console.log(`measure: ${measure}`); 
-        playDna(measure);
-    }, "1m"); // once every measure
 
-    // just shorthand for initializing all the sfx
-    playSfx(); 
-    playFlourish(); 
-    // playEnd(); 
+    // play intro of aqualung and exhale
+    Tone.Transport.schedule(() => {
+        aqualung.start();
+    }, "0:0");
+    Tone.Transport.schedule(() => {
+        exhale.start();
+    }, "0:5");
+    
+    // only do everything after aqualung
+    Tone.Transport.scheduleOnce(() => {
+        // play dna, passing in measure as argument
+        Tone.Transport.scheduleRepeat(() => {
+            // get current measure number (starting at 0?)
+            const measure = parseInt(Tone.Transport.position.split(':')[0], 10);
+            console.log(`measure: ${measure}`); 
+            playDna(measure);
+        }, "1m"); // once every measure
+
+        // just shorthand for initializing all the sfx
+        playSfx(); 
+        playFlourish(); 
+        // playEnd(); 
+    }, "0:5");
 
     // start Transport clock
     Tone.Transport.start(); 
@@ -159,6 +168,11 @@ insect noises, samples and pitch changes going super high and low
 potentially arpeggios
 at ~1:00, 2:00, 2:45 */
 function playFlourish(){
+    // play bleep noise a few times
+    Tone.Transport.schedule(() => {
+        bleep.start(); 
+    }, "3m"); // at the fifth measure
+
     // play scrub noise a few times
     Tone.Transport.schedule(() => {
         scrub.start(); 
@@ -179,7 +193,7 @@ insects low and crazy */
 /* INITIALIZES ALL SFX */
 function initSfx(){
     crickets = new Tone.Player({
-        url: "sfx/crickets.wav", 
+        url: "sfx/crickets6.wav", 
         loop: true,
         autostart: false
     }).toDestination();
@@ -192,6 +206,24 @@ function initSfx(){
 
     scrub = new Tone.Player({
         url: "sfx/scrub.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+
+    bleep = new Tone.Player({
+        url: "sfx/bleep3.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+
+    aqualung = new Tone.Player({
+        url: "sfx/aqualung9.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+
+    exhale = new Tone.Player({
+        url: "sfx/exhale8.wav", 
         loop: false,
         autostart: false
     }).toDestination();
