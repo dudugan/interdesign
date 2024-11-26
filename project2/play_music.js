@@ -1,6 +1,6 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
-let bpm = 90; // initialize bpm
+let bpm = 40; // initialize bpm
 let poly; // initialize all synths
 let crickets, scrub, heartbeat; // initialize all sfx
 let initialized = false; 
