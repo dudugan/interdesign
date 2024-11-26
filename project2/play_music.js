@@ -1,7 +1,7 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
 let bpm = 40; // initialize bpm
-let poly; // initialize all synths
+let poly, vapor, underwater, seaclam; // initialize all synths
 let crickets, scrub, heartbeat; // initialize all sfx
 let initialized = false; 
 
@@ -24,7 +24,9 @@ function changeLevels(){
     // 2. use them
     console.log("Changing Levels...")
     poly.volume.value = -10; 
-    heartbeat.volume.value = -10;
+    vapor.volume.value = -10; 
+    seaclam.volume.value = -10; 
+    heartbeat.volume.value = 0;
     crickets.volume.value = -20; 
 }
 
@@ -70,12 +72,12 @@ function playDna(measure){
     let thissynth, thisoctave; 
     switch (measure){
         case 0:
-            thisoctave = 4;
-            thissynth = poly; 
+            thisoctave = 3;
+            thissynth = seaclam; 
             break;
         default:
-            thisoctave = 4;
-            thissynth = poly; 
+            thisoctave = 3;
+            thissynth = seaclam; 
             break; 
     }
 
@@ -88,12 +90,13 @@ function playDna(measure){
 /* PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE */
 function synthate(synth, octave){
     console.log(`Attempting to play chord ${this.root}${this.type}`);
-    let arr = [];
-    arr.push(this.root + String(octave));
-    arr.push(this.third + String(octave));
-    arr.push(this.fifth + String(octave));
-    arr.push(this.seventh + String(octave));
-    synth.triggerAttackRelease(arr, '1m');
+    // let arr = [];
+    // arr.push(this.root + String(octave));
+    // arr.push(this.third + String(octave));
+    // arr.push(this.fifth + String(octave));
+    // arr.push(this.seventh + String(octave));
+    // synth.triggerAttackRelease(arr, '1m');
+    synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
 }
 
 /* PLAYS CONSTANT/RECURRING SFX
@@ -164,6 +167,24 @@ function initSynths(){
     }); 
     poly.toDestination();
     console.log("initialized polysynth");
+
+    vapor = new Tone.Sampler({
+        urls: {
+            F3: "short/vapor.wav"
+        }
+    }).toDestination();
+
+    underwater = new Tone.Sampler({
+        urls: {
+            A2: "subdued/underwater.wav"
+        }
+    }).toDestination();
+
+    seaclam = new Tone.Sampler({
+        urls: {
+            Eb3: "subdued/seaclam.wav"
+        }
+    }).toDestination();
 }
 
 /*  MOVES BETWEEN NOTES
