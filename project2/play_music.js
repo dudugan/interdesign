@@ -2,8 +2,18 @@
 let chordList = []; 
 let bpm = 40; // initialize bpm
     // TODO: if want no spaces, make this 45 or smth
-let poly, underwater, seaclam, crystal, tape; // initialize all synths
-let crickets, scrub, heartbeat, aqualung, exhale, bleep; // initialize all sfx
+
+// initialize biomes, and therefore all local sounds
+let sea = new Biome("sea");
+let desert = new Biome("desert");
+let forest = new Biome("forest");
+let cave = new Biome("cave");
+let biomeList = [sea, desert, forest, cave];
+
+// initialize global sounds
+let crystal, twinkle; // initialize all basal synths
+let crickets, scrub, heartbeat, aqualung, exhale, bleep, cpuglitch, creepycrumbly; // initialize all sfx
+initGlobal();
 let initialized = false; 
 
 /* PLAYS EACH CHORD IN CHORDLIST SEQUENTIALLY
@@ -18,15 +28,47 @@ function playDna(measure){
     let thissynth, thisoctave;
     thisoctave = 3;  
     switch (true) {
-        case (measure < 4):
+        case (measure <= 4):
             thissynth = crystal; 
             break;
         case (3 < measure && measure < 8):
-            thissynth = seaclam;
+            thissynth = 'sbd1';
             break;
         case (7 < measure && measure < 12):
-            thissynth = underwater;
+            thissynth = 'sbd2';
             break; 
+        case (11 < measure && measure < 16):
+            thissynth = 'sbd2';
+            break;
+        case (15 < measure && measure < 20):
+            thissynth = 'prech';
+            break;
+        case (19 < measure && measure < 24):
+            thissynth = 'ch1';
+            break;
+        case (23 < measure && measure < 28):
+            thissynth = 'ch2';
+            break;
+        case (27 < measure && measure < 32):
+            thissynth = 'sbd3';
+            break;
+        case (31 < measure && measure < 36):
+            thissynth = 'ch2';
+            break; 
+        case (35 < measure && measure < 40):
+            thissynth = 'postch1';
+            break;
+        case (39 < measure && measure < 44):
+            thissynth = 'postch2';
+            break;
+        case (43 < measure && measure < 48):
+            thissynth = 'sbd3';
+            break;
+        case (47 < measure && measure < 52):
+            return; 
+        case (51 < measure && measure < 56):
+            thissynth = twinkle;
+            break;
     }
 
     console.log(`Trying to play ${thischord.root}${thischord.type} 
@@ -38,46 +80,16 @@ function playDna(measure){
 /* PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE */
 function synthate(synth, octave){
     console.log(`Attempting to play chord ${this.root}${this.type}`);
+    const targetNote = this.root + String(octave); 
 
-    if (synth == poly){
-        let arr = [];
-        arr.push(this.root + String(octave));
-        arr.push(this.third + String(octave));
-        arr.push(this.fifth + String(octave));
-        arr.push(this.seventh + String(octave));
-        synth.triggerAttackRelease(arr, '1.1m');
-        synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
+    if (synth == crystal || synth == twinkle){
+        synth.triggerAttack(targetNote);
     } else {
-        const targetNote = this.root + String(octave); 
-        synth.triggerAttack(targetNote); 
+        for (let i = 0; i < biomeList.length; i++){
+            synth = biomeList[i][synth];
+            synth.triggerAttack(targetNote);
+        }
     }
-}
-
-/* INITIALIZES ALL SYNTH TYPES */
-function initSynths(){
-    poly = new Tone.PolySynth(Tone.FMSynth,{}); 
-    poly.toDestination();
-    console.log("initialized polysynth");
-
-    underwater = new Tone.Sampler({
-        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
-        baseUrl: "./subdued/underwater/"
-    }).toDestination();
-
-    tape = new Tone.Sampler({
-        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
-        baseUrl: "./subdued/tape/"
-    }).toDestination();
-
-    seaclam = new Tone.Sampler({
-        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
-        baseUrl: "./subdued/seaclam/"
-    }).toDestination();
-
-    crystal = new Tone.Sampler({
-        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
-        baseUrl: "./subdued/crystal/"
-    }).toDestination();
 }
 
 /* INITIALIZES AUDIO FILES AND INSTRUMENTS
@@ -98,8 +110,6 @@ function changeLevels(){
     // 1. get cave, forest, sea, desert slider values
     // 2. use them
     console.log("Changing Levels...")
-    poly.volume.value = -10; 
-    seaclam.volume.value = -10; 
     crystal.volume.value = -10; 
 
     heartbeat.volume.value = 10;
@@ -139,8 +149,8 @@ function startAudio(){
         }, "1m"); // once every measure
 
         // just shorthand for initializing all the sfx
-        playBg(); 
-        playSfx(); 
+        playGlobalSfx(); 
+        playLocalSfx();
         // playEnd(); 
     }, "0:5");
 
@@ -148,11 +158,12 @@ function startAudio(){
     Tone.Transport.start(); 
 }
 
-/* PLAYS CONSTANT/RECURRING SFX
+/* PLAYS GLOBAL SFX
 heartbeat; crickets, wind, forest : distorted
+insect noises, samples and pitch changes going super high and low
 repeating endless samples
 volume increasing towards middle/end */
-function playBg(){
+function playGlobalSfx(){
     // play cricket noise throughout the whole piece, looping
     crickets.start();
 
@@ -160,25 +171,76 @@ function playBg(){
     Tone.Transport.scheduleRepeat(() => {
         heartbeat.start(); 
     }, "2n"); // twice every measure
-}
 
-/* PLAYS SFX
-insect noises, samples and pitch changes going super high and low
-potentially arpeggios
-at ~1:00, 2:00, 2:45 */
-function playSfx(){
     // play bleep noise a few times
     Tone.Transport.schedule(() => {
         bleep.start(); 
-    }, "3m"); // at the fifth measure
+    }, "3m"); 
+    Tone.Transport.schedule(() => {
+        bleep.start(); 
+    }, "15m"); 
+    Tone.Transport.schedule(() => {
+        bleep.start(); 
+    }, "31m"); 
 
     // play scrub noise a few times
     Tone.Transport.schedule(() => {
         scrub.start(); 
-    }, "5m"); // at the fifth measure
+    }, "4m");
     Tone.Transport.schedule(() => {
         scrub.start(); 
-    }, "9m"); // at the ninth measure
+    }, "20m"); 
+    Tone.Transport.schedule(() => {
+        scrub.start(); 
+    }, "36m"); 
+
+    // play creepy crumbly
+    Tone.Transport.schedule(() => {
+        creepycrumbly.start(); 
+    }, "12m"); 
+
+    // play cpu glitch at end
+    Tone.Transport.schedule(() => {
+        cpuglitch.start(); 
+    }, "47m"); 
+}
+
+/* PLAYS LOCAL SFX
+*/
+function playLocalSfx(){
+    for (let i = 0; i < biomeList.length; i++){
+        biome = biomeList[i];
+        vol = biome.level; 
+
+        // biome.bg1.volume = bg1vol * vol;
+        // biome.bg2.volume = bg2vol * vol; 
+        biome.bg1.start();
+        biome.bg2.start();
+        biome.bg3.start();
+
+        // play sfx noise a few times
+        Tone.Transport.schedule(() => {
+            biome.sfx1.start(); 
+        }, "13m"); 
+        Tone.Transport.schedule(() => {
+            biome.sfx1.start(); 
+        }, "25m"); 
+        Tone.Transport.schedule(() => {
+            biome.sfx1.start(); 
+        }, "33m"); 
+
+        Tone.Transport.schedule(() => {
+            biome.sfx2.start(); 
+        }, "26m"); 
+        Tone.Transport.schedule(() => {
+            biome.sfx2.start(); 
+        }, "46m"); 
+
+        // ramp (auto-set to go to Am)
+        Tone.Transport.schedule(() => {
+            biome.ramp.triggerAttack("A3"); 
+        }, "20m"); 
+    }
 }
 
 /* PLAYS ENDING SEQUENCE
@@ -186,47 +248,7 @@ heartbeat glitching out
 low synth
 insects low and crazy */
 // function playEnd(){
-
 // }
-
-/* INITIALIZES ALL SFX */
-function initSfx(){
-    crickets = new Tone.Player({
-        url: "sfx/crickets6.wav", 
-        loop: true,
-        autostart: false
-    }).toDestination();
-
-    heartbeat = new Tone.Player({
-        url: "sfx/heartbeat.wav", 
-        loop: false,
-        autostart: false
-    }).toDestination();
-
-    scrub = new Tone.Player({
-        url: "sfx/scrub.wav", 
-        loop: false,
-        autostart: false
-    }).toDestination();
-
-    bleep = new Tone.Player({
-        url: "sfx/bleep3.wav", 
-        loop: false,
-        autostart: false
-    }).toDestination();
-
-    aqualung = new Tone.Player({
-        url: "sfx/aqualung9.wav", 
-        loop: false,
-        autostart: false
-    }).toDestination();
-
-    exhale = new Tone.Player({
-        url: "sfx/exhale8.wav", 
-        loop: false,
-        autostart: false
-    }).toDestination();
-}
 
 /*  MOVES BETWEEN NOTES
 state: 0 -> chromatic
@@ -257,4 +279,143 @@ function move(start, n, state){
 
     // return note string
     return notes[wrappedIndex];
+}
+
+/* 
+CONSTRUCTS BIOME OBJECTS
+*/
+function Biome(name){
+
+    // properties
+    this.name = name;
+    this.level = 0.25; 
+
+    // init all synths
+    this.sbd1 = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/sbd1/`
+    }).toDestination();
+    this.sbd2 = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/sbd2/`
+    }).toDestination();
+    this.sbd3 = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/sbd3/`
+    }).toDestination();
+    this.prech = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/prech/`
+    }).toDestination();
+    this.ch1 = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/ch1/`
+    }).toDestination();
+    this.ch2 = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/ch2/`
+    }).toDestination();
+    this.postch1 = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/postch1/`
+    }).toDestination();
+    this.postch2 = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/postch2/`
+    }).toDestination();
+
+    // init ramp
+    this.ramp = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: `./${name}/ramp/`
+    }).toDestination();
+
+    // init all sfx and bg
+    this.sfx1 = new Tone.Player({
+        url: `${name}/sfx/sfx1.wav`, 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    this.sfx2 = new Tone.Player({
+        url: `${name}/sfx/sfx2.wav`, 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    this.sfx3 = new Tone.Player({
+        url: `${name}/sfx/sfx3.wav`, 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    this.bg1 = new Tone.Player({
+        url: `${name}/bg/bg1.wav`, 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    this.bg2 = new Tone.Player({
+        url: `${name}/bg/bg2.wav`, 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    this.bg3 = new Tone.Player({
+        url: `${name}/bg/bg3.wav`, 
+        loop: false,
+        autostart: false
+    }).toDestination();
+
+    console.log(`initialized sounds and properties for biome ${name}`); 
+}
+
+/* INITIALIZES ALL GLOBAL SYNTHS AND SFX */
+function initGlobal(){
+    crystal = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: "./global/crystal/"
+    }).toDestination();
+    twinkle = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: "./global/crystal/"
+    }).toDestination();
+
+    crickets = new Tone.Player({
+        url: "global/sfx/crickets6.wav", 
+        loop: true,
+        autostart: false
+    }).toDestination();
+    heartbeat = new Tone.Player({
+        url: "global/sfx/heartbeat.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    scrub = new Tone.Player({
+        url: "global/sfx/scrub.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    bleep = new Tone.Player({
+        url: "global/sfx/bleep3.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    aqualung = new Tone.Player({
+        url: "global/sfx/aqualung9.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    exhale = new Tone.Player({
+        url: "global/sfx/exhale8.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    creepycrumbly = new Tone.Player({
+        url: "global/sfx/creepycrumbly9.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+    cpuglitch = new Tone.Player({
+        url: "global/sfx/cpuglitch.wav", 
+        loop: false,
+        autostart: false
+    }).toDestination();
+
+    console.log("initialized global sounds"); 
 }
