@@ -1,6 +1,7 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
 let bpm = 40; // initialize bpm
+    // TODO: if want no spaces, make this 45 or smth
 let poly, underwater, seaclam, crystal; // initialize all synths
 let crickets, scrub, heartbeat, aqualung, exhale, bleep; // initialize all sfx
 let initialized = false; 
