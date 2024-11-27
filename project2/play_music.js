@@ -17,13 +17,13 @@ function playDna(measure){
     let thissynth, thisoctave;
     thisoctave = 3;  
     switch (true) {
-        case (measure < 6):
+        case (measure < 4):
             thissynth = crystal; 
             break;
-        case (5 < measure && measure < 10):
+        case (3 < measure && measure < 8):
             thissynth = seaclam;
             break;
-        case (9 < measure && measure < 14):
+        case (7 < measure && measure < 12):
             thissynth = underwater;
             break; 
     }
