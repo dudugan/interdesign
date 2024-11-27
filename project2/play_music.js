@@ -1,7 +1,7 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
 let bpm = 40; // initialize bpm
-let poly, underwater, seaclam; // initialize all synths
+let poly, underwater, seaclam, crystal; // initialize all synths
 let crickets, scrub, heartbeat, aqualung, exhale, bleep; // initialize all sfx
 let initialized = false; 
 
@@ -19,7 +19,7 @@ function playDna(measure){
     thisoctave = 3;  
     switch (true) {
         case (measure < 6):
-            thissynth = poly; 
+            thissynth = crystal; 
             break;
         case (5 < measure && measure < 10):
             thissynth = seaclam;
@@ -38,47 +38,40 @@ function playDna(measure){
 /* PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE */
 function synthate(synth, octave){
     console.log(`Attempting to play chord ${this.root}${this.type}`);
-    let arr = [];
-    arr.push(this.root + String(octave));
-    arr.push(this.third + String(octave));
-    arr.push(this.fifth + String(octave));
-    arr.push(this.seventh + String(octave));
-    synth.triggerAttackRelease(arr, '1m');
-    synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
 
-    // const targetNote = this.root + String(octave); 
-    // synth.triggerAttack(targetNote); 
+    if (synth == poly){
+        let arr = [];
+        arr.push(this.root + String(octave));
+        arr.push(this.third + String(octave));
+        arr.push(this.fifth + String(octave));
+        arr.push(this.seventh + String(octave));
+        synth.triggerAttackRelease(arr, '1.1m');
+        synth.triggerAttackRelease(this.root + String(octave), 6.2); // for 6sec
+    } else {
+        const targetNote = this.root + String(octave); 
+        synth.triggerAttack(targetNote); 
+    }
 }
 
 /* INITIALIZES ALL SYNTH TYPES */
 function initSynths(){
-    poly = new Tone.PolySynth(Tone.FMSynth,{
-    }); 
+    poly = new Tone.PolySynth(Tone.FMSynth,{}); 
     poly.toDestination();
     console.log("initialized polysynth");
 
     underwater = new Tone.Sampler({
-        urls: {
-            A3: "subdued/underwater/A.wav", 
-            B3: "subdued/underwater/B.wav", 
-            C3: "subdued/underwater/C.wav", 
-            D3: "subdued/underwater/D.wav", 
-            E3: "subdued/underwater/E.wav", 
-            F3: "subdued/underwater/F.wav", 
-            G3: "subdued/underwater/G.wav", 
-        }
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: "./subdued/underwater/"
     }).toDestination();
 
     seaclam = new Tone.Sampler({
-        urls: {
-            A3: "subdued/seaclam/A.wav", 
-            B3: "subdued/seaclam/B.wav", 
-            C3: "subdued/seaclam/C.wav", 
-            D3: "subdued/seaclam/D.wav", 
-            E3: "subdued/seaclam/E.wav", 
-            F3: "subdued/seaclam/F.wav", 
-            G3: "subdued/seaclam/G.wav", 
-        }
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: "./subdued/seaclam/"
+    }).toDestination();
+
+    crystal = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: "./subdued/crystal/"
     }).toDestination();
 }
 
@@ -102,6 +95,7 @@ function changeLevels(){
     console.log("Changing Levels...")
     poly.volume.value = -10; 
     seaclam.volume.value = -10; 
+    crystal.volume.value = -10; 
 
     heartbeat.volume.value = 10;
     crickets.volume.value = -20; 
