@@ -12,7 +12,7 @@ starts with low, far-off, contemplative, wash-y synths
 which become high, fuzzy, noisy-ish synths */
 function playDna(measure){
     // get chord at this measure
-    const thischord = chordList[measure];
+    const thischord = chordList[measure-2];
 
     // get synth for this four-measure-stretch
     let thissynth, thisoctave;
