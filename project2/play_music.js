@@ -5,10 +5,10 @@ let bpm = 40; // initialize bpm
 
 // initialize biomes, and therefore all local sounds
 let sea = new Biome("sea");
-let desert = new Biome("desert");
-let forest = new Biome("forest");
-let cave = new Biome("cave");
-let biomeList = [sea, desert, forest, cave];
+// let desert = new Biome("desert");
+// let forest = new Biome("forest");
+// let cave = new Biome("cave");
+let biomeList = [sea];
 
 // initialize global sounds
 let crystal, twinkle; // initialize all basal synths
@@ -79,7 +79,7 @@ function playDna(measure){
 
 /* PLAYS CHORD ON GIVEN SYNTH IN A GIVEN OCTAVE */
 function synthate(synth, octave){
-    console.log(`Attempting to play chord ${this.root}${this.type}`);
+    console.log(`Playing chord ${this.root}${this.type}`);
     const targetNote = this.root + String(octave); 
 
     if (synth == crystal || synth == twinkle){
@@ -96,8 +96,6 @@ function synthate(synth, octave){
 but doesn't start yet */
 function initializeAudio(){
     console.log("Initializing Audio...")
-    initSfx();
-    initSynths(); 
     changeLevels(); 
     console.log(`full chord list: ${chordList}`); 
     initialized = true; 
@@ -132,19 +130,22 @@ function startAudio(){
 
     // play intro of aqualung and exhale
     Tone.Transport.schedule(() => {
+        console.log("playing aqualung at 0:0"); 
         aqualung.start();
     }, "0:0");
     Tone.Transport.schedule(() => {
+        console.log("playing exhale at 0:5"); 
         exhale.start();
     }, "0:5");
     
     // only do everything after aqualung
     Tone.Transport.scheduleOnce(() => {
+        console.log("starting dna player at 0:5"); 
         // play dna, passing in measure as argument
         Tone.Transport.scheduleRepeat(() => {
             // get current measure number (starting at 0?)
             const measure = parseInt(Tone.Transport.position.split(':')[0], 10);
-            console.log(`measure: ${measure}`); 
+            console.log(`attempting to play dna at measure: ${measure}`); 
             playDna(measure);
         }, "1m"); // once every measure
 
@@ -156,6 +157,7 @@ function startAudio(){
 
     // start Transport clock
     Tone.Transport.start(); 
+    console.log("starting transport clock"); 
 }
 
 /* PLAYS GLOBAL SFX
@@ -174,33 +176,41 @@ function playGlobalSfx(){
 
     // play bleep noise a few times
     Tone.Transport.schedule(() => {
+        console.log("playing bleep at 3m"); 
         bleep.start(); 
     }, "3m"); 
     Tone.Transport.schedule(() => {
+        console.log("playing bleep at 15m"); 
         bleep.start(); 
     }, "15m"); 
     Tone.Transport.schedule(() => {
+        console.log("playing bleep at 31m"); 
         bleep.start(); 
     }, "31m"); 
 
     // play scrub noise a few times
     Tone.Transport.schedule(() => {
+        console.log("playing scrub at 4m"); 
         scrub.start(); 
     }, "4m");
     Tone.Transport.schedule(() => {
+        console.log("playing scrub at 20m"); 
         scrub.start(); 
     }, "20m"); 
     Tone.Transport.schedule(() => {
+        console.log("playing scrub at 36m"); 
         scrub.start(); 
     }, "36m"); 
 
     // play creepy crumbly
     Tone.Transport.schedule(() => {
+        console.log("playing creepycrumbly at 12m"); 
         creepycrumbly.start(); 
     }, "12m"); 
 
     // play cpu glitch at end
     Tone.Transport.schedule(() => {
+        console.log("playing cpuglitch at 47m"); 
         cpuglitch.start(); 
     }, "47m"); 
 }
@@ -212,32 +222,39 @@ function playLocalSfx(){
         biome = biomeList[i];
         vol = biome.level; 
 
-        // biome.bg1.volume = bg1vol * vol;
-        // biome.bg2.volume = bg2vol * vol; 
-        biome.bg1.start();
-        biome.bg2.start();
-        biome.bg3.start();
+        // biome.bg1.volume = -15; 
+        // biome.bg2.volume = -15; 
+        // biome.bg3.volume = -15;  
+        // biome.bg1.start();
+        // biome.bg2.start();
+        // biome.bg3.start();
 
         // play sfx noise a few times
         Tone.Transport.schedule(() => {
+            console.log(`playing ${biome.name} sfx1 at 13m`); 
             biome.sfx1.start(); 
         }, "13m"); 
         Tone.Transport.schedule(() => {
+            console.log(`playing ${biome.name} sfx1 at 25m`); 
             biome.sfx1.start(); 
         }, "25m"); 
         Tone.Transport.schedule(() => {
+            console.log(`playing ${biome.name} sfx1 at 33m`); 
             biome.sfx1.start(); 
         }, "33m"); 
 
         Tone.Transport.schedule(() => {
+            console.log(`playing ${biome.name} sfx2 at 26m`); 
             biome.sfx2.start(); 
         }, "26m"); 
         Tone.Transport.schedule(() => {
+            console.log(`playing ${biome.name} sfx2 at 46m`); 
             biome.sfx2.start(); 
         }, "46m"); 
 
         // ramp (auto-set to go to Am)
         Tone.Transport.schedule(() => {
+            console.log(`playing ${biome.name} ramp at 20m as A3`); 
             biome.ramp.triggerAttack("A3"); 
         }, "20m"); 
     }
@@ -346,19 +363,20 @@ function Biome(name){
         loop: false,
         autostart: false
     }).toDestination();
+    // bgs loop duh
     this.bg1 = new Tone.Player({
         url: `${name}/bg/bg1.wav`, 
-        loop: false,
+        loop: true,
         autostart: false
     }).toDestination();
     this.bg2 = new Tone.Player({
         url: `${name}/bg/bg2.wav`, 
-        loop: false,
+        loop: true,
         autostart: false
     }).toDestination();
     this.bg3 = new Tone.Player({
         url: `${name}/bg/bg3.wav`, 
-        loop: false,
+        loop: true,
         autostart: false
     }).toDestination();
 
