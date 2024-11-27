@@ -1,6 +1,6 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
-let bpm = 40; // initialize bpm
+let bpm = 44; // initialize bpm
     // TODO: if want no spaces, make this 45 or smth
 
 // initialize biomes, and therefore all local sounds
@@ -28,7 +28,7 @@ function playDna(measure){
     let thissynth, thisoctave;
     thisoctave = 3;  
     switch (true) {
-        case (measure <= 4):
+        case (measure < 4):
             thissynth = crystal; 
             break;
         case (3 < measure && measure < 8):
@@ -231,9 +231,9 @@ function playLocalSfx(){
 
         // play sfx noise a few times
         Tone.Transport.schedule(() => {
-            console.log(`playing ${biome.name} sfx1 at 13m`); 
+            console.log(`playing ${biome.name} sfx1 at 54n`); 
             biome.sfx1.start(); 
-        }, "13m"); 
+        }, "54n"); 
         Tone.Transport.schedule(() => {
             console.log(`playing ${biome.name} sfx1 at 25m`); 
             biome.sfx1.start(); 
