@@ -2,7 +2,7 @@
 let chordList = []; 
 let bpm = 40; // initialize bpm
     // TODO: if want no spaces, make this 45 or smth
-let poly, underwater, seaclam, crystal; // initialize all synths
+let poly, underwater, seaclam, crystal, tape; // initialize all synths
 let crickets, scrub, heartbeat, aqualung, exhale, bleep; // initialize all sfx
 let initialized = false; 
 
@@ -62,6 +62,11 @@ function initSynths(){
     underwater = new Tone.Sampler({
         urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
         baseUrl: "./subdued/underwater/"
+    }).toDestination();
+
+    tape = new Tone.Sampler({
+        urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
+        baseUrl: "./subdued/tape/"
     }).toDestination();
 
     seaclam = new Tone.Sampler({
