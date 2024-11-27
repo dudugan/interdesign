@@ -16,7 +16,7 @@ function playDna(measure){
     //     console.log("measure was less than 2 so ignored"); 
     //     return; 
     // }
-    const thischord = chordList[measure];
+    const thischord = chordList[measure-1];
 
     // get synth for this four-measure-stretch
     let thissynth, thisoctave;
