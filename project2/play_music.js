@@ -133,8 +133,8 @@ function startAudio(){
         }, "1m"); // once every measure
 
         // just shorthand for initializing all the sfx
+        playBg(); 
         playSfx(); 
-        playFlourish(); 
         // playEnd(); 
     }, "0:5");
 
@@ -146,7 +146,7 @@ function startAudio(){
 heartbeat; crickets, wind, forest : distorted
 repeating endless samples
 volume increasing towards middle/end */
-function playSfx(){
+function playBg(){
     // play cricket noise throughout the whole piece, looping
     crickets.start();
 
@@ -156,11 +156,11 @@ function playSfx(){
     }, "2n"); // twice every measure
 }
 
-/* PLAYS FLOURISHES
+/* PLAYS SFX
 insect noises, samples and pitch changes going super high and low
 potentially arpeggios
 at ~1:00, 2:00, 2:45 */
-function playFlourish(){
+function playSfx(){
     // play bleep noise a few times
     Tone.Transport.schedule(() => {
         bleep.start(); 
