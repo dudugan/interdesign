@@ -11,12 +11,7 @@ the specific synth changes every 4 measures for 60 measures
 starts with low, far-off, contemplative, wash-y synths
 which become high, fuzzy, noisy-ish synths */
 function playDna(measure){
-    // get chord at this measure
-    // if (measure < 2){
-    //     console.log("measure was less than 2 so ignored"); 
-    //     return; 
-    // }
-    const thischord = chordList[measure-1];
+    const thischord = chordList[measure];
 
     // get synth for this four-measure-stretch
     let thissynth, thisoctave;
