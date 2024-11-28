@@ -263,7 +263,7 @@ function Biome(name){
     this.name = name;
 
     // synths
-    const synthsList = ["sbd1", "sbd2", "prech", "ch1", "postch1", "postch2", "ch2", "ramp"];
+    const synthsList = ["sbd1", "sbd2", "prech", "ch1", "postch1", "postch2", "ch2"];
     for (let synth of synthsList){
         console.log(`initializing ${synth} sampler for biome ${name}`);
         this[synth] = new Tone.Sampler({
@@ -285,6 +285,14 @@ function Biome(name){
     this.bg = new Tone.Player({
         url: `${name}/sfx/bg.wav`, 
         loop: true,
+        autostart: false
+    }).toDestination();
+
+    // ramp
+    console.log(`initializing sfx sampler for biome ${name}`);
+    this.sfx = new Tone.Player({
+        url: `${name}/ramp/A.wav`, 
+        loop: false,
         autostart: false
     }).toDestination();
 
