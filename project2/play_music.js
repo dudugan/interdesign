@@ -196,8 +196,7 @@ function playGlobalSfx(){
 function playEnd(){
     // schedule end of piece
     Tone.Transport.schedule(() => {
-        console.log("looping piece?"); 
-        // Tone.Transport.stop();
+        console.log("looping piece!"); 
         Tone.Transport.position = 0;
     }, "52m");
 }
