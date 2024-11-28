@@ -350,7 +350,7 @@ function Biome(name){
 
     // ramp
     console.log(`initializing sfx sampler for biome ${name}`);
-    this.sfx = new Tone.Player({
+    this.ramp = new Tone.Player({
         url: `${name}/ramp/A.wav`, 
         loop: false,
         autostart: false
