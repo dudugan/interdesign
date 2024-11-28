@@ -56,8 +56,8 @@
                 processFile();
             }); 
 
-            function level(biome){
-                const mark = document.getElementById(biome); 
+            // // slider stuff
+            document.querySelectorAll('.mark').forEach((mark, index) => {
                 let isDragging = false;
                 let slider = mark.parentElement;
 
@@ -97,80 +97,23 @@
                         let sliderVal = offsetY / (sliderHeight - markHeight);
 
                         // make that sliderVal change the biome value
-                        const biomes = {'cave': cave, 'desert': desert,
-                            'forest': forest, 'sea': sea };
+                        let biome = biomeList[index];
+                        const biomes = {
+                            'cave': cave, 'desert': desert,
+                            'forest': forest, 'sea': sea
+                        };
                         const synths = ["sbd1", "sbd2", "prech", "ch1", "postch1", "postch2", "ch2"];
-                        for (const synth of synths){
-                            biomes[biome][synth].volume.value += sliderVal; 
+                        for (const synth of synths) {
+                            biomes[biome][synth].volume.value += sliderVal;
                         }
                         biomes[biome].sfx.volume.value += sliderVal;
                         biomes[biome].bg.volume.value += sliderVal;
                         biomes[biome].ramp.volume.value += sliderVal;
 
-                        console.log(`${biomes[biome].name} level change of: ${sliderVal}`); 
+                        console.log(`${biome.name} level set to: ${biome.level}`); 
                     }
-                });   
-            }
-
-            level('cave');
-            level('desert');
-            level('forest');
-            level('sea'); 
-
-
-
-
-
-
-
-            // // slider stuff
-            // document.querySelectorAll('.mark').forEach((mark, index) => {
-            //     let isDragging = false;
-            //     let slider = mark.parentElement;
-
-            //     // get height of slider and mark
-            //     let sliderHeight = slider.offsetHeight;
-            //     let markHeight = mark.offsetHeight;
-                
-            //     // when mouse begins click on a slider, set isDragging to true
-            //     mark.addEventListener('mousedown', (e) => {
-            //         isDragging = true; 
-            //     });
-
-            //     // when mouse ends click (anywhere!), set isDragging to false
-            //     document.addEventListener('mouseup', (e) => {
-            //         if (isDragging){
-            //             isDragging = false; 
-            //         }
-            //     }); 
-
-            //     // makes the mark move and changes the slider value
-            //     document.addEventListener('mousemove', (e) => {
-            //         // if mouse moves while clicking on slider
-            //         if (isDragging) {
-            //             // gets rectangle with size and position of .slider relative to viewport
-            //             let rect = slider.getBoundingClientRect(); 
-
-            //             // calculate how far up or down we would want to move the mark absent of restrictions
-            //             let offsetY = e.clientY - rect.top; // mouse.y - slidertop.y
-
-            //             // make sure mark doesn't go below slider (min) or above slider (max)
-            //             offsetY = Math.max(0, Math.min(sliderHeight - markHeight, offsetY));
-                        
-            //             // move mark
-            //             mark.style.top = `${offsetY}px`;
-
-            //             // change sliderVal to somewhere between 0 and 1
-            //             let sliderVal = offsetY / (sliderHeight - markHeight);
-
-            //             // make that sliderVal change the biome value
-            //             let biome = biomeList[index];
-            //             biome.level = sliderVal;
-
-            //             console.log(`${biome.name} level set to: ${biome.level}`); 
-            //         }
-            //     });      
-            // }); 
+                });      
+            }); 
         </script>
     </body>
 </html>
