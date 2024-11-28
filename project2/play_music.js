@@ -100,15 +100,14 @@ function synthate(synth, octave){
 but doesn't start yet */
 function initializeAudio(){
     console.log("Initializing Audio...")
-    changeLevels(); 
+    initLevels(); 
     console.log(`full chord list: ${chordList}`); 
     initialized = true; 
 }
 
-/* CHANGES VOLUME OF SFX 
-AND THE PROPERTIES OF SYNTHS
-called with user input on the sliders */
-function changeLevels(){
+/* INITIALIZES VOLUME OF SFX 
+AND THE PROPERTIES OF SYNTHS */
+function initLevels(){
     // 1. get cave, forest, sea, desert slider values
     // 2. use them
     console.log("Changing Levels...")
