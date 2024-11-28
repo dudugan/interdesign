@@ -17,8 +17,9 @@ body {
     margin-bottom: 10px;
 }
 #sliderbox {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-areas: 'caveslider desertslider forestslider oceanslider'
+                        'cavelabel desertlabel forestlabel oceanlabel';
     gap: 5px;
 }
 #boopbox {

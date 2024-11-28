@@ -23,6 +23,10 @@
                     <div class="slider">
                         <div class="mark" style="top: 120px;"></div>
                     </div>
+                    <label>🪨</label>
+                    <label>🏜️</label>
+                    <label>🌲</label>
+                    <label>🌊</label>
                 </div>
                 <div id="boopbox">
                     <label>select organism</label>
@@ -50,6 +54,52 @@
             // once file selected, process it
             fileInput.addEventListener('change', () => {
                 processFile();
+            }); 
+
+            // dragging sliders
+            document.querySelectorAll('.mark').forEach((mark, index) => {
+                let isDragging = false;
+                let slider = mark.parentElement;
+                let sliderVal = 0;
+
+                // get height of slider and mark
+                let sliderHeight = slider.offsetHeight;
+                let markHeight = mark.offsetHeight;
+                
+                // when mouse begins click on a slider, set isDragging to true
+                mark.addEventListener('mousedown', (e) => {
+                    isDragging = true; 
+                });
+
+                // when mouse ends click (anywhere!), set isDragging to false
+                document.addEventListener('mouseup', (e) => {
+                    if (isDragging){
+                        isDragging = false; 
+                    }
+                }); 
+
+                // makes the mark move and changes the slider value
+                document.addEventListener('mousemove', (e) => {
+                    // if mouse moves while clicking on slider
+                    if (isDragging) {
+                        // gets rectangle with size and position of .slider relative to viewport
+                        let rect = slider.getBoundingClientRect(); 
+
+                        // calculate how far up or down we would want to move the mark absent of restrictions
+                        let offsetY = e.clientY - rect.top; // mouse.y - slidertop.y
+
+                        // make sure mark doesn't go below slider (min) or above slider (max)
+                        offsetY = Math.max(0, Math.min(sliderHeight - markHeight, offsetY));
+                        
+                        // move mark
+                        mark.style.top = `${offsetY}px`;
+
+                        // change sliderVal to somewhere between 0 and 1
+                        sliderVal = Math.round(offsetY / (sliderHeight - markHeight));
+
+                        console.log(`slider ${index} value: ${sliderVal}`); 
+                    }
+                });      
             }); 
         </script>
     </body>
