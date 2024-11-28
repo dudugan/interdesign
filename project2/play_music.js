@@ -329,7 +329,7 @@ function Biome(name){
         this[synth] = new Tone.Sampler({
             urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
             baseUrl: `./${name}/${synth}/`
-        }).connect(synthGain)();
+        }).connect(synthGain);
     }
 
     // sfx
@@ -338,7 +338,7 @@ function Biome(name){
         url: `${name}/sfx/sfx.wav`, 
         loop: false,
         autostart: false
-    }).connect(sfxGain)();
+    }).connect(sfxGain);
 
     // bg
     console.log(`initializing bg sampler for biome ${name}`);
@@ -346,7 +346,7 @@ function Biome(name){
         url: `${name}/sfx/bg.wav`, 
         loop: true,
         autostart: false
-    }).connect(sfxGain)();
+    }).connect(sfxGain);
 
     // ramp
     console.log(`initializing sfx sampler for biome ${name}`);
@@ -354,7 +354,7 @@ function Biome(name){
         url: `${name}/ramp/A.wav`, 
         loop: false,
         autostart: false
-    }).connect(synthGain)();
+    }).connect(synthGain);
 
     // levelling
     let _level = 0.25; // default level internal storage
@@ -383,7 +383,7 @@ function initGlobal(){
         url: "global/sfx/crickets.wav", 
         loop: true,
         autostart: false
-    }).connect(sfxGain)();
+    }).connect(sfxGain);
 
     // synths
     const globalSynths = ['crystal', 'twinkle'];
@@ -392,7 +392,7 @@ function initGlobal(){
         g[synth] = new Tone.Sampler({
             urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
             baseUrl: `./global/${synth}/`
-        }).connect(synthGain)();
+        }).connect(synthGain);
     }
 
     // non-looping sfx
@@ -405,7 +405,7 @@ function initGlobal(){
             url: `global/sfx/${sfect}.wav`,
             loop: false,
             autostart: false
-        }).connect(sfxGain)();
+        }).connect(sfxGain);
     }
 
     console.log("initialized global sounds"); 
