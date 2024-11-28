@@ -1,7 +1,8 @@
 // initialize chordList, to be populated by processFile through createDnaList
 let chordList = []; 
-let bpm = 44; // initialize bpm
-    // TODO: if want no spaces, make this 45 or smth
+let bpm = 44; // initialize bpm (40 would have zero overlap between clips)
+const synthGain = new Tone.Gain(1).toDestination();
+const sfxGain = new Tone.Gain(1).toDestination();
 
 // initialize biomes, and therefore all local sounds
 let sea = new Biome("sea");
@@ -113,7 +114,7 @@ function changeLevels(){
     console.log("Changing Levels...")
     g.crystal.volume.value = -10; 
 
-    g.heartbeat.volume.value = 10;
+    g.heartbeat.volume.value = 20;
     g.crickets.volume.value = -20; 
     g.aqualung.volume.value = 10;
     g.bleep.volume.value = 0; 
@@ -130,6 +131,65 @@ function startAudio(){
 
     // set bpm
     Tone.Transport.bpm.value = bpm;
+
+    // synth automation
+    Tone.Transport.schedule((time) => {
+        // start at initial volume
+        synthGain.gain.setValueAtTime(1, time);
+
+        // ramp 8-10m
+        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("8m").toSeconds()); 
+
+        // fall 12m
+        synthGain.gain.setValueAtTime(2, time + Tone.Time("12m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(1, time + Tone.Time("14m").toSeconds());
+
+        // ramp 16-20m
+        synthGain.gain.setValueAtTime(1, time + Tone.Time("16m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(3, time + Tone.Time("20m").toSeconds());
+
+        // fall 24m
+        synthGain.gain.setValueAtTime(3, time + Tone.Time("23m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("25m").toSeconds());
+
+        // ramp 44-47m
+        synthGain.gain.setValueAtTime(2, time + Tone.Time("43m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(3, time + Tone.Time("47m").toSeconds());
+
+        // fall 48m
+        synthGain.gain.setValueAtTime(3, time + Tone.Time("47m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("48m").toSeconds());
+    }, 0);
+
+    // sfx automation
+    Tone.Transport.schedule((time) => {
+        // start at initial volume
+        sfxGain.gain.setValueAtTime(1, time);
+
+        // fall to 3/4 at 4m
+        synthGain.gain.setValueAtTime(1, time + Tone.Time("3m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(0.75, time + Tone.Time("4m").toSeconds());
+
+        // ramp to 2 6-9m
+        synthGain.gain.setValueAtTime(0.75, time + Tone.Time("6m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("9m").toSeconds());
+        
+        // fall to 1 16-20m
+        synthGain.gain.setValueAtTime(2, time + Tone.Time("16m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(1, time + Tone.Time("20m").toSeconds());
+
+        // ramp to 2 26-28m
+        synthGain.gain.setValueAtTime(1, time + Tone.Time("26m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("28m").toSeconds());
+
+        // ramp to 3 46-48m
+        synthGain.gain.setValueAtTime(2, time + Tone.Time("46m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(3, time + Tone.Time("48m").toSeconds());
+
+        // fall to 2 49-51m
+        synthGain.gain.setValueAtTime(3, time + Tone.Time("49m").toSeconds());
+        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("51m").toSeconds());
+    }, 0); 
 
     // schedule sfx
     playGlobalSfx(); 
@@ -269,7 +329,7 @@ function Biome(name){
         this[synth] = new Tone.Sampler({
             urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
             baseUrl: `./${name}/${synth}/`
-        }).toDestination();
+        }).connect(synthGain)();
     }
 
     // sfx
@@ -278,7 +338,7 @@ function Biome(name){
         url: `${name}/sfx/sfx.wav`, 
         loop: false,
         autostart: false
-    }).toDestination();
+    }).connect(sfxGain)();
 
     // bg
     console.log(`initializing bg sampler for biome ${name}`);
@@ -286,7 +346,7 @@ function Biome(name){
         url: `${name}/sfx/bg.wav`, 
         loop: true,
         autostart: false
-    }).toDestination();
+    }).connect(sfxGain)();
 
     // ramp
     console.log(`initializing sfx sampler for biome ${name}`);
@@ -294,7 +354,7 @@ function Biome(name){
         url: `${name}/ramp/A.wav`, 
         loop: false,
         autostart: false
-    }).toDestination();
+    }).connect(synthGain)();
 
     // levelling
     let _level = 0.25; // default level internal storage
@@ -323,7 +383,7 @@ function initGlobal(){
         url: "global/sfx/crickets.wav", 
         loop: true,
         autostart: false
-    }).toDestination();
+    }).connect(sfxGain)();
 
     // synths
     const globalSynths = ['crystal', 'twinkle'];
@@ -332,7 +392,7 @@ function initGlobal(){
         g[synth] = new Tone.Sampler({
             urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
             baseUrl: `./global/${synth}/`
-        }).toDestination();
+        }).connect(synthGain)();
     }
 
     // non-looping sfx
@@ -345,7 +405,7 @@ function initGlobal(){
             url: `global/sfx/${sfect}.wav`,
             loop: false,
             autostart: false
-        }).toDestination();
+        }).connect(sfxGain)();
     }
 
     console.log("initialized global sounds"); 
