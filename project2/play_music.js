@@ -261,7 +261,6 @@ function Biome(name){
 
     // properties
     this.name = name;
-    this.level = 0.25; 
 
     // synths
     const synthsList = ["sbd1", "sbd2", "prech", "ch1", "postch1", "postch2", "ch2", "ramp"];
@@ -288,6 +287,23 @@ function Biome(name){
         loop: true,
         autostart: false
     }).toDestination();
+
+    // levelling
+    let _level = 0.25; // default level internal storage
+    Object.defineProperty(this, "level", {
+        get() {
+            return _level; 
+        },
+        // whenever change level, change volume of all synths
+        set(value){
+            _level = value;
+            let vol = Tone.gainToDb(value);
+            for (let synth of synthsList){
+                this[synth].volume.value = vol; 
+            }
+            console.log(`${this.name} synth volume updated to ${vol} dB`); 
+        }
+    });
 
     console.log(`initialized sounds and properties for biome ${name}`); 
 }
