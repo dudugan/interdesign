@@ -369,6 +369,10 @@ function Biome(name){
             for (let synth of synthsList){
                 this[synth].volume.value = vol; 
             }
+            this.sfx.volume.value += vol; 
+            this.bg.volume.value += vol;
+            this.ramp.volume.value += vol; 
+
             console.log(`${this.name} synth volume updated to ${vol} dB`); 
         }
     });
