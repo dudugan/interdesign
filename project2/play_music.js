@@ -224,7 +224,7 @@ function playLocalSfx(){
         // ramp (auto-set to go to Am)
         Tone.Transport.schedule(() => {
             console.log(`playing ${biome.name} ramp at 20m as A3`); 
-            biome.ramp.triggerAttack("A3"); 
+            biome.ramp.start(); 
         }, "20m"); 
     }
 }
