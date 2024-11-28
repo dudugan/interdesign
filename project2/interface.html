@@ -100,7 +100,7 @@
                         const biomes = {'cave': cave, 'desert': desert,
                             'forest': forest, 'sea': sea };
                         const synths = ["sbd1", "sbd2", "prech", "ch1", "postch1", "postch2", "ch2"];
-                        for (synth in synths){
+                        for (const synth of synths){
                             biomes[biome][synth].volume.value += sliderVal; 
                         }
                         biomes[biome].sfx.volume.value += sliderVal;
