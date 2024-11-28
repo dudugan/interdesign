@@ -89,8 +89,8 @@ function synthate(synth, octave){
         synth.triggerAttack(targetNote);
     } else {
         for (let i = 0; i < biomeList.length; i++){
-            synth = biomeList[i][synth];
-            synth.triggerAttack(targetNote);
+            new_synth = biomeList[i][synth];
+            new_synth.triggerAttack(targetNote);
         }
     }
 }
@@ -304,7 +304,7 @@ function Biome(name){
         },
         // whenever change level, change volume of all synths
         set(value){
-            _level = value;
+            _level = 1- value;
             let vol = Tone.gainToDb(value);
             for (let synth of synthsList){
                 this[synth].volume.value = vol; 
