@@ -356,25 +356,25 @@ function Biome(name){
     }).connect(synthGain);
 
     // levelling
-    let _level = 0.25; // default level internal storage
-    Object.defineProperty(this, "level", {
-        get() {
-            return _level; 
-        },
-        // whenever change level, change volume of all synths
-        set(value){
-            _level = 1- value;
-            let vol = Tone.gainToDb(value);
-            for (let synth of synthsList){
-                this[synth].volume.value = vol; 
-            }
-            this.sfx.volume.value += vol; 
-            this.bg.volume.value += vol;
-            this.ramp.volume.value += vol; 
+    // let _level = 0.25; // default level internal storage
+    // Object.defineProperty(this, "level", {
+    //     get() {
+    //         return _level; 
+    //     },
+    //     // whenever change level, change volume of all synths
+    //     set(value){
+    //         _level = 1- value;
+    //         let vol = Tone.gainToDb(value);
+    //         for (let synth of synthsList){
+    //             this[synth].volume.value = vol; 
+    //         }
+    //         this.sfx.volume.value += vol; 
+    //         this.bg.volume.value += vol;
+    //         this.ramp.volume.value += vol; 
 
-            console.log(`${this.name} synth volume updated to ${vol} dB`); 
-        }
-    });
+    //         console.log(`${this.name} synth volume updated to ${vol} dB`); 
+    //     }
+    // });
 
     console.log(`initialized sounds and properties for biome ${name}`); 
 }
