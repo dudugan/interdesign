@@ -5,10 +5,10 @@ let bpm = 44; // initialize bpm
 
 // initialize biomes, and therefore all local sounds
 let sea = new Biome("sea");
-// let desert = new Biome("desert");
-// let forest = new Biome("forest");
-// let cave = new Biome("cave");
-let biomeList = [sea];
+let desert = new Biome("desert");
+let forest = new Biome("forest");
+let cave = new Biome("cave");
+let biomeList = [cave, desert, forest, sea];
 
 const g = {}; // initialize centralized object for all global samplers and players
 
