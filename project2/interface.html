@@ -170,30 +170,18 @@
                         // move mark
                         mark.style.top = `${offsetY}px`;
 
-                        // change sliderVal to somewhere between 0 and 1
-                        let sliderVal = offsetY / (sliderHeight - markHeight);
+                        // change sliderVal to somewhere between -2 and 2
+                        let sliderVal = 2 - 4*(offsetY / (sliderHeight - markHeight));
 
-                        // make that sliderVal change the biome value
+                        // make so that sliderVal change the biome value
                         let biome = biomeList[index];
-                        console.log('biome: ', biome);
-                        const biomes = {
-                            'cave': cave, 'desert': desert,
-                            'forest': forest, 'sea': sea
-                        };
-                        const synths = ["sbd1", "sbd2", "prech", "ch1", "postch1", "postch2", "ch2"];
-                        console.log('biomes[biome]: ', biomes[biome]);
-                        if (!biomes[biome][synth]){
-                            console.log('!biomes[biome][synth]')
+                        console.log(`trying to set biome ${biome.name} gain to sliderVal ${sliderVal}`);
+                        if (!biome.gain){
+                            console.log('!biome.gain')
                             return; 
                         }
-                        for (const synth of synths) {
-                            biomes[biome][synth].volume.value += sliderVal;
-                        }
-                        biomes[biome].sfx.volume.value += sliderVal;
-                        biomes[biome].bg.volume.value += sliderVal;
-                        biomes[biome].ramp.volume.value += sliderVal;
-
-                        console.log(`${biome.name} level set to: ${biome.level}`); 
+                        
+                        biome.gain.gain.rampTo(sliderVal, 0.2); // ramp to sliderVal over 0.2sec
                     }
                 });      
             }); 

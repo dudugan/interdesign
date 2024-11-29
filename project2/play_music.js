@@ -161,32 +161,32 @@ function startAudio(){
 
     // sfx automation
     Tone.Transport.schedule((time) => {
-        // start at initial volume
-        sfxGain.gain.setValueAtTime(1, time);
+        // start at 3/4 og volume
+        sfxGain.gain.setValueAtTime(0.75, time);
 
-        // fall to 3/4 at 4m
-        synthGain.gain.setValueAtTime(1, time + Tone.Time("3m").toSeconds());
-        synthGain.gain.linearRampToValueAtTime(0.75, time + Tone.Time("4m").toSeconds());
+        // fall to 0.4 at 4m
+        sfxGain.gain.setValueAtTime(0.75, time + Tone.Time("3m").toSeconds());
+        sfxGain.gain.linearRampToValueAtTime(0.4, time + Tone.Time("4m").toSeconds());
 
-        // ramp to 2 6-9m
-        synthGain.gain.setValueAtTime(0.75, time + Tone.Time("6m").toSeconds());
-        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("9m").toSeconds());
+        // ramp to 1 6-9m
+        sfxGain.gain.setValueAtTime(0.4, time + Tone.Time("6m").toSeconds());
+        sfxGain.gain.linearRampToValueAtTime(1, time + Tone.Time("9m").toSeconds());
         
-        // fall to 1 16-20m
-        synthGain.gain.setValueAtTime(2, time + Tone.Time("16m").toSeconds());
-        synthGain.gain.linearRampToValueAtTime(1, time + Tone.Time("20m").toSeconds());
+        // fall to 0.75 16-20m
+        sfxGain.gain.setValueAtTime(1, time + Tone.Time("16m").toSeconds());
+        sfxGain.gain.linearRampToValueAtTime(0.75, time + Tone.Time("20m").toSeconds());
 
-        // ramp to 2 26-28m
-        synthGain.gain.setValueAtTime(1, time + Tone.Time("26m").toSeconds());
-        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("28m").toSeconds());
+        // ramp to 1 26-28m
+        sfxGain.gain.setValueAtTime(0.75, time + Tone.Time("26m").toSeconds());
+        sfxGain.gain.linearRampToValueAtTime(1, time + Tone.Time("28m").toSeconds());
 
-        // ramp to 3 46-48m
-        synthGain.gain.setValueAtTime(2, time + Tone.Time("46m").toSeconds());
-        synthGain.gain.linearRampToValueAtTime(3, time + Tone.Time("48m").toSeconds());
+        // ramp to 1.5 46-48m
+        sfxGain.gain.setValueAtTime(1, time + Tone.Time("46m").toSeconds());
+        sfxGain.gain.linearRampToValueAtTime(1.5, time + Tone.Time("48m").toSeconds());
 
-        // fall to 2 49-51m
-        synthGain.gain.setValueAtTime(3, time + Tone.Time("49m").toSeconds());
-        synthGain.gain.linearRampToValueAtTime(2, time + Tone.Time("51m").toSeconds());
+        // fall to 1 49-51m
+        sfxGain.gain.setValueAtTime(1.5, time + Tone.Time("49m").toSeconds());
+        sfxGain.gain.linearRampToValueAtTime(1, time + Tone.Time("51m").toSeconds());
     }, 0); 
 
     // schedule sfx
@@ -320,6 +320,7 @@ function Biome(name){
 
     // properties
     this.name = name;
+    this.gain = new Tone.Gain(1).toDestination();
 
     // synths
     const synthsList = ["sbd1", "sbd2", "prech", "ch1", "postch1", "postch2", "ch2"];
@@ -329,6 +330,7 @@ function Biome(name){
             urls: { A3: "A.wav", B3: "B.wav", C3: "C.wav", D3: "D.wav", E3: "E.wav", F3: "F.wav", G3: "G.wav", },
             baseUrl: `./${name}/${synth}/`
         }).connect(synthGain);
+        this[synth].connect(this.gain); 
     }
 
     // sfx
@@ -338,6 +340,7 @@ function Biome(name){
         loop: false,
         autostart: false
     }).connect(sfxGain);
+    this.sfx.connect(this.gain);
 
     // bg
     console.log(`initializing bg sampler for biome ${name}`);
@@ -346,6 +349,7 @@ function Biome(name){
         loop: true,
         autostart: false
     }).connect(sfxGain);
+    this.bg.connect(this.gain);
 
     // ramp
     console.log(`initializing sfx sampler for biome ${name}`);
@@ -354,6 +358,7 @@ function Biome(name){
         loop: false,
         autostart: false
     }).connect(synthGain);
+    this.ramp.connect(this.gain);
 
     console.log(`initialized sounds and properties for biome ${name}`); 
 }
