@@ -4,6 +4,14 @@ body {
     align-items: center;
     height: 100vh;
 }
+img {
+    width: 110vw;
+    height: 110vh;
+    object-fit: cover;
+    position: fixed;
+    z-index: -5;
+    opacity: 0.25;
+}
 
 /* CONTAINER AND SUB-ELEMENTS */
 #container {
