@@ -15,7 +15,7 @@
         <div class="popup" id="selector">
             <label>select an organism</label>
             <div class="screen">
-                <div class = "current" onclick="load('preloaded/yamamai.txt')">
+                <div onclick="load('preloaded/yamamai.txt')">
                   a. yamamai</div>
                 <div onclick="load('preloaded/yamamai.txt')">
                   s. suricatta</div>
@@ -99,6 +99,8 @@
 
             // load preloaded file
             function load(filePath){
+                toggleSelector(); 
+                alert('file selected!'); 
                 fetch(filePath)
                     .then(response => response.blob())
                     .then(fileContent => {
