@@ -32,7 +32,7 @@ img {
                         'cavelabel desertlabel forestlabel oceanlabel';
     gap: 15px;
 }
-#sliderbox label {
+.emoji {
     background-image: url('imgs/cartoonwoodsmall.avif');
     background-size: cover;
     border-radius: 5px;
@@ -59,7 +59,7 @@ img {
     padding: 5px;
     box-shadow: 0px 0 10px #716219 inset;
 }
-.booptray label {
+label {
     background-color: rgb(187, 187, 187);
     border-radius: 5px;
     padding: 2px 10px; 
@@ -106,3 +106,52 @@ input[type = "file"] {
 #uploadButton {
     display: inline-block;
 }
+
+/* for the selector */
+.popup {
+    /* display: none; */
+    z-index: 1;
+    position: fixed;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background-image: url('imgs/cartoonwoodsmall.avif');
+    background-size: cover;
+    padding: 20px;
+    border: 2px solid black;
+    box-shadow: 0px 0 50px #716219, 
+        0px 0 20px black inset;
+    border-radius: 10px;
+    text-align: center;
+    color: black; 
+    font-size: 1rem;
+}
+.screen {
+    height: 150px;
+    background-color: #dac9a5;
+    margin: 20px 0px;
+    border-radius: 5px;
+    border: 2px solid #000000;
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: scroll;
+  }
+  
+  .screen div {
+    border-bottom: 1px solid #412323;
+    cursor: pointer;
+    text-align: left;
+    padding-left: 5px;
+    min-height: 20px;
+    overflow: hidden;
+    word-break: break-all; 
+  }
+  
+  .screen div:hover {
+      background-color: rgb(144, 97, 81);
+  }
+  
+  .current {
+      background-color: rgb(76, 38, 24);
+      color: white; 
+  }

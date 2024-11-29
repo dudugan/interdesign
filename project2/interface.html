@@ -12,6 +12,34 @@
         <img id="desertbg" src="bgs/desert.jpg">
         <img id="forestbg" src="bgs/forest.jpg">
         <img id="seabg" src="bgs/sea.jpg">
+        <div class="popup" id="selector">
+            <label>select an organism</label>
+            <div class="screen">
+                <div class = "current" onclick="load('preloaded/yamamai.txt')">
+                  a. yamamai</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  s. suricatta</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  h. sapiens</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  p. onca</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  p. macrocephalus</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  o. maculatus</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  a. sinensis</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  c. familiaris</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  p. anubis</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  o. anatinus</div>
+                <div onclick="load('preloaded/yamamai.txt')">
+                  c. corone</div>
+              </div>
+              <label onclick="toggleSelector()">go back</label>
+        </div>
         <div id="container">
             <div id="sliderbox">
                 <div class="slider">
@@ -26,15 +54,15 @@
                 <div class="slider">
                     <div class="mark" id="sea" style="top: 120px;"></div>
                 </div>
-                <label>🪨</label>
-                <label>🏜️</label>
-                <label>🌲</label>
-                <label>🌊</label>
+                <div class="emoji">🪨</div>
+                <div class="emoji">🏜️</div>
+                <div class="emoji">🌲</div>
+                <div class="emoji">🌊</div>
             </div>
             <div id="boopbox">
                 <div class="booptray">
                     <button id="select" class="boop"></button>
-                    <label for="select">select organism</label>
+                    <label for="select" onclick="toggleSelector()">select organism</label>
                 </div>
                 <div class="booptray">
                     <button id="uploadButton" class="boop"></button>
@@ -57,6 +85,38 @@
             const fileInput = document.getElementById('upload');
             const uploadButton = document.getElementById('uploadButton');
             updateBackground(); // initialize background to sliders
+            document.getElementById("selector").style.display = 'none'; // initialize no popup
+
+            // toggle selector popup on and off
+            function toggleSelector(){
+                selectorDisplay = document.getElementById("selector").style.display; 
+                if (selectorDisplay == 'none'){
+                    document.getElementById("selector").style.display = 'block';
+                } else {
+                    document.getElementById("selector").style.display = 'none';
+                }
+            }
+
+            // load preloaded file
+            function load(filePath){
+                fetch(filePath)
+                    .then(response => response.blob())
+                    .then(fileContent => {
+                        console.log('file content:\n', fileContent);
+
+                        // create new file object frm content
+                        const file = new File([fileContent], filePath.split('/').pop(), {type: 'text/plain'});
+                        
+                        // update input files array
+                        const dataTransfer = new DataTransfer(); 
+                        dataTransfer.items.add(file);
+                        fileInput.files = dataTransfer.files;
+
+                        // simulate file being uploaded
+                        fileInput.dispatchEvent(new Event('change'));
+                    })
+                    .catch(error => console.error(`error loading file:`, error));
+            }
 
             // when click upload button, it's as if you click the file input
             uploadButton.addEventListener('click', () => {
