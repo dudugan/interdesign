@@ -101,7 +101,6 @@ but doesn't start yet */
 function initializeAudio(){
     console.log("Initializing Audio...")
     initLevels(); 
-    console.log(`full chord list: ${chordList}`); 
     initialized = true; 
 }
 
