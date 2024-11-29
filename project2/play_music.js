@@ -15,7 +15,7 @@ const g = {}; // initialize centralized object for all global samplers and playe
 
 initGlobal();
 let initialized = false; 
-let finished = false; 
+let playing = null; 
 
 /* PLAYS EACH CHORD IN CHORDLIST SEQUENTIALLY
 the specific synth changes every 4 measures for 60 measures
@@ -211,7 +211,8 @@ function startAudio(){
 
     // start Transport clock
     Tone.Transport.start(); 
-    console.log("starting transport clock"); 
+    console.log("starting transport clock");
+    playing = true;  
 }
 
 /* PLAYS GLOBAL SFX

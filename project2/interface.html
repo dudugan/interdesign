@@ -34,8 +34,8 @@
                     <label>upload organism</label>
                     <input type="file" id="upload">
                     <button id="uploadButton" class="boop"></button>
-                    <label>play</label>
-                    <button id="play" class="boop" onclick="startAudio()"></button>
+                    <label>play/pause</label>
+                    <button id="play" class="boop" onclick="playpause()"></button>
                 </div>
             </div>
             <button class="normal-button">about</button>
@@ -45,6 +45,20 @@
         <script>
             const fileInput = document.getElementById('upload');
             const uploadButton = document.getElementById('uploadButton');
+
+
+            // play/pause functionality
+            function playpause(){
+                if (playing == null){
+                    startAudio(); 
+                } else if (playing){
+                    Tone.Transport.pause();
+                    playing = false; 
+                } else {
+                    Tone.Transport.start();
+                    playing = true; 
+                }
+            }
 
             // when click upload button, it's as if you click the file input
             uploadButton.addEventListener('click', () => {
