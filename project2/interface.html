@@ -56,7 +56,7 @@
                 processFile();
             }); 
 
-            // // slider stuff
+            // slider stuff
             document.querySelectorAll('.mark').forEach((mark, index) => {
                 let isDragging = false;
                 let slider = mark.parentElement;
@@ -111,9 +111,37 @@
                         biomes[biome].ramp.volume.value += sliderVal;
 
                         console.log(`${biome.name} level set to: ${biome.level}`); 
+
+                        updateBackground(); 
                     }
                 });      
             }); 
+
+            function updateBackground(){
+                const sliderVals = Array.from(document.querySelectorAll('.mark')).map(mark => {
+                    let slider = mark.parentElement;
+                    let sliderHeight = slider.offsetHeight;
+                    let markHeight = mark.offsetHeight;
+                    let offsetY = parseFloat(mark.style.top || '0px');
+                    return offsetY / (sliderHeight - markHeight);
+                });
+
+                const bgImages = [
+                    'bgs/cave.jpg',
+                    'bgs/desert.jpg',
+                    'bgs/forest.jpg',
+                    'bgs/sea.jpg'
+                ];
+
+                // make sliderVals sum to 1
+                const total = sliderVals.reduce((sum, val) => sum + val, 0) || 1; // don't divide by 0
+                const opacities = sliderVals.map(val => val / total);
+
+                // apply blended bg img
+                const backgroundLayers = bgImages.map((img, index) => `${img} rgba(0,0,0,${opacities[index]}) 50% / cover`).join(', ');
+                document.body.style.background = `linear-gradient(to bottom, transparent, transparent), ${backgroundLayers}`; 
+            }
+
         </script>
     </body>
 </html>
