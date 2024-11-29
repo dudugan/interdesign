@@ -129,7 +129,7 @@
                     let sliderHeight = slider.offsetHeight;
                     let markHeight = mark.offsetHeight;
                     let offsetY = parseFloat(mark.style.top || '0px');
-                    let sliderVal = offsetY / (sliderHeight - markHeight);
+                    let sliderVal = 1 - (offsetY / (sliderHeight - markHeight));
                     dict[mark.id] = sliderVal; 
                     return dict; 
                 }, {});
@@ -140,13 +140,14 @@
                 const seabg = document.getElementById('seabg');
 
                 // calculates sum
-                const total = Object.values(sliderVals).reduce((sum, val) => sum + val, 0) || 1; 
+                const total = Object.values(sliderVals).reduce((sum, val) => sum + val, 0) || 0.9999; 
                     // if sum is 0, actually put 1 as default total so don't divide by 0 later
                 // normalizes sliderVals to sum to 1 in a dictionary
                 const opacities = Object.fromEntries(
-                    Object.entries(sliderVals).map(([key, val]) => [key, 1 - (val / total)])
+                    Object.entries(sliderVals).map(([key, val]) => [key, val / total])
                 );
-                    
+                
+                console.log("Total Value:", total);
                 console.log("Slider Values:", sliderVals);
                 console.log("Normalized Opacities:", opacities);
                 
