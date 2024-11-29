@@ -34,6 +34,33 @@
               </div>
               <label onclick="toggleSelector()">go back</label>
         </div>
+        <div class="popup" id="howupload">
+            <label>upload your own sequence</label>
+            <label style="margin-top: 10px; display: inline-block;">
+                1. Go to the <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi">NCBI Taxonomy Browser</a>. 
+                <br> 2. Click ‘Taxonomy’ (in the top menu).
+                <br> 3. Search for an organism and click on it.
+                <br> 4. Copy the organism’s Taxon ID.
+                <br> 5. Go to the following link: https://www.ncbi.nlm.nih.gov/datasets/gene/taxon/YOURTAXONID.
+                <br> 6. Click on one of the gene IDs.
+                <br> 7. Find ‘NCBI Reference Sequences (RefSeq)’.
+                <br> 8. Under ‘Genomic’, click the download option for ‘FASTA’.
+                <br> 9. You should see a long sequence like
+                <br> ‘ACCGAATAGATAGGGTTA
+                <br> TAAAGCCCCTAGCTATATC’.
+                <br> Paste these characters into a .txt file.
+                <br> 10. Remove line breaks (make everything one line). 
+                <br> 11. Your DNA file is ready to upload!
+            </label>
+            <label onclick="toggleHowUpload()" style="margin-top: 10px; display: inline-block;">go back</label>
+        </div>
+        <div class="popup" id="about">
+            <label>about this site</label>
+            <label style="margin-top: 10px; display: inline-block;">
+                something something something
+            </label>
+            <label onclick="toggleAbout()" style="margin-top: 10px; display: inline-block;">go back</label>
+        </div>
         <div id="container">
             <div id="sliderbox">
                 <div class="slider">
@@ -68,10 +95,10 @@
                     <label for="play">play</label>
                 </div>
                 <div class="booptray">
-                    <button id="about" style="display: none;"></button>
-                    <label for="about">about</label>
+                    <button id="aboutButton" style="display: none;"></button>
+                    <label for="aboutButton" onclick="toggleAbout()">about</label>
                     <button id="howto" style="display: none;"></button>
-                    <label for="howto">how to use</label>
+                    <label for="howto" onclick="toggleHowUpload()">how to upload</label>
                 </div>
             </div>
         </div>
@@ -79,7 +106,9 @@
             const fileInput = document.getElementById('upload');
             const uploadButton = document.getElementById('uploadButton');
             updateBackground(); // initialize background to sliders
-            document.getElementById("selector").style.display = 'none'; // initialize no popup
+            document.querySelectorAll(".popup").forEach(function(popup) {
+                popup.style.display = 'none';
+            }); // initialize no popups
 
             // toggle selector popup on and off
             function toggleSelector(){
@@ -89,6 +118,24 @@
                 } else {
                     document.getElementById("selector").style.display = 'none';
                 }
+            }
+            // toggle howUpload popup on and off
+            function toggleHowUpload(){
+                howUploadDisplay = document.getElementById("howupload").style.display; 
+                if (howUploadDisplay == 'none'){
+                    document.getElementById("howupload").style.display = 'block';
+                } else {
+                    document.getElementById("howupload").style.display = 'none';
+                }  
+            }
+            // toggle howUpload popup on and off
+            function toggleAbout(){
+                aboutDisplay = document.getElementById("about").style.display; 
+                if (aboutDisplay == 'none'){
+                    document.getElementById("about").style.display = 'block';
+                } else {
+                    document.getElementById("about").style.display = 'none';
+                }  
             }
 
             // load preloaded file
