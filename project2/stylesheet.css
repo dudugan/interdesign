@@ -16,25 +16,54 @@ img {
 
 /* CONTAINER AND SUB-ELEMENTS */
 #container {
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 20px;
-}
-#tophalf {
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
+    border: 2px solid black;
+    box-shadow: 0px 0 20px #7d462a inset;
+    border-radius: 15px;
+    padding: 20px;
+    background-image: url('imgs/cartoonwoodbig.png');
+    background-repeat: round;
 }
 #sliderbox {
     display: grid;
     grid-template-areas: 'caveslider desertslider forestslider oceanslider'
                         'cavelabel desertlabel forestlabel oceanlabel';
-    gap: 5px;
+    gap: 15px;
+}
+#sliderbox label {
+    background-image: url('imgs/cartoonwoodsmall.avif');
+    background-size: cover;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 2px 5px;
+    box-shadow: 0px 0 10px #716219 inset;
 }
 #boopbox {
     display: flex;
     flex-direction: column;
-    margin-left: 20px; 
+    gap: 10px;
+    margin-top: 0px;
+    margin-left: 20px;
+}
+.booptray {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px; 
+    background-image: url('imgs/cartoonwoodsmall.avif');
+    background-size: cover;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 5px;
+    box-shadow: 0px 0 10px #716219 inset;
+}
+.booptray label {
+    background-color: rgb(187, 187, 187);
+    border-radius: 5px;
+    padding: 2px 10px; 
+    border: 2px solid black;
 }
 .slider {
     width: 20px;
@@ -42,27 +71,34 @@ img {
     background-color: teal;
     border-radius: 5px;
     border: 2px solid black;
+    background-image: url('imgs/cartoonwoodsmall.avif');
+    background-size: cover;
+    position: relative;
+    box-shadow: 0px 0 10px #716219 inset;
 }
 .mark {
-    width: 20px;
+    width: 30px;
     height: 15px;
-    background-color: pink;
-    position: relative; 
-}
-.mark:hover{
-    background-color: rgb(252, 110, 134);
-    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 5px;
+    position: absolute; 
+    left: -5px;
+    background-image: url('imgs/cartoonwoodtiny.jpg');
+    background-size: cover;
+    box-shadow: 0px 0 10px #663b37 inset;
 }
 .boop {
     border-radius: 50%;
-    background-color: teal;
+    background-image: url('imgs/cartoonwoodtiny.jpg');
+    background-size: cover;
     width: 30px;
     height: 30px;
     border: 2px solid black;
+    box-shadow: 0px 0 10px #663b37 inset;
 }
-button:hover, #uploadButton:hover {
-    background-color: pink;
+button:hover, #uploadButton:hover, .mark:hover, label:hover {
     cursor: pointer;
+    box-shadow: 0px 0 10px #663b37;
 }
 input[type = "file"] {
     display: none; 

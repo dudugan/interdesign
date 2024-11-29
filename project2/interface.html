@@ -13,38 +13,45 @@
         <img id="forestbg" src="bgs/forest.jpg">
         <img id="seabg" src="bgs/sea.jpg">
         <div id="container">
-            <div id="tophalf">
-                <div id="sliderbox">
-                    <div class="slider">
-                        <div class="mark" id="cave" style="top: 20px;"></div>
-                    </div>
-                    <div class="slider">
-                        <div class="mark" id="desert" style="top: 90px;"></div>
-                    </div>
-                    <div class="slider">
-                        <div class="mark" id="forest" style="top: 50px;"></div>
-                    </div>
-                    <div class="slider">
-                        <div class="mark" id="sea" style="top: 120px;"></div>
-                    </div>
-                    <label>🪨</label>
-                    <label>🏜️</label>
-                    <label>🌲</label>
-                    <label>🌊</label>
+            <div id="sliderbox">
+                <div class="slider">
+                    <div class="mark" id="cave" style="top: 20px;"></div>
                 </div>
-                <div id="boopbox">
-                    <label>select organism</label>
+                <div class="slider">
+                    <div class="mark" id="desert" style="top: 90px;"></div>
+                </div>
+                <div class="slider">
+                    <div class="mark" id="forest" style="top: 50px;"></div>
+                </div>
+                <div class="slider">
+                    <div class="mark" id="sea" style="top: 120px;"></div>
+                </div>
+                <label>🪨</label>
+                <label>🏜️</label>
+                <label>🌲</label>
+                <label>🌊</label>
+            </div>
+            <div id="boopbox">
+                <div class="booptray">
                     <button id="select" class="boop"></button>
-                    <label>upload organism</label>
-                    <input type="file" id="upload">
+                    <label for="select">select organism</label>
+                </div>
+                <div class="booptray">
                     <button id="uploadButton" class="boop"></button>
-                    <label>play</label>
+                    <label for="uploadButton">upload organism</label>
+                    <input type="file" id="upload">
+                </div>
+                <div class="booptray">
                     <button id="play" class="boop" onclick="startAudio()"></button>
+                    <label for="play">play</label>
+                </div>
+                <div class="booptray">
+                    <button id="about" style="display: none;"></button>
+                    <label for="about">about</label>
+                    <button id="howto" style="display: none;"></button>
+                    <label for="howto">how to use</label>
                 </div>
             </div>
-            <button class="normal-button">about</button>
-            <button class="normal-button">how to use</button>
-            <button class="normal-button">other function</button>
         </div>
         <script>
             const fileInput = document.getElementById('upload');
