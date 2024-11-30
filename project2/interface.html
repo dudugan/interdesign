@@ -191,52 +191,71 @@
                 // get height of slider and mark
                 let sliderHeight = slider.offsetHeight;
                 let markHeight = mark.offsetHeight;
+
+                const handleDrag = (clientY) => {
+                    updateBackground();
+                    // gets rectangle with size and position of .slider relative to viewport
+                    let rect = slider.getBoundingClientRect(); 
+
+                    // calculate how far up or down we would want to move the mark absent of restrictions
+                    let offsetY = clientY - rect.top; // mouse.y - slidertop.y
+
+                    // make sure mark doesn't go below slider (min) or above slider (max)
+                    offsetY = Math.max(0, Math.min(sliderHeight - markHeight, offsetY));
+
+                    // move mark
+                    mark.style.top = `${offsetY}px`;
+
+                    // change sliderVal to somewhere between -2 and 2
+                    let sliderVal = 2 - 4*(offsetY / (sliderHeight - markHeight));
+
+                    // make so that sliderVal change the biome value
+                    let biome = biomeList[index];
+                    console.log(`trying to set biome ${biome.name} gain to sliderVal ${sliderVal}`);
+                    if (!biome.gain){
+                        console.log('!biome.gain')
+                        return; 
+                    }
+
+                    biome.gain.gain.rampTo(sliderVal, 0.2); // ramp to sliderVal over 0.2sec
+                }
                 
                 // when mouse begins click on a slider, set isDragging to true
                 mark.addEventListener('mousedown', (e) => {
                     isDragging = true; 
                 });
 
+                mark.addEventListener('touchstart', (e) => {
+                    isDragging = true;
+                    e.preventDefault(); // no scrolling when sliding
+                });
+
                 // when mouse ends click (anywhere!), set isDragging to false
-                document.addEventListener('mouseup', (e) => {
+                document.addEventListener('mouseup', () => {
                     if (isDragging){
                         isDragging = false; 
                     }
                 }); 
 
+                document.addEventListener('touchend', () => {
+                    if (isDragging){
+                        isDragging = false; 
+                    }
+                });
+
                 // makes the mark move and changes the slider value
                 document.addEventListener('mousemove', (e) => {
                     // if mouse moves while clicking on slider
                     if (isDragging) {
-                        // updates bg
-                        updateBackground(); 
-
-                        // gets rectangle with size and position of .slider relative to viewport
-                        let rect = slider.getBoundingClientRect(); 
-
-                        // calculate how far up or down we would want to move the mark absent of restrictions
-                        let offsetY = e.clientY - rect.top; // mouse.y - slidertop.y
-
-                        // make sure mark doesn't go below slider (min) or above slider (max)
-                        offsetY = Math.max(0, Math.min(sliderHeight - markHeight, offsetY));
-                        
-                        // move mark
-                        mark.style.top = `${offsetY}px`;
-
-                        // change sliderVal to somewhere between -2 and 2
-                        let sliderVal = 2 - 4*(offsetY / (sliderHeight - markHeight));
-
-                        // make so that sliderVal change the biome value
-                        let biome = biomeList[index];
-                        console.log(`trying to set biome ${biome.name} gain to sliderVal ${sliderVal}`);
-                        if (!biome.gain){
-                            console.log('!biome.gain')
-                            return; 
-                        }
-                        
-                        biome.gain.gain.rampTo(sliderVal, 0.2); // ramp to sliderVal over 0.2sec
+                        handleDrag(e.clientY);
                     }
-                });      
+                });    
+
+                document.addEventListener('touchmove', (e) => {
+                    if (isDragging) {
+                        handleDrag(e.touches[0].clientY);
+                    }
+                });    
             }); 
 
             function updateBackground(){
