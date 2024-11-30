@@ -12,6 +12,10 @@
         <img id="desertbg" src="bgs/desert.jpg">
         <img id="forestbg" src="bgs/forest.jpg">
         <img id="seabg" src="bgs/sea.jpg">
+        <div class="popup" id="headphones">
+            <p>headphones required :)</p>
+            <label onclick="this.parentElement.style.display = 'none'">i have headphones on →</label>
+        </div>
         <div class="popup" id="selector">
             <label>select an organism</label>
             <div class="screen">
@@ -109,6 +113,7 @@
             document.querySelectorAll(".popup").forEach(function(popup) {
                 popup.style.display = 'none';
             }); // initialize no popups
+            document.getElementById("headphones").style.display = 'block'; // initialize headphones popup though
 
             // toggle selector popup on and off
             function toggleSelector(){
