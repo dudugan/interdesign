@@ -16,7 +16,7 @@
         <img id="seabg" src="bgs/sea.jpg">
         <div class="popup" id="headphones">
             <label>headphones required :)</label>
-            <p onclick="this.parentElement.style.display = 'none'">i have headphones on →</p>
+            <p onclick="toggleOn()">i have headphones on →</p>
         </div>
         <div class="popup" id="selector">
             <label>select an organism</label>
@@ -115,6 +115,12 @@
                 popup.style.display = 'none';
             }); // initialize no popups
             document.getElementById("headphones").style.display = 'block'; // initialize headphones popup though
+            document.getElementById("container").style.visibility = 'hidden';
+
+            function toggleOn(){
+                document.getElementById("headphones").style.display = 'none';
+                document.getElementById("container").style.visibility = 'visible';
+            }
 
             // toggle selector popup on and off
             function toggleSelector(){
