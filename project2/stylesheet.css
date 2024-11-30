@@ -50,10 +50,15 @@ img {
 }
 label, p {
     background-color: rgb(187, 187, 187);
-    margin-top: 0px; 
+    margin-bottom: 0px; 
     border-radius: 5px;
     padding: 2px 10px; 
     border: 2px solid black;
+}
+p:hover {
+    background-color: aqua;
+    box-shadow: 0px 0 10px #663b37 inset;
+    cursor: pointer;
 }
 .slider {
     width: 20px;
