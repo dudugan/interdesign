@@ -1,0 +1,105 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+}
+/* CONTAINER AND SUB-ELEMENTS */
+#sliderbox {
+    display: grid;
+    grid-template-areas: 'caveslider desertslider forestslider oceanslider'
+                        'cavelabel desertlabel forestlabel oceanlabel';
+    gap: 15px;
+}
+#boopbox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0px;
+    margin-left: 20px;
+}
+.booptray {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px; 
+    background-image: url('imgs/cartoonwoodsmall.avif');
+    background-size: cover;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 5px;
+    box-shadow: 0px 0 10px #716219 inset;
+}
+.slider {
+    width: 20px;
+    height: 150px;
+    background-color: teal;
+    border-radius: 5px;
+    border: 2px solid black;
+    background-image: url('imgs/cartoonwoodsmall.avif');
+    background-size: cover;
+    position: relative;
+    box-shadow: 0px 0 10px #716219 inset;
+}
+.mark {
+    width: 30px;
+    height: 15px;
+    border: 2px solid black;
+    border-radius: 5px;
+    position: absolute; 
+    left: -5px;
+    background-image: url('imgs/cartoonwoodtiny.jpg');
+    background-size: cover;
+    box-shadow: 0px 0 10px #663b37 inset;
+}
+.boop {
+    border-radius: 50%;
+    background-image: url('imgs/cartoonwoodtiny.jpg');
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+    box-shadow: 0px 0 10px #663b37 inset;
+}
+button:hover, #uploadButton:hover, .mark:hover, label:hover {
+    cursor: pointer;
+    box-shadow: 0px 0 10px #663b37;
+}
+input[type = "file"] {
+    display: none; 
+}
+#uploadButton {
+    display: inline-block;
+}
+#container {
+    display: flex;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    box-shadow: 0px 0 20px #7d462a inset;
+    border-radius: 15px;
+    padding: 20px;
+    background-image: url('imgs/cartoonwoodbig.png');
+    background-repeat: round;
+}
+.emoji {
+    background-image: url('imgs/cartoonwoodsmall.avif');
+    background-size: cover;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 2px 5px;
+    box-shadow: 0px 0 10px #716219 inset;
+}
+
+@media only screen and (max-width: 480px){
+    #container {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+@media only screen and (min-width: 481px){
+    #container {
+        flex-direction: row;
+    }
+}
