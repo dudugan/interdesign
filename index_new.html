@@ -6,130 +6,44 @@
         <title>interactive design: david g@n</title>
         <link rel="stylesheet"  href="stylesheet.css"></style>
     </head>
-    <style>
-        body {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: rgb(84, 50, 50);
-        }
-        #interface {
-            background-color: rgb(148, 62, 148);
-            padding: 10px; 
-            width: 400px;
-            height: 200px; 
-            border: 2px solid black;
-            box-shadow: 0px 0 20px #7d462a;
-            border-radius: 10px;
-            display: grid;
-            grid-template-areas: 'left middle middle middle right'
-                                'left middle middle middle right'
-                                'left bottom bottom bottom right';
-        }
-        #leftcontainer {
-            grid-area: left;
-            display: flex;
-            flex-direction: column;
-            background-color: blue;
-            justify-content: center;
-            align-items: center;
-        }
-        #middlecontainer {
-            grid-area: middle;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            background-color: red;
-        }
-        #firmware {
-            grid-area: right; 
-            background-color: bisque;
-        }
-        #spacebar {
-            grid-area: bottom; 
-            background-color: aquamarine;
-        }
-        .pad {
-            background-image: url('leather.png');
-            background-size: 80% 80%;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100%;
-            width: 100%;
-            margin: 10px 10px; 
-            border-radius: 0px;
-            border: 2px solid black;
-        }
-        .right-pad {
-            border-right: 2px solid black; 
-        }
-        .pad:hover {
-            opacity: 0.7;
-            cursor: pointer; 
-        }
-    </style>
     <body>
         <div id="container">
-            <div id="sliderbox">
-                <div class="slider">
-                    <div class="mark" id="cave" style="top: 20px;"></div>
+            <div class="boopbox">
+                <div class="booptray" 
+                onclick="go('gobbler/gobbler.html')">
+                    a game of indecision
                 </div>
-                <div class="slider">
-                    <div class="mark" id="desert" style="top: 40px;"></div>
+                <div class="booptray" 
+                onclick="go('project1/level6/arjun_l6.html')">
+                    a pod of laughs
                 </div>
-                <div class="slider">
-                    <div class="mark" id="forest" style="top: 90px;"></div>
+                <div class="booptray" 
+                onclick="go('project2/interface.html')">
+                    an interactive genetic musical composition
                 </div>
-                <div class="slider">
-                    <div class="mark" id="sea" style="top: 70px;"></div>
-                </div>
-                <div class="emoji">🪨</div>
-                <div class="emoji">🏜️</div>
-                <div class="emoji">🌲</div>
-                <div class="emoji">🌊</div>
-            </div>
-            <div id="boopbox">
-                <div class="booptray">
-                    <button id="select" class="boop"></button>
-                    <label for="select" onclick="toggleSelector()">select organism</label>
-                </div>
-                <div class="booptray">
-                    <button id="uploadButton" class="boop"></button>
-                    <label for="uploadButton">upload organism</label>
-                    <input type="file" id="upload">
-                </div>
-                <div class="booptray">
-                    <button id="play" class="boop" onclick="startAudio()"></button>
-                    <label for="play">play</label>
-                </div>
-                <div class="booptray">
-                    <button id="aboutButton" style="display: none;"></button>
-                    <label for="aboutButton" onclick="toggleAbout()">about</label>
-                    <button id="howto" style="display: none;"></button>
-                    <label for="howto" onclick="toggleHowUpload()">how to upload</label>
+                <div class="booptray" 
+                onclick="go()">
+                    a bookmarklet for synesthesiacs
                 </div>
             </div>
-        </div>
-
-        <!-- to include:
-         <div class="row" onclick="go('gobbler/gobbler.html')">
-                gobbler</div>
-            <div class="row" onclick="go('music/uploader.html')">
-                dna to music</div>
-            <div class="row" onclick="go('project1/level6/arjun_l6.html')">
-                a pod of laughs</div>
-            <div class="row" onclick="go('enzo-mari-remix/index.html')">
-                a game of horses</div>
-            <div class="row" onclick="go('black_hole.html')">
-                a black hole, shrinking</div>
-            <div class="row" onclick="go('keyboard_instrument/index.html')">
-                a 'keyboard' instrument</div>
-            <div class="row" onclick="go('https://www.figma.com/proto/T7c1NOBjGwan18vqAyNhMr/LockerNotes?node-id=0-1&t=oR8xpOuAoGkAGy9H-1')">
-                leaving digital locker notes</div>
-            <div class="row">
-                a bookmarklet for synesthesiacs</div>
-            <div class="row">
+            <div class="boopbox">
+                <div class="booptray" 
+                onclick="go('enzo-mari-remix/index.html')">
+                    a game of horses
+                </div>
+                <div class="booptray" 
+                onclick="go('black_hole.html')">
+                    a black hole, shrinking
+                </div>
+                <div class="booptray" 
+                onclick="go('keyboard_instrument/index.html')">
+                    a 'keyboard' instrument
+                </div>
+                <div class="booptray" 
+                onclick="go('https://www.figma.com/proto/T7c1NOBjGwan18vqAyNhMr/LockerNotes?node-id=0-1&t=oR8xpOuAoGkAGy9H-1')">
+                    leaving digital locker notes
+                </div>
+                
                 <details>
                     <summary>websites built with &lt;br&gt; and &amp;nbsp;</summary>
                     <div>
@@ -141,11 +55,13 @@
                             ULTRAVIOLET</a><br>
                     </div>
                 </details>
-                </div>
+            </div>
         </div>
-         -->
         <script>
-            
+            // click div -> go page
+            function go(filePath){
+                window.open(filePath, '_blank'); 
+            }
         </script>
     </body>
 </html>
