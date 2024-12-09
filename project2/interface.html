@@ -21,21 +21,21 @@
         <div class="popup" id="selector">
             <label>select an organism</label>
             <div class="screen">
-                <div onclick="load('preloaded/yamamai.txt')">
+                <div onclick="load('yamamai')">
                   a. yamamai</div>
-                <div onclick="load('preloaded/suricatta.txt')">
+                <div onclick="load('suricatta')">
                   s. suricatta</div>
-                <div onclick="load('preloaded/sapiens.txt')">
+                <div onclick="load('sapiens')">
                   h. sapiens</div>
-                <div onclick="load('preloaded/onca.txt')">
+                <div onclick="load('onca')">
                   p. onca</div>
-                <div onclick="load('preloaded/macrocephalustxt')">
+                <div onclick="load('macrocephalus')">
                   p. macrocephalus</div>
-                <div onclick="load('preloaded/sinensis.txt')">
+                <div onclick="load('sinensis')">
                   a. sinensis</div>
-                <div onclick="load('preloaded/familiarisxt')">
+                <div onclick="load('familiaris')">
                   c. familiaris</div>
-                <div onclick="load('preloaded/anubis.txt')">
+                <div onclick="load('anubis')">
                   p. anubis</div>
               </div>
               <label onclick="toggleSelector()">go back</label>
@@ -80,15 +80,15 @@
                 <div class="slider">
                     <div class="mark" id="sea" style="top: 70px;"></div>
                 </div>
-                <div class="emoji">🪨</div>
-                <div class="emoji">🏜️</div>
-                <div class="emoji">🌲</div>
-                <div class="emoji">🌊</div>
+                <div class="emoji"><img src="imgs/cave.png"></div>
+                <div class="emoji"><img src="imgs/desert.png"></div>
+                <div class="emoji"><img src="imgs/forest.png"></div>
+                <div class="emoji"><img src="imgs/sea.png"></div>
             </div>
             <div id="boopbox">
                 <div class="booptray">
                     <button id="select" class="boop"></button>
-                    <label for="select" onclick="toggleSelector()">select organism</label>
+                    <label for="select" id="selector-label" onclick="toggleSelector()">select organism</label>
                 </div>
                 <div class="booptray">
                     <button id="uploadButton" class="boop"></button>
@@ -154,7 +154,11 @@
             function load(filePath){
                 toggleSelector(); 
                 alert('file selected!'); 
-                fetch(filePath)
+
+                realFilePath = 'preloaded/' + filePath + '.txt'; 
+                document.getElementById('selector-label').innerHTML = filePath;
+
+                fetch(realFilePath)
                     .then(response => response.blob())
                     .then(fileContent => {
                         console.log('file content:\n', fileContent);
