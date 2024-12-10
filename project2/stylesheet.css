@@ -51,7 +51,7 @@ img {
     width: 20px;
     height: 20px;
     position: relative;
-    z-index: 5;
+    z-index: 4;
 }
 #boopbox {
     display: flex;
@@ -123,7 +123,7 @@ input[type = "file"] {
 
 /* for the selector */
 .popup {
-    z-index: 1;
+    z-index: 10;
     position: fixed;
     top: 50%; left: 50%; transform: translate(-50%, -50%);
     background-image: url('imgs/cartoonwoodsmall.avif');
