@@ -1,7 +1,7 @@
 @font-face {
-    font-family: 'Querina';
-    src: url('../webfonts/querina.woff2') format('woff2'), 
-        url('../webfonts/querina.woff') format('woff');
+    font-family: 'Chicago';
+    src: url('../webfonts/chicago.woff2') format('woff2'),
+        url('../webfonts/chicago.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -11,18 +11,17 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: 'Querina', sans-serif;
-    background-image: url("../hand.png");
-    background-color: tan;
-    background-blend-mode: darken;
+    font-family: 'Chicago', sans-serif;
+    background-image: url("../images/phoneheld.png");
+    background-color: rgb(162, 23, 1);
+    background-blend-mode: hue;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    background-size: cover;
 }
 
 .about {
-    /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-transform: uppercase;
     color: #333;
     text-shadow: -1px -1px #909090;
@@ -30,7 +29,7 @@ body {
 } 
 
 .mini {
-    /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-transform: uppercase;
     color: #333;
     text-shadow: -1px -1px #909090;
@@ -40,25 +39,26 @@ body {
 
 .ipod {
   width: 50%;
-  background-color: rgb(149, 120, 79);
-  border: 5px solid black; 
+  background-color: rgb(237, 237, 237);
   max-width: 200px;
   max-height: 440px;
   border-radius: 18px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: absolute; 
-  top: calc(50% + 10px); 
-  left: calc(50% + 10px); 
+  top: calc(50% - 40px); 
+  left: calc(50% - 14px); 
   transform: translate(-50%, -50%);
+  box-shadow: 0px 0 20px #919191;
 }
 
 .scrollbox {
   overflow: hidden;
-  border: 3px solid black;
+  border: 2px solid #333;
   border-radius: 5px;
   position: relative;
   background-color: rgb(64, 24, 76); 
@@ -90,10 +90,10 @@ body {
 
 .screen {
   height: 200px;
-  background-color: #f09191;
+  background-color: #eaeaea;
   margin: 20px 0px;
   border-radius: 5px;
-  border: 3px solid black; 
+  border: 2px solid #999;
   display: flex;
   flex-direction: column; 
   justify-content: flex-start;
@@ -130,18 +130,18 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-shadow: -1px -1px gray;
-  color: rgb(0, 61, 159); 
+  color: rgb(180, 180, 180); 
 }
 
 .squarewheel div {
-  background-color: #f09191;
+  background-color: #e5e5e5;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border: 3px solid black;
+  border: 2px solid #ccc;
   box-shadow: 0px 0 10px #919191;
 }
 
@@ -168,7 +168,7 @@ body {
 
 #playbutton {
   border-radius: 50%;
-  border: 3px solid black;
+  border: 2px solid #ccc;
   aspect-ratio: 1/1;
   position: absolute;
   width: 18vw;
@@ -187,10 +187,10 @@ body {
   text-align: center;
   box-shadow: 0px 0 10px #919191;
   cursor: pointer;
-  background-color: #f09191;
-  /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+  background-color: #e5e5e5;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-shadow: -1px -1px gray;
-  color: rgb(0, 61, 159); 
+  color: rgb(180, 180, 180); 
 }
 
 .button:hover {
