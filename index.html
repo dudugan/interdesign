@@ -10,6 +10,7 @@
             height: 100vh;
             width: 100vw;
             font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 3vh;
         }
         #bgimg {
             background-image: url('bg.gif');
@@ -22,9 +23,22 @@
             top: 0; 
             left: 0; 
         }
+        #everything {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        #bigger-container {
+            display: flex;
+            flex-direction: row;
+            
+            gap: 10px; 
+        }
         #container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
+            max-width: 50%;
+            min-width: 50%;
+            /* grid-template-columns: repeat(auto-fit, 12em); */
             gap: 5px; 
             padding-left: 2px;
             padding-right: 18px; 
@@ -33,8 +47,9 @@
         button {
             font-family: inherit;
             background-color: aquamarine;
+            font-size: 3vh;
         }
-        button:hover {
+        button:hover, details:hover, details:hover a {
             cursor: pointer;
             background-color: blueviolet;
             color: white; 
@@ -42,44 +57,86 @@
     </style>
     <body>
         <div id="bgimg"></div>
-        <h1>interactive design</h1>
-        <p>
-            Something something something else.
-        </p>
-        <div id="container">
-            <button onclick="go('gobbler/gobbler.html')">
-                a game of indecision</button>
-            <button onclick="go('project1/level6/arjun_l6.html')">
-                a pod of laughs</button>
-            <button>
-                a bookmarklet for synesthesiacs</button>
-            <button onclick="go('project2/interface.html')">
-                a nucleic turntable</button>
-            <button onclick="go('enzo-mari-remix/index.html')">
-                a game of horses</button>
-            <button>
-                a major numeric mneumonic minion</button>
-            <button onclick="go('black_hole.html')">
-                a black hole, shrinking</button>
-            <button onclick="go('https://www.figma.com/proto/T7c1NOBjGwan18vqAyNhMr/LockerNotes?node-id=0-1&t=oR8xpOuAoGkAGy9H-1')">
-                a digital dead drop platform but cute</button>
-        </div>
-        <details>
-            <summary>websites built with &lt;br&gt; and &amp;nbsp;</summary>
-            <div>
-                <a href="project1/level1/cosmosPersona_l1.html">
-                    Cosmos Persona</a><br>
-                <a href="project1/level1/unsong_l1.html">
-                    UNSONG</a><br>
-                <a href="project1/level1/ultraviolet_l1.html">
-                    ULTRAVIOLET</a><br>
+        <div id="everything">
+            <h1>interactive design</h1>
+            <p>
+                Something something something else. Something more. 
+            </p>
+            <div id="bigger-container">
+                <div id="container">
+                    <button id="gobbler" onclick="go('gobbler/gobbler.html')">
+                        a game of indecision</button>
+                    <button id="heehee" onclick="go('project1/level6/arjun_l6.html')">
+                        a box of heehees</button>
+                    <button id="bookmarklet" >
+                        a bookmarklet for synesthesiacs</button>
+                    <button id="turntable" onclick="go('project2/interface.html')">
+                        a nucleic turntable</button>
+                    <button id="enzo-mari" onclick="go('enzo-mari-remix/index.html')">
+                        a game of horses</button>
+                    <button id="mnuemonica" >
+                        a major numeric mneumonic minion</button>
+                    <button id="black-hole" onclick="go('black_hole.html')">
+                        a black hole, shrinking</button>
+                    <button id="dead-drop" onclick="go('https://www.figma.com/proto/T7c1NOBjGwan18vqAyNhMr/LockerNotes?node-id=0-1&t=oR8xpOuAoGkAGy9H-1')">
+                        a digital dead drop platform but cute</button>
+                </div>
+                <div id="descrips">Hover over a project to read about it!</div>
             </div>
-        </details>
+            <details>
+                <summary>websites built with &lt;br&gt; and &amp;nbsp;</summary>
+                <div>
+                    <a href="project1/level1/cosmosPersona_l1.html">
+                        Cosmos Persona</a><br>
+                    <a href="project1/level1/unsong_l1.html">
+                        UNSONG</a><br>
+                    <a href="project1/level1/ultraviolet_l1.html">
+                        ULTRAVIOLET</a><br>
+                </div>
+            </details>
+        </div>
         <script>
         // click div -> go page
         function go(filePath){
             window.open(filePath, '_blank'); 
         }
+
+        // for changing the description text
+        const buttons = document.querySelectorAll('button');
+        const descrips = document.getElementById('descrips'); 
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', (event) => {
+                const buttonId = event.target.id;
+                switch (buttonId) {
+                case 'gobbler':
+                    descrips.innerHTML = "Smth abt gobbler"; 
+                    break;
+                case 'heehee':
+                    descrips.innerHTML = "Smth abt heehee box"; 
+                    break;
+                case 'bookmarklet':
+                    descrips.innerHTML = "Smth abt bookmarklet"; 
+                    break;
+                case 'turntable':
+                    descrips.innerHTML = "Smth"; 
+                    break;
+                case 'enzo-mari':
+                    descrips.innerHTML = "Smth else"; 
+                    break;
+                case 'mneumonica':
+                    descrips.innerHTML = "Smth new"; 
+                    break;
+                case 'dead-drop':
+                    descrips.innerHTML = "Smth else new"; 
+                    break;
+                default:
+                }
+            });
+            button.addEventListener('mouseleave', (event) => {
+                descrips.innerHTML = "Hover over a project to read about it!"; 
+            }); 
+        });
+
         </script>
     </body>
 </html>
