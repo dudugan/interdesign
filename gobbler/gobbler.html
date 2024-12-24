@@ -176,7 +176,7 @@
             <p>of instincts and indecision</p>
             <p>WASD, swipe, or arrow keys to move.<br><br>
             try to pick up as much trash as you can in a minute.<br><br>
-            music by me :)</p>
+            music by me :)<br><br>currently unavailable on mobile :(</p>
             <button onclick="startGame()">start game</button>
         </div>
         <div class="popup" id="end">
@@ -408,55 +408,6 @@
             // check for trash
             checkGobble(); 
         });
-
-        // detect mobile swipes
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
-
-        document.addEventListener('touchStart', (event) => {
-            if (event.touches.length === 1) // only single touches
-            {
-                touchStartX = event.touches[0].clientX;
-                touchStartY = event.touches[0].clientY;
-            }
-        });
-        document.addEventListener('touchEnd', (event) => {
-            touchEndX = event.changedTouches[0].clientX;
-            touchEndY = event.changedTouches[0].clientY;
-            handleSwipe();
-        });
-        function handleSwipe(){
-            const deltaX = touchEndX - touchStartX;
-            const deltaY = touchEndY - touchStartY;
-            if (Math.abs(deltaX) > Math.abs(deltaY)){
-                // horizontal swipe
-                if (deltaX > 0){
-                    // swipe right
-                    if (monsterX < gridSize) monsterX++; 
-                } else {
-                    // swipe left
-                    if (monsterX > 1) monsterX--;
-                }
-            } else {
-                // vertical swipe
-                if (deltaY > 0){
-                    // swipe down
-                    if (monsterY < gridSize) monsterY++;
-                } else {
-                    // swipe up
-                    if (monsterY > 1) monsterY--;
-                }
-            }
-            // update position
-            monster.style.gridColumn = monsterX;
-            monster.style.gridRow = monsterY; 
-
-            // check for trash
-            checkGobble(); 
-        }
-
 
         // update game window size
         function updateSize(){
