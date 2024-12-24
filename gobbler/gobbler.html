@@ -79,6 +79,8 @@
             z-index: 1;
             top: 10px;
             font-size: 1.5rem;
+            margin-left: 5px;
+            margin-right: 5px;
         }
         #countdown {
             position: absolute;
@@ -104,15 +106,11 @@
             border: 5px ridge #5c1576;
             border-radius: 5px;
             background-color:#f1d0d0;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         button:hover {
             background-color: turquoise;
             cursor: pointer;
-        }
-        #artist_statement {
-            display: none;
-            max-height: var(--gamewindow);
-            overflow-y: scroll;
         }
         #end {
             display: none;
@@ -191,7 +189,6 @@
         function startGame(){
             document.getElementById("start").style.display = 'none';
             document.getElementById("end").style.display = 'none';
-            document.getElementById("artist_statement").style.display = 'none';
             updateSize();
             trashify();
             startCountdown(); 
@@ -334,6 +331,55 @@
             // check for trash
             checkGobble(); 
         });
+
+        // detect mobile swipes
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchStart', (event) => {
+            if (event.touches.length === 1) // only single touches
+            {
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+            }
+        });
+        document.addEventListener('touchEnd', (event) => {
+            touchEndX = event.changedTouches[0].clientX;
+            touchEndY = event.changedTouches[0].clientY;
+            handleSwipe();
+        });
+        function handleSwipe(){
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            if (Math.abs(deltaX) > Math.abs(deltaY)){
+                // horizontal swipe
+                if (deltaX > 0){
+                    // swipe right
+                    if (monsterX < gridSize) monsterX++; 
+                } else {
+                    // swipe left
+                    if (monsterX > 1) monsterX--;
+                }
+            } else {
+                // vertical swipe
+                if (deltaY > 0){
+                    // swipe down
+                    if (monsterY < gridSize) monsterY++;
+                } else {
+                    // swipe up
+                    if (monsterY > 1) monsterY--;
+                }
+            }
+            // update position
+            monster.style.gridColumn = monsterX;
+            monster.style.gridRow = monsterY; 
+
+            // check for trash
+            checkGobble(); 
+        }
+
 
         // update game window size
         function updateSize(){
