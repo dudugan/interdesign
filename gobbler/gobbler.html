@@ -8,6 +8,14 @@
             --gamewindow: 400px; /* default size */
             --numcols: 10; /* default num_cols */
             --cell-size: calc(var(--gamewindow) / var(--numcols)); 
+            --purpleizer-hover: violet;
+            --trash-filter: invert(1);
+            --border: 10px ridge white;
+            --button-bg: white;
+            --button-hover: white; 
+            --button-hover-bg: black; 
+            --popup-bg: rgb(234, 229, 222); 
+            --game-bg: black;
         }
         @font-face {
             font-family: 'ByteBounce';
@@ -38,23 +46,24 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color:#fd7282;
-            color: black;
+            background-color: black;
+            /* background-color:#fd7282; */
+            color: white;
+            /* color: black; */
             font-family: 'ByteBounce', sans-serif; 
         }
         #game {
             position: relative;
             width: var(--gamewindow);
             height: var(--gamewindow);
-            /* background-color: #f4b0b0; */
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background: var(--game-bg);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
             display: grid;
             grid-template-columns: repeat(var(--numcols), 1fr);
             grid-template-rows: repeat(var(--numcols), 1fr);
             gap: 0px; 
-            border: 10px ridge #5c1576;
+            border: var(--border); 
             border-radius: 10px;
             margin-left: 20px;
             margin-top: 60px; 
@@ -79,20 +88,22 @@
             grid-row: 2;
             background-size: cover;
             /* filter: invert(1); */
+            filter: invert(1);
         }
         .trash {
             width: var(--cell-size);
             height: var(--cell-size);
             background-image: url('trash.png');
             background-size: cover;
+            filter: var(--trash-filter); 
         }
         #scoreboard {
             position: fixed;
             z-index: 1;
             top: 10px;
             font-size: 1.5rem;
-            margin-left: 5px;
-            margin-right: 5px;
+            margin-left: 30px;
+            margin-right: 30px;
         }
         #countdown {
             position: absolute;
@@ -104,10 +115,10 @@
         .popup {
             position: fixed;
             top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background-color: #b0f4d2;
+            background-color: var(--popup-bg);
             padding: 20px;
             z-index: 5; 
-            border: 10px ridge #5c1576;
+            border: var(--border); 
             border-radius: 10px;
             text-align: center;
             color: black; 
@@ -115,13 +126,14 @@
             font-family: 'PopupFont', sans-serif;         
         }
         button {
-            border: 5px ridge #5c1576;
+            border: var(--border); 
             border-radius: 5px;
-            background-color:#f1d0d0;
+            background-color: var(--button-bg);
             font-family: 'PopupFont', sans-serif;         
         }
         button:hover {
-            background-color: turquoise;
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover); 
             cursor: pointer;
         }
         #end {
@@ -130,8 +142,23 @@
         #start {
             display: block;
         }
+        fieldset {
+            border: none; 
+        }
+        #colorshift {
+            position: absolute;
+            top: 50px;
+            left: 30px;
+        }
+        #colorshift:hover {
+            cursor: pointer;
+            color: var(--purpleizer-hover);
+        }
     </style>
     <body>
+        <div id="colorshift" onclick="purpleize()">
+            purpleize
+        </div>
         <div id="scoreboard">
             current score: <span id="score-display">0</span> ||
             high score: <span id="highscore-display">0</span>
@@ -145,8 +172,9 @@
         <div class="popup" id="start">
             <h3>gobbler: a timed pathfinding game</h3>
             <p>of instincts and indecision</p>
-            <p>WASD or arrow keys to move;<br>
-            try to pick up as much trash as you can in a minute</p>
+            <p>WASD, swipe, or arrow keys to move.<br><br>
+            try to pick up as much trash as you can in a minute.<br><br>
+            music by me :)</p>
             <button onclick="startGame()">start game</button>
         </div>
         <div class="popup" id="end">
@@ -186,6 +214,41 @@
         let monsterY = 1;
         let trashBags = []; 
         let gameOver = false; 
+        let purpleizer = document.getElementById("colorshift");
+        let purpleized = 0;
+
+        // purpleize on/off
+        function purpleize(){
+            if (purpleized == 0){
+                document.body.style.backgroundColor = "#fd7282";
+                document.body.style.color = "black"; 
+                document.documentElement.style.setProperty('--game-bg', "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)");
+                document.documentElement.style.setProperty('--border', "10px ridge #5c1576");
+                document.documentElement.style.setProperty('--button-hover', "black");
+                monster.style.filter = "none"; 
+                document.documentElement.style.setProperty('--trash-filter', "none");
+                document.documentElement.style.setProperty('--popup-bg', "#b0f4d2");
+                document.documentElement.style.setProperty('--button-bg', "#f1d0d0");
+                document.documentElement.style.setProperty('--button-hover-bg', "turquoise");
+                purpleized = 1;
+                purpleizer.innerHTML = `noirize`; 
+                document.documentElement.style.setProperty('--purpleizer-hover', "steelblue");
+            } else {
+                document.body.style.backgroundColor = "black";
+                document.body.style.color = "white";
+                document.documentElement.style.setProperty('--game-bg', "black"); 
+                document.documentElement.style.setProperty('--border', "10px ridge white");
+                document.documentElement.style.setProperty('--button-hover', "white");
+                monster.style.filter = "invert(1)"; 
+                document.documentElement.style.setProperty('--trash-filter', "invert(1)");
+                document.documentElement.style.setProperty('--popup-bg', "rgb(234, 229, 222)");
+                document.documentElement.style.setProperty('--button-bg', "white");
+                document.documentElement.style.setProperty('--button-hover-bg', "black");
+                purpleized = 0;
+                purpleizer.innerHTML = `purpleize`; 
+                document.documentElement.style.setProperty('--purpleizer-hover', "violet");
+            }
+        }
 
         // monster flash
         function toggleMonster(){
