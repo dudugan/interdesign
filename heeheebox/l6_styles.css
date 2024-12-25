@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Querina';
-    src: url('../webfonts/querina.woff2') format('woff2'), 
-        url('../webfonts/querina.woff') format('woff');
+    src: url('querina.woff2') format('woff2'), 
+        url('querina.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -12,7 +12,7 @@ body {
     align-items: center;
     height: 100vh;
     font-family: 'Querina', sans-serif;
-    background-image: url("../hand.png");
+    background-image: url("hand.png");
     background-color: tan;
     background-blend-mode: darken;
     background-repeat: no-repeat;
