@@ -150,8 +150,9 @@
         }
         #colorshift {
             position: absolute;
-            top: 50px;
+            top: 30px;
             left: 30px;
+            font-size: 20px;
         }
         #colorshift:hover {
             cursor: pointer;
@@ -159,14 +160,15 @@
         }
     </style>
     <body>
-        <div id="colorshift" onclick="purpleize()">
-            purpleize
-        </div>
+        
         <div id="scoreboard">
             current score: <span id="score-display">0</span> ||
             high score: <span id="highscore-display">0</span>
         </div>
         <div id="game">
+            <div id="colorshift" onclick="purpleize()">
+                purpleize
+            </div>
             <div id="countdown">
                 time left: <span id="countdown-display">60</span>s
             </div>
