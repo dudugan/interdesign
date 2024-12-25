@@ -19,6 +19,7 @@ body {
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
+    font-size: 1.7rem;
 }
 
 .about {
@@ -42,8 +43,8 @@ body {
   width: 50%;
   background-color: rgb(149, 120, 79);
   border: 5px solid black; 
-  max-width: 200px;
-  max-height: 440px;
+  max-width: 300px;
+  max-height: 800px;
   border-radius: 18px;
   padding: 20px;
   text-align: center;
@@ -58,14 +59,33 @@ body {
 
 @media only screen and (max-width: 480px){
   .ipod {
-    max-width: 200%;
-    width: 85%; 
-    max-height: 200%;
-    height: 90%; 
+    max-width: 200% !important;
+    width: 85% !important; 
+    max-height: 200% !important;
+    height: 90% !important; 
     padding-left: 50px; 
     padding-top: 50px; 
     padding-right: 50px;
     padding-bottom: 50px; 
+  }
+  #playbutton {
+    width: 200vw !important;
+    min-width: 100px;
+    max-width: 120px !important;
+  }
+  .screen {
+    height: auto;
+  }
+  .screen div {
+    min-height: 25px;
+  }
+}
+@media only screen and (min-width: 1024px){
+  .ipod {
+    transform-origin: center;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%) scale(1.2); 
   }
 }
 
@@ -184,9 +204,9 @@ body {
   border: 3px solid black;
   aspect-ratio: 1/1;
   position: absolute;
-  width: 18vw;
-  min-width: 60px;
-  max-width: 80px;
+  width: 15vw;
+  min-width: 100px;
+  max-width: 120px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
